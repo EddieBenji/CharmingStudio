@@ -7,7 +7,9 @@ package Vista;
 import Controlador.ControladorMesaDeDulces;
 import Modelo.MesaDeDulces;
 import java.sql.SQLException;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextField;
 
 /**
  *
@@ -17,6 +19,7 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
 
     private static VtnAgrega_oModificaMesaDeDulces instanciaVtnAgregaoModificaMesaDeDulces = new VtnAgrega_oModificaMesaDeDulces();
     private boolean seModificaraMesaDeDulces;
+    private MesaDeDulces mesaDeDulcesDeLaTabla;
 
     /**
      * Creates new form VtnAgrega_oModificaMesaDeDulces
@@ -26,10 +29,54 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
         setLocationRelativeTo(null);
         seModificaraMesaDeDulces = false;
     }
-
+    
     public static VtnAgrega_oModificaMesaDeDulces getInstanciaVtnAgrega_oModificaMesaDeDulces() {
         return instanciaVtnAgregaoModificaMesaDeDulces;
     }
+
+    public JTextField getTxtIdMesaDeDulces() {
+        return txtIdMesaDeDulces;
+    }
+
+    public void setTxtIdMesaDeDulces(JTextField txtIdMesaDeDulces) {
+        this.txtIdMesaDeDulces = txtIdMesaDeDulces;
+    }
+
+    public JTextField getTxtNombreMesaDeDulces() {
+        return txtNombreMesaDeDulces;
+    }
+
+    public void setTxtNombreMesaDeDulces(JTextField txtNombreMesaDeDulces) {
+        this.txtNombreMesaDeDulces = txtNombreMesaDeDulces;
+    }
+
+    public JTextField getTxtPrecioMesaDeDulces() {
+        return txtPrecioMesaDeDulces;
+    }
+
+    public void setTxtPrecioMesaDeDulces(JTextField txtPrecioMesaDeDulces) {
+        this.txtPrecioMesaDeDulces = txtPrecioMesaDeDulces;
+    }
+
+    public boolean isSeModificaraMesaDeDulces() {
+        return seModificaraMesaDeDulces;
+    }
+
+    public void setSeModificaraMesaDeDulces(boolean seModificaraMesaDeDulces) {
+        this.seModificaraMesaDeDulces = seModificaraMesaDeDulces;
+    }
+
+    public MesaDeDulces getMesaDeDulcesDeLaTabla() {
+        return mesaDeDulcesDeLaTabla;
+    }
+
+    public void setMesaDeDulcesDeLaTabla(MesaDeDulces mesaDeDulcesDeLaTabla) {
+        this.mesaDeDulcesDeLaTabla = mesaDeDulcesDeLaTabla;
+    }
+    
+    
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -40,23 +87,25 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
-        txtNombreMesaDulces = new javax.swing.JTextField();
+        lbTitulo = new javax.swing.JLabel();
+        txtNombreMesaDeDulces = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtPrecioMesaDulces = new javax.swing.JTextField();
-        btnGuardarMesaDulces = new javax.swing.JButton();
+        txtPrecioMesaDeDulces = new javax.swing.JTextField();
+        btnGuardarMesaDeDulces = new javax.swing.JButton();
         btnRegresarVtnMesaDeDulces = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        txtIdMesaDeDulces = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Mesa de Dulces");
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel1.setText("Mesa de Dulces");
+        lbTitulo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbTitulo.setText("Mesa de Dulces");
 
-        txtNombreMesaDulces.addActionListener(new java.awt.event.ActionListener() {
+        txtNombreMesaDeDulces.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreMesaDulcesActionPerformed(evt);
+                txtNombreMesaDeDulcesActionPerformed(evt);
             }
         });
 
@@ -64,10 +113,10 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
 
         jLabel3.setText("Precio:");
 
-        btnGuardarMesaDulces.setText("Guardar");
-        btnGuardarMesaDulces.addActionListener(new java.awt.event.ActionListener() {
+        btnGuardarMesaDeDulces.setText("Guardar");
+        btnGuardarMesaDeDulces.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarMesaDulcesActionPerformed(evt);
+                btnGuardarMesaDeDulcesActionPerformed(evt);
             }
         });
 
@@ -78,6 +127,15 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("Id:");
+
+        txtIdMesaDeDulces.setEnabled(false);
+        txtIdMesaDeDulces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdMesaDeDulcesActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -85,41 +143,47 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(btnGuardarMesaDulces)
+                        .addComponent(btnGuardarMesaDeDulces)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresarVtnMesaDeDulces))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(lbTitulo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtIdMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 35, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 51, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombreMesaDulces)
-                            .addComponent(txtPrecioMesaDulces, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtNombreMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtPrecioMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbTitulo)
+                    .addComponent(jLabel4)
+                    .addComponent(txtIdMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtNombreMesaDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtNombreMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtPrecioMesaDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtPrecioMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardarMesaDulces)
+                    .addComponent(btnGuardarMesaDeDulces)
                     .addComponent(btnRegresarVtnMesaDeDulces))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -135,55 +199,70 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarVtnMesaDeDulcesActionPerformed
 
     private void mensaje(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
+        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 1);
     }
-    private void btnGuardarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMesaDulcesActionPerformed
+    private void btnGuardarMesaDeDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarMesaDeDulcesActionPerformed
         // TODO add your handling code here:
-        //Primero obtenemos los datos del cliente
+        //Primero obtenemos los datos de la mesa de dulces
         //y las guardamos en las siguientes variables:
-        String nombre = this.txtNombreMesaDulces.getText();
-        String precio = this.txtPrecioMesaDulces.getText();
+        //Primero obtenemos los datos de la mesa de dulces
+        //y las guardamos en las siguientes variables:
+        int id;
+        if (!this.txtIdMesaDeDulces.getText().isEmpty()) {
+            id = Integer.parseInt(this.txtIdMesaDeDulces.getText());
+            
+        }else{
+            
+            id = 0;
+        }
         
+        String nombre = this.txtNombreMesaDeDulces.getText();
+        float precio = Float.parseFloat(this.txtPrecioMesaDeDulces.getText());
+
                 
-        //Creamos la variable temporal de cliente.
-        MesaDeDulces tempMesaDeDulces = new MesaDeDulces(nombre,Float.valueOf(precio));
+        //Creamos la variable temporal de cliente..
+        MesaDeDulces tempMesaDeDulces = new MesaDeDulces(id, nombre, precio);
         ControladorMesaDeDulces ctrlMesaDeDulces = new ControladorMesaDeDulces();
-        
         
         try {
             if (!seModificaraMesaDeDulces) {
                 boolean seAgregoMesaDeDulces = ctrlMesaDeDulces.agregarMD(tempMesaDeDulces);
-                 if (seAgregoMesaDeDulces) mensaje("Cliente Agregado");
+                 if (seAgregoMesaDeDulces) mensaje("Mesa de Dulces Agregada");
                  else mensaje("Mesa de Dulces No Agregada");
                 
             }else{
-                //Hace Falta pulir modificarMD en el controlador de mesa de Dulces
-                /*
                 boolean seModificoMesaDeDulces = ctrlMesaDeDulces.modificarMD(tempMesaDeDulces);
-                 if (seModificoMesaDeDulces) mensaje("Cliente Modificado");
-                 else  mensaje("Cliente No Modificado");
+                 if (seModificoMesaDeDulces) mensaje("Mesa de Dulces Modificada");
+                 else  mensaje("Mesa de Dulces No Modificado");
                  //lo devolvemos a su estado de inicio.
                 seModificaraMesaDeDulces = false;
-                */
             }
         } catch (SQLException ex) {
             mensaje("Hubo un error con la "
                     + "base de datos. " + ex.getLocalizedMessage());
         }
-    }//GEN-LAST:event_btnGuardarMesaDulcesActionPerformed
 
-    private void txtNombreMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreMesaDulcesActionPerformed
+        borrarDatosDeCampos();
+
+    }//GEN-LAST:event_btnGuardarMesaDeDulcesActionPerformed
+
+    private void txtNombreMesaDeDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNombreMesaDeDulcesActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtNombreMesaDulcesActionPerformed
+    }//GEN-LAST:event_txtNombreMesaDeDulcesActionPerformed
 
-    private void borraDatosDeCampos() {
-        this.txtNombreMesaDulces.setText("");
-        this.txtPrecioMesaDulces.setText("");
+    private void txtIdMesaDeDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdMesaDeDulcesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdMesaDeDulcesActionPerformed
+
+    private void borrarDatosDeCampos() {
+        this.txtNombreMesaDeDulces.setText("");
+        this.txtPrecioMesaDeDulces.setText("");
+        this.txtIdMesaDeDulces.setText("");
         
     }
 
     private void cerrarEstaVentana() {
-        borraDatosDeCampos();
+        borrarDatosDeCampos();
         this.dispose();
     }
 
@@ -222,12 +301,14 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnGuardarMesaDulces;
+    private javax.swing.JButton btnGuardarMesaDeDulces;
     private javax.swing.JButton btnRegresarVtnMesaDeDulces;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtNombreMesaDulces;
-    private javax.swing.JTextField txtPrecioMesaDulces;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel lbTitulo;
+    private javax.swing.JTextField txtIdMesaDeDulces;
+    private javax.swing.JTextField txtNombreMesaDeDulces;
+    private javax.swing.JTextField txtPrecioMesaDeDulces;
     // End of variables declaration//GEN-END:variables
 }

@@ -7,6 +7,8 @@ package Vista;
 import Controlador.ControladorEmpleados;
 import Modelo.Empleado;
 import java.sql.SQLException;
+import javax.swing.ButtonGroup;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
@@ -23,6 +25,7 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
     /*Creamos la variable, que nos indica si la ventana servirá para
      modificar o agregar la información de un empleado, en falso:*/
     private boolean seModificaraEmpleado;
+     private Empleado empleadoDeLaTabla;
 
     /**
      * Creates new form VtnAgrega_oModificaEmpleados
@@ -46,6 +49,14 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
         return instanciaVtnAgregaoModificaEmpleado;
     }
 
+    public Empleado getEmpleaedoDeLaTabla() {
+        return empleadoDeLaTabla;
+    }
+    
+    public void setEmpleadoDeLaTabla(Empleado empleadoDeLaTabla) {
+        this.empleadoDeLaTabla = empleadoDeLaTabla;
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -123,6 +134,11 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
         lbId.setText("Id:");
 
         txtIdEmpleado.setEnabled(false);
+        txtIdEmpleado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtIdEmpleadoActionPerformed(evt);
+            }
+        });
 
         lbDesempeno.setText("Desempeño:");
 
@@ -251,9 +267,11 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
         //Primero obtenemos los datos del empleado
         //y las guardamos en las siguientes variables:
 
-        int id = 0;
-        if (!(this.txtIdEmpleado.getText().isEmpty())) {
+        int id;
+        if (!this.txtIdEmpleado.getText().isEmpty()) {
             id = Integer.parseInt(this.txtIdEmpleado.getText());
+        }else{
+            id =0;
         }
 
         float desempenio = 0;
@@ -316,6 +334,10 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnGuardarEmpleadoActionPerformed
 
+    private void txtIdEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdEmpleadoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtIdEmpleadoActionPerformed
+
     /**
      * Este método sirve para mostrar un mensaje en la pantalla.
      *
@@ -340,7 +362,7 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
     private void borrarDatosDeCampos() {
         this.txtNombreEmpleado.setText("");
         this.txtNombreEmpleado.requestFocus();
-
+        this.txtIdEmpleado.setText("");
         this.txtDireccionEmpleado.setText("");
         this.txtTelefonoEmpleado.setText("");
         this.txtCorreoEmpleado.setText("");
@@ -404,6 +426,52 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
         return txtNombreEmpleado;
     }
 
+    public ButtonGroup getGrupoBotones() {
+        return grupoBotones;
+    }
+
+    public double getValCbDesempenio1() {
+        return 1.0;
+    }
+
+    public double getValCbDesempenio2() {
+        return 2.0;
+    }
+
+    public double getValCbDesempenio3() {
+        return 3.0;
+    }
+
+    public double getValCbDesempenio4() {
+        return 4.0;
+    }
+
+    public double getValCbDesempenio5() {
+        return 5.0;
+    }
+
+    public JCheckBox getCbDesempenio1() {
+        return cbDesempenio1;
+    }
+
+    public JCheckBox getCbDesempenio2() {
+        return cbDesempenio2;
+    }
+
+    public JCheckBox getCbDesempenio3() {
+        return cbDesempenio3;
+    }
+
+    public JCheckBox getCbDesempenio4() {
+        return cbDesempenio4;
+    }
+
+    
+    public JCheckBox getCbDesempenio5() {
+        return cbDesempenio5;
+    }
+
+    
     /**
      * @return the txtTelefonoEmpleado
      */

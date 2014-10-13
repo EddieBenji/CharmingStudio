@@ -7,28 +7,37 @@ package Modelo;
  */
 public class MesaDeDulces {
 
-	private String mdNombreDeMesa;
-	private float mdPrecio;
+    private String mdNombreDeMesa;
+    private float mdPrecio;
+    private int idMesaDulces;
 
-	public MesaDeDulces(String nombre, float precio){
-            this.mdNombreDeMesa=nombre;
-            this.mdPrecio= precio;
-	}
+    public MesaDeDulces(int idMesaDulces, String nombre, float precio) {
+        this.idMesaDulces = idMesaDulces;
+        this.mdNombreDeMesa = nombre;
+        this.mdPrecio = precio;
+    }
 
-        public String getmdNombreDeMesa(){
+    public String getmdNombreDeMesa() {
         return mdNombreDeMesa;
-        }
-        
-        public void setmdNombreDeMesa(){
+    }
+
+    public void setmdNombreDeMesa() {
         this.mdNombreDeMesa = mdNombreDeMesa;
-        }
-        
-	public void setPrecio(float precio){
-            this.mdPrecio= precio;
-	}
+    }
 
-	public float getPrecio(){
-		return mdPrecio;
-	}
+    public void setPrecio(float precio) {
+        this.mdPrecio = precio;
+    }
 
+    public float getPrecio() {
+        return mdPrecio;
+    }
+
+    public int getIdMesaDulces() {
+        return idMesaDulces;
+    }
+
+    public void setIdMesaDulces(int idMesaDulces) {
+        this.idMesaDulces = idMesaDulces;
+    }
 }

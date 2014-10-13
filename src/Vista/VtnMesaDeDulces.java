@@ -4,13 +4,24 @@
  */
 package Vista;
 
+import Controlador.ControladorMesaDeDulces;
+import Modelo.MesaDeDulces;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Alejandro
  */
 public class VtnMesaDeDulces extends javax.swing.JFrame {
 
-        private static VtnMesaDeDulces instanciaDeVtnMesaDeDulces = new VtnMesaDeDulces();
+    //usamos el patrón de diseño Singleton:     
+    private static VtnMesaDeDulces instanciaDeVtnMesaDeDulces = new VtnMesaDeDulces();
+    //usamos constantes, que se usará en los JOptionPane:
+    private static final int SI = 0;
+    private static final int MOSTRAR_DOS_OPCIONES = 0;
 
     /**
      * Creates new form VtnMesaDeDulces
@@ -20,7 +31,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }
 
-     public static VtnMesaDeDulces getInstanciaDeVtnMesaDeDulces() {
+    public static VtnMesaDeDulces getInstanciaDeVtnMesaDeDulces() {
         return instanciaDeVtnMesaDeDulces;
     }
 
@@ -34,13 +45,13 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtNombreMesaDeDulces = new javax.swing.JTextField();
         btnBuscarMesaDulces = new javax.swing.JButton();
         btnAgregarMesaDulces = new javax.swing.JButton();
         btnModificarMesaDulces = new javax.swing.JButton();
         btnEliminarMesaDulces = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tablaMesaDeDulces = new javax.swing.JTable();
         btnRegresarPrincipal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -50,6 +61,11 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         jLabel1.setText("Mesa de Dulces");
 
         btnBuscarMesaDulces.setText("Buscar");
+        btnBuscarMesaDulces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscarMesaDulcesActionPerformed(evt);
+            }
+        });
 
         btnAgregarMesaDulces.setText("Agregar");
         btnAgregarMesaDulces.addActionListener(new java.awt.event.ActionListener() {
@@ -59,21 +75,31 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         });
 
         btnModificarMesaDulces.setText("Modificar");
+        btnModificarMesaDulces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarMesaDulcesActionPerformed(evt);
+            }
+        });
 
         btnEliminarMesaDulces.setText("Eliminar");
+        btnEliminarMesaDulces.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarMesaDulcesActionPerformed(evt);
+            }
+        });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tablaMesaDeDulces.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Id", "Nombre", "Precio"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(tablaMesaDeDulces);
 
         btnRegresarPrincipal.setText("Regresar");
         btnRegresarPrincipal.addActionListener(new java.awt.event.ActionListener() {
@@ -94,7 +120,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jTextField1)))
+                                    .addComponent(txtNombreMesaDeDulces)))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
                                 .addComponent(btnAgregarMesaDulces)))
@@ -122,7 +148,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombreMesaDeDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnBuscarMesaDulces))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -148,17 +174,187 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
 
     private void btnAgregarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarMesaDulcesActionPerformed
         // TODO add your handling code here:
-        VtnAgrega_oModificaMesaDeDulces vtnAgregaMesaDeDulces= VtnAgrega_oModificaMesaDeDulces.getInstanciaVtnAgrega_oModificaMesaDeDulces();
+        VtnAgrega_oModificaMesaDeDulces vtnAgregaMesaDeDulces = VtnAgrega_oModificaMesaDeDulces.getInstanciaVtnAgrega_oModificaMesaDeDulces();
         vtnAgregaMesaDeDulces.setTitle("Agregará una Mesa de Dulces");
         vtnAgregaMesaDeDulces.setVisible(true);
 
         cerrarEstaVentana();
     }//GEN-LAST:event_btnAgregarMesaDulcesActionPerformed
 
+    private void btnEliminarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarMesaDulcesActionPerformed
+        // TODO add your handling code here:
+
+        /*Obtenemos la mesa de dulces seleccionada de la tabla:*/
+        MesaDeDulces mesaDeDulcesQueSeEliminara = obtenerInformacionDeRenglonSelecccionado();
+
+        //checamos si se seleccionó alguna mesa de dulces de la tabla,
+        //es decir, si no es nulo.
+        if (mesaDeDulcesQueSeEliminara != null) {
+            //le preguntamos al usaurio si de verdad, desea eliminar la
+            //mesa de dulces seleccionado:
+            int opcionEliminar = JOptionPane.showConfirmDialog(null,
+                    "Seguro desea eliminar la mesa de dulces seleccionado?",
+                    "Eliminará la mesa de dulces. ",
+                    MOSTRAR_DOS_OPCIONES);
+            //si lo que escogió el usuario es igual a un "si"
+            if (opcionEliminar == SI) {
+                //creamos el controlador de mesa de dulces:
+                ControladorMesaDeDulces controlMesaDeDulces = new ControladorMesaDeDulces();
+
+
+                try {
+                    controlMesaDeDulces.eliminarMD(mesaDeDulcesQueSeEliminara.getIdMesaDulces());
+                    mostrarMensaje("Mesa de dulces eliminada");
+                } catch (SQLException ex) {
+                    mostrarMensaje("Mesa de dulces no eliminada. Error: " + ex.getLocalizedMessage());
+                }
+            }
+        } else {
+            mostrarMensaje("No ha seleccionado alguna mesa de dulces de la tabla");
+        }
+
+    }//GEN-LAST:event_btnEliminarMesaDulcesActionPerformed
+
+    private void btnBuscarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMesaDulcesActionPerformed
+        // TODO add your handling code here:
+        /*Declaramos el controlador que busca los clientes
+         en la base de datos: */
+        ControladorMesaDeDulces ctrlBuscarMesaDeDulces = new ControladorMesaDeDulces();
+
+        try {
+            /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/
+            LinkedList<MesaDeDulces> listaDeMesaDeDulces = ctrlBuscarMesaDeDulces.buscarCoincidencias(this.txtNombreMesaDeDulces.getText());
+            llenarTablaDeDatos(listaDeMesaDeDulces);
+
+        }catch (SQLException ex){
+
+            //si hay Excepción, mostramos el mensaje en pantalla:
+            mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
+        }
+    }//GEN-LAST:event_btnBuscarMesaDulcesActionPerformed
+
+    private void btnModificarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMesaDulcesActionPerformed
+        // TODO add your handling code here:
+        
+        //creamos un cliente temporal, a partir del renglón seleccionado en la tabla:
+        MesaDeDulces mesaDeDulcesTemporal = obtenerInformacionDeRenglonSelecccionado();
+
+        /*Si el cliente temporal fue nulo, entonces no se seleccionó
+         alguno de la tabla, por eso nos interesa más cuando no
+         sea nulo, es el caso más común:*/
+        if (mesaDeDulcesTemporal != null) {
+            //obtenemos la instancia de la ventana: 
+            VtnAgrega_oModificaMesaDeDulces vtnModificaMesaDeDulces
+                    = VtnAgrega_oModificaMesaDeDulces.getInstanciaVtnAgrega_oModificaMesaDeDulces();
+            
+            //Obtenemos el id de la mesa de dulces que se seleccionó en la tabla:
+            String id = Integer.toString(mesaDeDulcesTemporal.getIdMesaDulces());
+            mostrarMensaje("el id seleccionado es : " + id);
+            /*El id del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField de la siguiente Ventana: */
+            vtnModificaMesaDeDulces.getTxtIdMesaDeDulces().setText(id);
+            
+            //Obtenemos el nombre de la mesa de dulces que se seleccionó en la tabla:
+            String nombre = mesaDeDulcesTemporal.getmdNombreDeMesa();
+            /*El nombre del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField de la siguiente Ventana: */
+            vtnModificaMesaDeDulces.getTxtNombreMesaDeDulces().setText(nombre);
+
+            //Obtenemos el precio de la mesa de dulces que se seleccionó en la tabla:
+            float precio = mesaDeDulcesTemporal.getPrecio();
+            /*La dirección del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField que le corresponde, de la siguiente Ventana: */
+            vtnModificaMesaDeDulces.getTxtPrecioMesaDeDulces().setText(Float.toString(precio));
+
+            //le ponemos el título a la ventana:
+            vtnModificaMesaDeDulces.setTitle("Modificará la información de una mesa dulces");
+            /*ponemos en verdadero un booleano, indicando que 
+             se modificará un cliente: */
+            vtnModificaMesaDeDulces.setSeModificaraMesaDeDulces(true);
+            //hacemos visible la ventana:
+            vtnModificaMesaDeDulces.setVisible(true);
+
+            vtnModificaMesaDeDulces.setMesaDeDulcesDeLaTabla(mesaDeDulcesTemporal);
+            //cerramos esta ventana:
+            cerrarEstaVentana();
+        } else {
+            //quiere decir que el usuario no ha seleccionado algún cliente
+            //la tabla:
+            mostrarMensaje("No seleccionaste alguna mesa de dulces de la tabla.");
+        }
+    }//GEN-LAST:event_btnModificarMesaDulcesActionPerformed
+
+    private MesaDeDulces obtenerInformacionDeRenglonSelecccionado() {
+        //obtiene el número del renglón seleccionado en la tabla.
+        int numDeRenglonSeleccionado = this.tablaMesaDeDulces.getSelectedRow();
+        /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
+        if (numDeRenglonSeleccionado < 0) {
+            return null;
+        }
+        //declaramos las constantes, de las columnas donde está la información:
+        int columnaId = 0;
+        int columnaNombre = 1;
+        int columnaPrecio = 2;
+        //obtenemos la información del renglón seleccionado.
+        int id = (int) tablaMesaDeDulces.getValueAt(numDeRenglonSeleccionado, columnaId);
+        String nombre = (String) tablaMesaDeDulces.getValueAt(numDeRenglonSeleccionado, columnaNombre);
+        float precio = (Float) tablaMesaDeDulces.getValueAt(numDeRenglonSeleccionado, columnaPrecio);
+
+
+        return new MesaDeDulces(id, nombre, precio);
+    }
+
+    private void mostrarMensaje(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
+    }
+
     private void cerrarEstaVentana() {
-        //borrarDatos();
+        borrarDatos();
         this.dispose();
     }
+
+    private void borrarDatos() {
+        this.txtNombreMesaDeDulces.setText("");
+        llenarTablaDeDatos(null);
+
+    }
+
+    private void llenarTablaDeDatos(LinkedList<MesaDeDulces> listaDeMesasDeDulces) {
+        //Declaramos las columnas:
+        Object columnasDeDatos[] = new Object[3];
+
+        //obtenemos el modelo default de la tabla:
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.tablaMesaDeDulces.getModel();
+
+        limpiarTabla();
+
+        if (listaDeMesasDeDulces != null) {
+            //agregamos a cada columna los datos que le corresponden:
+            for (MesaDeDulces mesaDeDulces : listaDeMesasDeDulces) {
+                columnasDeDatos[0] = mesaDeDulces.getIdMesaDulces();
+                columnasDeDatos[1] = mesaDeDulces.getmdNombreDeMesa();
+                columnasDeDatos[2] = mesaDeDulces.getPrecio();
+
+
+                //agregamos los datos de cada columna en cada renglón:
+                modeloDeLaTabla.addRow(columnasDeDatos);
+            }
+        } else {
+            //se considera el else pero no es necesario                                           
+        }
+        //establecemos a nuestra tabla, el modelo que tenía:
+        this.tablaMesaDeDulces.setModel(modeloDeLaTabla);
+
+    }
+
+    private void limpiarTabla() {
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.tablaMesaDeDulces.getModel();
+        for (int i = 0; i < tablaMesaDeDulces.getRowCount(); i++) {
+            modeloDeLaTabla.removeRow(0);
+            i -= 1;
+        }
+    }
+
     /**
      * @param args the command line arguments
      */
@@ -201,7 +397,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
     private javax.swing.JButton btnRegresarPrincipal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTable tablaMesaDeDulces;
+    private javax.swing.JTextField txtNombreMesaDeDulces;
     // End of variables declaration//GEN-END:variables
 }

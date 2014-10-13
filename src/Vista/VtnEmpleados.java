@@ -219,8 +219,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
          sea nulo, es el caso más común:*/
         if (empleadoTemporal != null) {
             //obtenemos la instancia de la ventana: 
-            VtnAgrega_oModificaEmpleados vtnModificaEmpleado
-                    = VtnAgrega_oModificaEmpleados.getInstanciaVtnAgregaoModificaEmpleado();
+            VtnAgrega_oModificaEmpleados vtnModificaEmpleado = VtnAgrega_oModificaEmpleados.getInstanciaVtnAgregaoModificaEmpleado();
 
             //Obtenemos el id del empleado que se seleccionó en la tabla:
             String id = Integer.toString(empleadoTemporal.getIdPersona());
@@ -258,6 +257,34 @@ public class VtnEmpleados extends javax.swing.JFrame {
              en el JTextField que le corresponde, de la siguiente Ventana: */
             vtnModificaEmpleado.getTxtSueldoEmpleado().setText(Float.toString(sueldo));
 
+            //Obtenemos el sueldo del empleado que se seleccionó en la tabla:
+            float desempenio = empleadoTemporal.getEmpDesempenio();          
+            
+            if (desempenio == vtnModificaEmpleado.getValCbDesempenio1()) {
+
+                vtnModificaEmpleado.getCbDesempenio1().setSelected(true);
+            }
+            if (desempenio == vtnModificaEmpleado.getValCbDesempenio2()) {
+
+                vtnModificaEmpleado.getCbDesempenio2().setSelected(true);
+            }
+            if (desempenio == vtnModificaEmpleado.getValCbDesempenio3()) {
+
+                vtnModificaEmpleado.getCbDesempenio3().setSelected(true);
+            }
+            
+            if (desempenio == vtnModificaEmpleado.getValCbDesempenio4()) {
+
+                vtnModificaEmpleado.getCbDesempenio4().setSelected(true);
+            }
+
+            
+            if (desempenio == vtnModificaEmpleado.getValCbDesempenio5()) {
+
+                vtnModificaEmpleado.getCbDesempenio5().setSelected(true);
+            }
+
+
             //le ponemos el título a la ventana:
             vtnModificaEmpleado.setTitle("Modificará la información de un empleado");
             /*ponemos en verdadero un booleano, indicando que 
@@ -265,6 +292,8 @@ public class VtnEmpleados extends javax.swing.JFrame {
             vtnModificaEmpleado.setSeModificaraEmpleado(true);
             //hacemos visible la ventana:
             vtnModificaEmpleado.setVisible(true);
+            
+            vtnModificaEmpleado.setEmpleadoDeLaTabla(empleadoTemporal);
 
             //cerramos esta ventana:
             cerrarEstaVentana();
@@ -289,8 +318,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
             int opcionEliminar = JOptionPane.showConfirmDialog(null,
                     "Seguro desea eliminar el empleado seleccionado?",
                     "Eliminará el empleado. ",
-                    MOSTRAR_DOS_OPCIONES
-            );
+                    MOSTRAR_DOS_OPCIONES);
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de empleados:
@@ -336,7 +364,6 @@ public class VtnEmpleados extends javax.swing.JFrame {
             }
         } else {
             /*El else no es necesario, pero fue considerado.*/
-
         }
         //establecemos a nuestra tabla, el modelo que tenía:
         this.tablaEmpleados.setModel(modeloDeLaTabla);
@@ -354,12 +381,12 @@ public class VtnEmpleados extends javax.swing.JFrame {
     private Empleado obtenerInformacionDeRenglonSelecccionado() {
         //obtiene el número del renglón seleccionado en la tabla.
         int numDeRenglonSeleccionado = this.tablaEmpleados.getSelectedRow();
-        
+
         /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
         if (numDeRenglonSeleccionado < 0) {
             return null;
         }
-        
+
         //declaramos las constantes, de las columnas donde está la información:
         int columnaId = 0;
         int columnaNombre = 1;
@@ -368,7 +395,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
         int columnaCorreo = 4;
         int columnaDesempenio = 5;
         int columnaSueldo = 6;
-        
+
         //obtenemos la información del renglón seleccionado.
         int id = (int) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaId);
         String nombre = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaNombre);
@@ -389,8 +416,9 @@ public class VtnEmpleados extends javax.swing.JFrame {
 
     private void borrarDatos() {
         this.txtNombreEmpleado.setText("");
-        this.txtNombreEmpleado.requestFocus();
-        limpiarTabla();
+        //this.txtNombreEmpleado.requestFocus();
+        llenarTablaDeDatos(null);
+        //limpiarTabla();
     }
 
     private void mostrarMensaje(String mensaje) {
