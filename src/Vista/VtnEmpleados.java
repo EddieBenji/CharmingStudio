@@ -206,7 +206,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
         } catch (SQLException ex) {
 
             //si hay Excepción, mostramos el mensaje en pantalla:
-            mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
+            mostrarMensajeEnPantalla("Hubo un error: " + ex.getLocalizedMessage());
         }
     }//GEN-LAST:event_btnBuscarEmpleadoActionPerformed
 
@@ -271,7 +271,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
         } else {
             //quiere decir que el usuario no ha seleccionado algún empleado
             //la tabla:
-            mostrarMensaje("No seleccionaste algún empleado de la tabla.");
+            mostrarMensajeEnPantalla("No seleccionaste algún empleado de la tabla.");
         }
 
     }//GEN-LAST:event_btnModificarEmpleadoActionPerformed
@@ -298,13 +298,13 @@ public class VtnEmpleados extends javax.swing.JFrame {
 
                 try {
                     controlEmpleado.eliminar(empleadoQueSeEliminara.getIdPersona());
-                    mostrarMensaje("Empleado eliminado");
+                    mostrarMensajeEnPantalla("Empleado eliminado");
                 } catch (SQLException ex) {
-                    mostrarMensaje("Empleado no eliminado. Error: " + ex.getLocalizedMessage());
+                    mostrarMensajeEnPantalla("Empleado no eliminado. Error: " + ex.getLocalizedMessage());
                 }
             }
         } else {
-            mostrarMensaje("No ha seleccionado algún empleado de la tabla");
+            mostrarMensajeEnPantalla("No ha seleccionado algún empleado de la tabla");
         }
     }//GEN-LAST:event_btnEliminarEmpleadoActionPerformed
 
@@ -383,17 +383,17 @@ public class VtnEmpleados extends javax.swing.JFrame {
     }
 
     private void cerrarEstaVentana() {
-        borrarDatos();
+        borrarCampos();
         this.dispose();
     }
 
-    private void borrarDatos() {
+    private void borrarCampos() {
         this.txtNombreEmpleado.setText("");
         this.txtNombreEmpleado.requestFocus();
         limpiarTabla();
     }
 
-    private void mostrarMensaje(String mensaje) {
+    private void mostrarMensajeEnPantalla(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
     }
 
