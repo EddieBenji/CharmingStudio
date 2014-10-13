@@ -216,13 +216,13 @@ public class VtnClientes extends javax.swing.JFrame {
                 
             try {
                 controlCliente.eliminar(clienteQueSeEliminara.getIdPersona());
-                mostrarMensaje("Cliente eliminado");
+                mostrarMensajeEnPantalla("Cliente eliminado");
             } catch (SQLException ex) {
-                mostrarMensaje("Cliente no eliminado. Error: " + ex.getLocalizedMessage());
+                mostrarMensajeEnPantalla("Cliente no eliminado. Error: " + ex.getLocalizedMessage());
             }
             }
         }else{
-            mostrarMensaje("No ha seleccionado algún cliente de la tabla");
+            mostrarMensajeEnPantalla("No ha seleccionado algún cliente de la tabla");
         }
 
     }//GEN-LAST:event_btnEliminarClienteActionPerformed
@@ -242,7 +242,7 @@ public class VtnClientes extends javax.swing.JFrame {
         } catch (SQLException ex) {
 
             //si hay Excepción, mostramos el mensaje en pantalla:
-            mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
+            mostrarMensajeEnPantalla("Hubo un error: " + ex.getLocalizedMessage());
         }
     }//GEN-LAST:event_btnBuscarClienteActionPerformed
 
@@ -341,7 +341,7 @@ public class VtnClientes extends javax.swing.JFrame {
         } else {
             //quiere decir que el usuario no ha seleccionado algún cliente
             //la tabla:
-            mostrarMensaje("No seleccionaste algún cliente de la tabla.");
+            mostrarMensajeEnPantalla("No seleccionaste algún cliente de la tabla.");
         }
 
     }//GEN-LAST:event_btnModificarClienteActionPerformed
@@ -374,18 +374,18 @@ public class VtnClientes extends javax.swing.JFrame {
         cerrarEstaVentana();
     }//GEN-LAST:event_btnRegresarVtnPrincipalActionPerformed
 
-    private void borrarDatos() {
+    private void borrarCampos() {
         this.txtNombreCliente.setText("");
-        llenarTablaDeDatos(null);
+        limpiarTabla();
 
     }
 
     private void cerrarEstaVentana() {
-        borrarDatos();
+        borrarCampos();
         this.dispose();
     }
 
-    private void mostrarMensaje(String mensaje) {
+    private void mostrarMensajeEnPantalla(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
     }
 

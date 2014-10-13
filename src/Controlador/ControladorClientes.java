@@ -23,7 +23,7 @@ public class ControladorClientes extends GestorBD {
         try {
             Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
         } catch (SQLException ex) {
-            mostrarMensaje("No hubo conexión" + ex.getLocalizedMessage());
+            mostrarMensajeEnPantalla("No hubo conexión" + ex.getLocalizedMessage());
         }
     }
 
@@ -84,51 +84,45 @@ public class ControladorClientes extends GestorBD {
     }
 
     /**
-     * Esta función se encarga de comparar todos los campos de 2 clientes
-     * distintos.
+     * Esta función se encarga de comparar todos los campos de 2 clientes.     
      *
      * @return boolean, true si son iguales en almenos un campo, falso de otro
      * modo.
      */
     private boolean compararClientes(Cliente clienteEncontradoEnBD, Cliente clienteA_modificar) {
         //primero obtenemos ambos nombres:
-        String nombreClienteEncontradoEnBD = clienteEncontradoEnBD.getNombrePersona();
-        String nombreClienteA_modificar = clienteA_modificar.getNombrePersona();
-        //comparamos los nombres:
-        if (nombreClienteEncontradoEnBD.equalsIgnoreCase(nombreClienteA_modificar)) {
+        String nombrePrimerCliente = clienteEncontradoEnBD.getNombrePersona();
+        String nombreSegundoCliente = clienteA_modificar.getNombrePersona();
+        
+        if (  nombrePrimerCliente.equalsIgnoreCase(nombreSegundoCliente)  ) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
-        }
+        } //el else fue considerado, pero no es necesario.
 
         //obtenemos las direcciones:
-        String direccionClienteEncontradoEnBD = clienteEncontradoEnBD.getDireccionPersona();
-        String direccionClienteA_modificar = clienteA_modificar.getDireccionPersona();
-        //comparamos las direcciones:
-        if (direccionClienteEncontradoEnBD.equalsIgnoreCase(direccionClienteA_modificar)) {
+        String direccionPrimerCliente = clienteEncontradoEnBD.getDireccionPersona();
+        String direccionSegundoCliente = clienteA_modificar.getDireccionPersona();
+        
+        if (direccionPrimerCliente.equalsIgnoreCase(direccionSegundoCliente)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
-        }
+        } //el else fue considerado, pero no es necesario.
 
         //obtenemos los teléfonos:
-        String telefonoClienteEncontradoEnBD = clienteEncontradoEnBD.getTelefonoPersona();
-        String telefonoClienteA_modificar = clienteA_modificar.getTelefonoPersona();
-        if (telefonoClienteEncontradoEnBD.equalsIgnoreCase(telefonoClienteA_modificar)) {
+        String telefonoPrimerCliente = clienteEncontradoEnBD.getTelefonoPersona();
+        String telefonoSegundoCliente = clienteA_modificar.getTelefonoPersona();
+        
+        if (  telefonoPrimerCliente.equalsIgnoreCase(telefonoSegundoCliente)  ) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
-        }
+        } //el else fue considerado, pero no es necesario.
 
         //obtenemos los correos::
-        String correoClienteEncontradoEnBD = clienteEncontradoEnBD.getCorreoPersona();
-        String correoClienteA_modificar = clienteA_modificar.getCorreoPersona();
-        if (correoClienteEncontradoEnBD.equalsIgnoreCase(correoClienteA_modificar)) {
+        String correoPrimerCliente = clienteEncontradoEnBD.getCorreoPersona();
+        String correoSegundoCliente = clienteA_modificar.getCorreoPersona();
+        
+        if (correoPrimerCliente.equalsIgnoreCase(correoSegundoCliente)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
-        }
+        } //el else fue considerado, pero no es necesario.
 
+        
         /*Si llega hasta aquí, entonces los clientes son distintos:*/
         return false;
     }
@@ -166,22 +160,29 @@ public class ControladorClientes extends GestorBD {
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
 
         Statement sentenciaDeBusquedaDeClientes = Conexion.createStatement();
-        ResultSet BusquedaDeClientes = sentenciaDeBusquedaDeClientes.executeQuery("SELECT * "
-                + "FROM charmingstudio.cliente WHERE Nombre LIKE '%" + nombrePersona + "%'");
+        ResultSet BusquedaDeClientes = sentenciaDeBusquedaDeClientes.
+                executeQuery("SELECT * FROM charmingstudio.cliente WHERE "+
+                        "Nombre LIKE '%" + nombrePersona + "%'");
+        
+        /*En este caso, se espera que la búsqueda no siempre sea nula, por
+        lo que nos interesa el negativo de las sentencia:*/
         if (!BusquedaDeClientes.wasNull()) {
-            //creamos la lista:
+            
             LinkedList<Cliente> clientes = new LinkedList<>();
 
             while (BusquedaDeClientes.next()) {
+                
                 //agregamos c/cliente a la lista:
-
-                clientes.add(new Cliente(BusquedaDeClientes.getInt(1), BusquedaDeClientes.getString(2), BusquedaDeClientes.getString(3),
-                        BusquedaDeClientes.getString(4), BusquedaDeClientes.getString(5)));
+                clientes.add(new Cliente(BusquedaDeClientes.getInt(1), 
+                        BusquedaDeClientes.getString(2), 
+                        BusquedaDeClientes.getString(3),
+                        BusquedaDeClientes.getString(4),
+                        BusquedaDeClientes.getString(5)));
 
             }
             return clientes;
         }
-        mostrarMensaje("El cliente no se encuentra en la BD");
+        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
     }
 
@@ -192,7 +193,7 @@ public class ControladorClientes extends GestorBD {
      *
      * @param mensaje: es el mensaje que uno quiere mostrar en pantalla.
      */
-    private void mostrarMensaje(String mensaje) {
+    private void mostrarMensajeEnPantalla(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
     }
 

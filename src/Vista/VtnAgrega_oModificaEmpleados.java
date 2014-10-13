@@ -309,23 +309,23 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
             if (seModificaraEmpleado) {
                 boolean seModificoEmpleado = ctrlEmpleado.modificar(empleadoTemporal);
                 if (seModificoEmpleado) {
-                    mostrarMensaje("Empleado Modificado");
+                    mostrarMensajeEnPantalla("Empleado Modificado");
                 } else {
-                    mostrarMensaje("Empleado No Modificado");
+                    mostrarMensajeEnPantalla("Empleado No Modificado");
                 }
                 //lo devolvemos a su estado inicial.
                 seModificaraEmpleado = false;
             } else {
                 boolean seAgregoEmpleado = ctrlEmpleado.agregar(empleadoTemporal);
                 if (seAgregoEmpleado) {
-                    mostrarMensaje("Empleado Agregado");
+                    mostrarMensajeEnPantalla("Empleado Agregado");
                 } else {
-                    mostrarMensaje("Empleado No Agregado");
+                    mostrarMensajeEnPantalla("Empleado No Agregado");
                 }
 
             }
         } catch (SQLException ex) {
-            mostrarMensaje("Hubo un error con la "
+            mostrarMensajeEnPantalla("Hubo un error con la "
                     + "base de datos. " + ex.getLocalizedMessage());
         }
         //borramos los datos:
@@ -343,7 +343,7 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
      *
      * @param mensaje, es el mensaje que se debe mostrar en la pantalla.
      */
-    private void mostrarMensaje(String mensaje) {
+    private void mostrarMensajeEnPantalla(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 1);
     }
 

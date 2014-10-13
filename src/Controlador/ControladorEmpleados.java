@@ -24,7 +24,7 @@ public class ControladorEmpleados extends GestorBD {
        try {
             Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
         } catch (SQLException ex) {
-            mostrarMensaje("No hubo conexión" + ex.getLocalizedMessage());
+            mostrarMensajeEnPantalla("No hubo conexión" + ex.getLocalizedMessage());
         }
     }
 
@@ -40,7 +40,7 @@ public class ControladorEmpleados extends GestorBD {
    
         Statement sentencia = Conexion.createStatement();
         boolean seAgregoEmpleado = false;;
-      if (!existeUsuario(empleado)) {
+      if (!existeEmpleado(empleado)) {
             sentencia.executeUpdate("INSERT INTO charmingstudio.empleado (`Nombre`, "
                     + "`Direccion`, `Telefono`, `Correo`, `Desempeno`, `Sueldo` )" + "VALUES("
                     + "'" + empleado.getNombrePersona() + "',"
@@ -73,7 +73,7 @@ public class ControladorEmpleados extends GestorBD {
 
     }
 
-        private boolean existeUsuario(Empleado empleado) throws SQLException {
+        private boolean existeEmpleado(Empleado empleado) throws SQLException {
 
         LinkedList<Empleado> listaDeEmpleados = buscarCoincidencias(empleado.getNombrePersona());;
         boolean existeUsuario = false;
@@ -178,7 +178,7 @@ public class ControladorEmpleados extends GestorBD {
             }
             return empleados;
         }
-        mostrarMensaje("El cliente no se encuentra en la BD");
+        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
 
     }
@@ -186,8 +186,8 @@ public class ControladorEmpleados extends GestorBD {
     /**
      * Funcion que se encarga de eliminar algún empleado. NO SE HA IMPLEMENTADO.
      *
-     * @param Persona
      * @return
+     * @throws java.sql.SQLException
      */
     @Override
     public boolean modificar(Persona persona) throws SQLException{
@@ -219,7 +219,7 @@ public class ControladorEmpleados extends GestorBD {
 
    
 
-    private void mostrarMensaje(String mensaje){
+    private void mostrarMensajeEnPantalla(String mensaje){
         JOptionPane.showMessageDialog(null, mensaje);
     }
     
