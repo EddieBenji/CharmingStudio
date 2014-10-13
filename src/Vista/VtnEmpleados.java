@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Controlador.ControladorEmpleados;
+import Controlador.DAO.DAOEmpleados;
 import Modelo.Empleado;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -196,7 +196,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
 
         /*Declaramos el controlador que busca los empleados
          en la base de datos:                              */
-        ControladorEmpleados ctrlBuscarEmpleados = new ControladorEmpleados();
+        DAOEmpleados ctrlBuscarEmpleados = new DAOEmpleados();
 
         try {
             /*El controlador, devuelve una lista con los empleados que coincidieron con la búsqueda:*/
@@ -322,7 +322,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de empleados:
-                ControladorEmpleados controlEmpleado = new ControladorEmpleados();
+                DAOEmpleados controlEmpleado = new DAOEmpleados();
 
                 try {
                     controlEmpleado.eliminar(empleadoQueSeEliminara.getIdPersona());

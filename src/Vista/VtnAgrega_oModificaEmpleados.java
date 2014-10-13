@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Controlador.ControladorEmpleados;
+import Controlador.DAO.DAOEmpleados;
 import Modelo.Empleado;
 import java.sql.SQLException;
 import javax.swing.ButtonGroup;
@@ -303,7 +303,7 @@ public class VtnAgrega_oModificaEmpleados extends javax.swing.JFrame {
                 telefono, correo, desempenio, sueldo);
 
         //creamos su controlador:
-        ControladorEmpleados ctrlEmpleado = new ControladorEmpleados();
+        DAOEmpleados ctrlEmpleado = new DAOEmpleados();
 
         try {
             if (seModificaraEmpleado) {

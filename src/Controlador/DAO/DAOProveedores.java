@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.Persona;
 import Modelo.Proveedor;
@@ -16,17 +16,17 @@ import java.util.logging.Logger;
  * @version 1.0
  * @created 19-sep-2014 02:34:26 p.m.
  */
-public class ControladorProveedores extends GestorBD {
+public class DAOProveedores extends GestorBD {
 
     Connection Conexion;
 
-    public ControladorProveedores() {
+    public DAOProveedores() {
         try {
             Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
             System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
-            Logger.getLogger(ControladorClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**

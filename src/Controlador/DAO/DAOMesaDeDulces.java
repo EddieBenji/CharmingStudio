@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.MesaDeDulces;
 import java.sql.Connection;
@@ -15,18 +15,18 @@ import javax.swing.JOptionPane;
  * @version 1.0
  * @created 19-sep-2014 02:36:30 p.m.
  */
-public class ControladorMesaDeDulces {
+public class DAOMesaDeDulces {
 
     Connection Conexion;
     ConexionBaseDatos BaseDeDatos;
 
-    public ControladorMesaDeDulces() {
+    public DAOMesaDeDulces() {
         try {
             Conexion = ConexionBaseDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
             System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
-            Logger.getLogger(ControladorClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

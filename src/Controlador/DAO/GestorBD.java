@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.Persona;
 import java.sql.SQLException;

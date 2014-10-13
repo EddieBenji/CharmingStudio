@@ -4,8 +4,8 @@
  */
 package Vista;
 
-import Controlador.ControladorClientes;
-import Controlador.ControladorProveedores;
+import Controlador.DAO.DAOClientes;
+import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
 import Modelo.Proveedor;
 
@@ -173,7 +173,7 @@ public class VtnProveedores extends javax.swing.JFrame {
         
          /*Declaramos el controlador que busca los clientes
          en la base de datos:                              */
-        ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
+        DAOProveedores ctrlBuscarProveedores = new DAOProveedores();
 
         try {
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/

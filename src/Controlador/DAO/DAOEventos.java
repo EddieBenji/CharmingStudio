@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.EventosSociales;
 import java.util.Date;
@@ -8,9 +8,9 @@ import java.util.Date;
  * @version 1.0
  * @created 19-sep-2014 02:36:23 p.m.
  */
-public class ControladorEventos {
+public class DAOEventos {
 
-    public ControladorEventos() {
+    public DAOEventos() {
 
     }
 

@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.Persona;
 import Modelo.Empleado;
@@ -16,11 +16,11 @@ import javax.swing.JOptionPane;
  * @version 1.0
  * @created 19-sep-2014 02:34:45 p.m.
  */
-public class ControladorEmpleados extends GestorBD {
+public class DAOEmpleados extends GestorBD {
 
     private Connection Conexion;
 
-    public ControladorEmpleados() {
+    public DAOEmpleados() {
        try {
             Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
         } catch (SQLException ex) {

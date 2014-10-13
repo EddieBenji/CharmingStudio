@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Controlador;
+package Controlador.DAO;
 
-import Modelo.Cliente;
 import Modelo.Servicio;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -19,18 +18,18 @@ import java.util.logging.Logger;
  *
  * @author Romario
  */
-public class ControladorServicios {
+public class DAOServicios {
 
     Connection Conexion;
     ConexionBaseDatos BaseDeDatos;
 
-    public ControladorServicios() {
+    public DAOServicios() {
         try {
             Conexion = ConexionBaseDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
             System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
-            Logger.getLogger(ControladorClientes.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     /**

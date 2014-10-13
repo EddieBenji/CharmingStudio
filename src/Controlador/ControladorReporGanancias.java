@@ -1,5 +1,6 @@
 package Controlador;
 
+import Controlador.AdministraReportes;
 import java.util.Date;
 
 /**

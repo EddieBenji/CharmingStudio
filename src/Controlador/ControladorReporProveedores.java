@@ -1,5 +1,7 @@
 package Controlador;
 
+import Controlador.AdministraReportes;
+
 /**
  * @author Lalo
  * @version 1.0

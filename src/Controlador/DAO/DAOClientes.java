@@ -1,4 +1,4 @@
-package Controlador;
+package Controlador.DAO;
 
 import Modelo.Persona;
 import Modelo.Cliente;
@@ -14,12 +14,12 @@ import javax.swing.JOptionPane;
  * @version 1.0
  * @created 19-sep-2014 02:34:05 p.m.
  */
-public class ControladorClientes extends GestorBD {
+public class DAOClientes extends GestorBD {
 
     private Connection Conexion;
 
     @SuppressWarnings({"static-access", "static-access"})
-    public ControladorClientes() {
+    public DAOClientes() {
         try {
             Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
         } catch (SQLException ex) {

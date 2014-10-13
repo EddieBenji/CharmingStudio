@@ -4,7 +4,7 @@
  */
 package Vista;
 
-import Controlador.ControladorMesaDeDulces;
+import Controlador.DAO.DAOMesaDeDulces;
 import Modelo.MesaDeDulces;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -199,7 +199,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de mesa de dulces:
-                ControladorMesaDeDulces controlMesaDeDulces = new ControladorMesaDeDulces();
+                DAOMesaDeDulces controlMesaDeDulces = new DAOMesaDeDulces();
 
 
                 try {
@@ -219,7 +219,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         // TODO add your handling code here:
         /*Declaramos el controlador que busca los clientes
          en la base de datos: */
-        ControladorMesaDeDulces ctrlBuscarMesaDeDulces = new ControladorMesaDeDulces();
+        DAOMesaDeDulces ctrlBuscarMesaDeDulces = new DAOMesaDeDulces();
 
         try {
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/

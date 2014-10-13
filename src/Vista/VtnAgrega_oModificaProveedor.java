@@ -4,8 +4,8 @@
  */
 package Vista;
 
-import Controlador.ControladorClientes;
-import Controlador.ControladorProveedores;
+import Controlador.DAO.DAOClientes;
+import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
 import Modelo.Proveedor;
 import Modelo.Servicio;
@@ -344,7 +344,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         String correo = this.txtCorreoProveedor.getText();
         
          Proveedor tempProveedor = new Proveedor(0,nombre, direccion, telefono, correo, arreglo);
-        ControladorProveedores ctrlProveedor = new ControladorProveedores();
+        DAOProveedores ctrlProveedor = new DAOProveedores();
         
         try {
             if (!seModificaraProveedor) {
