@@ -249,7 +249,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
             
             //Obtenemos el id de la mesa de dulces que se seleccionó en la tabla:
             String id = Integer.toString(mesaDeDulcesTemporal.getIdMesaDulces());
-            mostrarMensaje("el id seleccionado es : " + id);
+           
             /*El id del cliente que aparece en la tabla, lo ponemos 
              en el JTextField de la siguiente Ventana: */
             vtnModificaMesaDeDulces.getTxtIdMesaDeDulces().setText(id);
