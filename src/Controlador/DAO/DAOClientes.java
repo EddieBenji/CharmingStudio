@@ -56,7 +56,9 @@ public class DAOClientes extends GestorBD {
     }
 
     /**
-     * Método que se encarga de eliminar a una persona desde la base de datos.
+     * Método que se encarga de verificar si una persona está en la base de
+     * datos,regresa un booleano que está en verdadero cuando dicho cliente está
+     * en la BD o un falso cuando no se encuentra en la BD.
      *
      * @param idCliente
      * @return
@@ -73,8 +75,8 @@ public class DAOClientes extends GestorBD {
                 if (compararClientes(clienteEnBD, cliente)) {
                     //si se cumple, entonces encontramos una coincidencia:
                     existeUsuario = true;
-                    //rompemos el ciclo en caso de que haya más de un cliente
-                    //con los mismos datos:
+                    //rompemos el ciclo cuando encontramos coincidencia
+                    //pues no tiene caso de que siga recorriendo la lista de clientes.
                     break;
                 }
             }
@@ -84,7 +86,7 @@ public class DAOClientes extends GestorBD {
     }
 
     /**
-     * Esta función se encarga de comparar todos los campos de 2 clientes.     
+     * Esta función se encarga de comparar todos los campos de 2 clientes.
      *
      * @return boolean, true si son iguales en almenos un campo, falso de otro
      * modo.
@@ -93,15 +95,15 @@ public class DAOClientes extends GestorBD {
         //primero obtenemos ambos nombres:
         String nombrePrimerCliente = clienteEncontradoEnBD.getNombrePersona();
         String nombreSegundoCliente = clienteA_modificar.getNombrePersona();
-        
-        if (  nombrePrimerCliente.equalsIgnoreCase(nombreSegundoCliente)  ) {
+
+        if (nombrePrimerCliente.equalsIgnoreCase(nombreSegundoCliente)) {
             return true;
         } //el else fue considerado, pero no es necesario.
 
         //obtenemos las direcciones:
         String direccionPrimerCliente = clienteEncontradoEnBD.getDireccionPersona();
         String direccionSegundoCliente = clienteA_modificar.getDireccionPersona();
-        
+
         if (direccionPrimerCliente.equalsIgnoreCase(direccionSegundoCliente)) {
             return true;
         } //el else fue considerado, pero no es necesario.
@@ -109,20 +111,19 @@ public class DAOClientes extends GestorBD {
         //obtenemos los teléfonos:
         String telefonoPrimerCliente = clienteEncontradoEnBD.getTelefonoPersona();
         String telefonoSegundoCliente = clienteA_modificar.getTelefonoPersona();
-        
-        if (  telefonoPrimerCliente.equalsIgnoreCase(telefonoSegundoCliente)  ) {
+
+        if (telefonoPrimerCliente.equalsIgnoreCase(telefonoSegundoCliente)) {
             return true;
         } //el else fue considerado, pero no es necesario.
 
         //obtenemos los correos::
         String correoPrimerCliente = clienteEncontradoEnBD.getCorreoPersona();
         String correoSegundoCliente = clienteA_modificar.getCorreoPersona();
-        
+
         if (correoPrimerCliente.equalsIgnoreCase(correoSegundoCliente)) {
             return true;
         } //el else fue considerado, pero no es necesario.
 
-        
         /*Si llega hasta aquí, entonces los clientes son distintos:*/
         return false;
     }
@@ -146,8 +147,8 @@ public class DAOClientes extends GestorBD {
     }
 
     /**
-     * Función que se encarga de buscarCoincidencias a uno o varios clientes,
-     * dependiendo de las coincidencias, de la base de datos.
+     * Función que se encarga de buscar Coincidencias a uno o varios clientes,
+     * dependiendo de los nombres, de la base de datos.
      *
      * @param nombrePersona que es el nombre de la persona a
      * buscarCoincidencias.
@@ -161,20 +162,20 @@ public class DAOClientes extends GestorBD {
 
         Statement sentenciaDeBusquedaDeClientes = Conexion.createStatement();
         ResultSet BusquedaDeClientes = sentenciaDeBusquedaDeClientes.
-                executeQuery("SELECT * FROM charmingstudio.cliente WHERE "+
-                        "Nombre LIKE '%" + nombrePersona + "%'");
-        
+                executeQuery("SELECT * FROM charmingstudio.cliente WHERE "
+                        + "Nombre LIKE '%" + nombrePersona + "%'");
+
         /*En este caso, se espera que la búsqueda no siempre sea nula, por
-        lo que nos interesa el negativo de las sentencia:*/
+         lo que nos interesa el negativo de las sentencia:*/
         if (!BusquedaDeClientes.wasNull()) {
-            
+
             LinkedList<Cliente> clientes = new LinkedList<>();
 
             while (BusquedaDeClientes.next()) {
-                
+
                 //agregamos c/cliente a la lista:
-                clientes.add(new Cliente(BusquedaDeClientes.getInt(1), 
-                        BusquedaDeClientes.getString(2), 
+                clientes.add(new Cliente(BusquedaDeClientes.getInt(1),
+                        BusquedaDeClientes.getString(2),
                         BusquedaDeClientes.getString(3),
                         BusquedaDeClientes.getString(4),
                         BusquedaDeClientes.getString(5)));
@@ -186,7 +187,6 @@ public class DAOClientes extends GestorBD {
         return null;
     }
 
-  
     /**
      * Esta función se encarga de mostrar un mensaje específico a manera de
      * ventana.
