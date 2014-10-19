@@ -10,6 +10,8 @@ import Modelo.Cliente;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
 
 /**
@@ -22,6 +24,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
             instanciaVtnAgregaoModificaProveedor = new VtnAgrega_oModificaProveedor();
 
     private boolean seModificaraProveedor;
+    private Proveedor proveedorDeLaTabla;
     /**
      * Creates new form VtnAgrega_oModificaProveedor
      */
@@ -35,6 +38,9 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         return instanciaVtnAgregaoModificaProveedor;
     }
 
+    public void setProveedorDeLaTabla(Proveedor proveedorDeLaTabla) {
+        this.proveedorDeLaTabla = proveedorDeLaTabla;
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -322,46 +328,55 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMusicaEventoActionPerformed
 
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
-        Servicio arreglo[]=new Servicio[5];
+        ArrayList<Servicio> tempServicios=new ArrayList();
+        
+        
         if (this.cbBanqueteraEvento.isSelected()){
-            arreglo[0]=new Servicio("Banquetera",Float.parseFloat(this.txtBanqueteraEvento.getText()));
+            tempServicios.add(new Servicio("Banquetera",Float.parseFloat(this.txtBanqueteraEvento.getText())));
         }
         if (this.cbCarpaEvento.isSelected()){
-            arreglo[1]=new Servicio("Carpa",Float.parseFloat(this.txtBanqueteraEvento.getText()));
+            tempServicios.add(new Servicio("Carpa",Float.parseFloat(this.txtCarpaEvento.getText())));
         }
         if (this.cbLucesEvento.isSelected()){
-            arreglo[2]=new Servicio("Luces",Float.parseFloat(this.txtBanqueteraEvento.getText()));
+            tempServicios.add(new Servicio("Luces",Float.parseFloat(this.txtLucesEvento.getText())));
         }
         if (this.cbLugarEvento.isSelected()){
-            arreglo[3]=new Servicio("Lugar",Float.parseFloat(this.txtBanqueteraEvento.getText()));
+            tempServicios.add(new Servicio("Lugar",Float.parseFloat(this.txtLugarEvento.getText())));
         }
         if (this.cbMusicaEvento.isSelected()){
-            arreglo[4]=new Servicio("Banquetera",Float.parseFloat(this.txtBanqueteraEvento.getText()));
+            tempServicios.add(new Servicio("Musica",Float.parseFloat(this.txtMusicaEvento.getText())));
         }
+        
+        Servicio serviciosProveedor[]=new Servicio[tempServicios.size()];
+        tempServicios.toArray(serviciosProveedor);
         String nombre = this.txtNombreProveedor.getText();
         String direccion = this.txtDireccionProveedor.getText();
         String telefono = this.txtTelefonoProveedor.getText();
         String correo = this.txtCorreoProveedor.getText();
         
-         Proveedor tempProveedor = new Proveedor(0,nombre, direccion, telefono, correo, arreglo);
+        Proveedor tempProveedor = new Proveedor(0,nombre, direccion, telefono, correo, serviciosProveedor);
         DAOProveedores ctrlProveedor = new DAOProveedores();
-        
+                
         try {
+                        
             if (!seModificaraProveedor) {
                 boolean seAgregoProveedor = ctrlProveedor.agregar(tempProveedor);
                  if (seAgregoProveedor) mensaje("Proveedor Agregado");
                  else mensaje("Proveedor No Agregado");
                 
             }else{
+                tempProveedor.setIdPersona(proveedorDeLaTabla.getIdPersona());
                 boolean seModificoProveedor = ctrlProveedor.modificar(tempProveedor);
                  if (seModificoProveedor) mensaje("Proveedor Modificado");
                  else  mensaje("Proveedor No Modificado");
                  //lo devolvemos a su estado de inicio.
                 seModificaraProveedor = false;
+                System.out.println(seModificaraProveedor);
             }
         } catch (SQLException ex) {
             mensaje("Hubo un error con la "
                     + "base de datos. " + ex.getLocalizedMessage());
+            
         }
     }//GEN-LAST:event_btnGuardarProveedorActionPerformed
 
@@ -455,6 +470,25 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     public javax.swing.JTextField getTxtMusicaEvento() {
         return txtMusicaEvento;
     }
+    
+    public JCheckBox getCbCarpaEvento() {
+        return cbCarpaEvento;
+    }
+
+    public JCheckBox getCbLucesEvento() {
+        return cbLucesEvento;
+    }
+      public JCheckBox getCbBanqueteraEvento() {
+        return cbBanqueteraEvento;
+    }
+
+    public JCheckBox getCbLugarEvento() {
+        return cbLugarEvento;
+    }
+
+    public JCheckBox getCbMusicaEvento() {
+        return cbMusicaEvento;
+    }
 
     /**
      * @return the seModificaraCliente
@@ -466,7 +500,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     /**
      * @param seModificaraCliente the seModificaraCliente to set
      */
-    public void setSeModificaraCliente(boolean seModificaraProveedor) {
+    public void setSeModificaraProveedor(boolean seModificaraProveedor) {
         this.seModificaraProveedor = seModificaraProveedor;
     }
 

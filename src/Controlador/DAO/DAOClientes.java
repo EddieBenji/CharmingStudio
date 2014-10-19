@@ -231,4 +231,34 @@ public class DAOClientes extends GestorBD {
         //devuelve si se pudo o no, modificar el cliente:
         return sePudoModificarInfoCliente;
     }
+    
+    public LinkedList buscarTodosLosClientes() throws SQLException {
+
+        Statement sentenciaDeBusquedaDeClientes = Conexion.createStatement();
+        ResultSet BusquedaDeClientes = sentenciaDeBusquedaDeClientes.
+                executeQuery("SELECT * FROM charmingstudio.cliente");
+        
+        /*En este caso, se espera que la búsqueda no siempre sea nula, por
+        lo que nos interesa el negativo de las sentencia:*/
+        if (!BusquedaDeClientes.wasNull()) {
+            
+            LinkedList<Cliente> clientes = new LinkedList<>();
+
+            while (BusquedaDeClientes.next()) {
+                
+                //agregamos c/cliente a la lista:
+                clientes.add(new Cliente(BusquedaDeClientes.getInt(1), 
+                        BusquedaDeClientes.getString(2), 
+                        BusquedaDeClientes.getString(3),
+                        BusquedaDeClientes.getString(4),
+                        BusquedaDeClientes.getString(5)));
+
+            }
+            return clientes;
+        }
+        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
+        return null;
+    }
+    
+    
 }//fin de la clase.
