@@ -33,6 +33,10 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         initComponents();
         llenaComboCliente();
         llenaComboBanquetera();
+        llenaComboLuces();
+        llenaComboLugar();
+        llenaComboCarpa();
+        llenaComboMusica();
         setLocationRelativeTo(null);
     }
     
