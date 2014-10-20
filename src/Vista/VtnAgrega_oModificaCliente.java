@@ -18,9 +18,7 @@ public class VtnAgrega_oModificaCliente extends javax.swing.JFrame {
 
     private static VtnAgrega_oModificaCliente instanciaVtnAgregaoModificaCliente = new VtnAgrega_oModificaCliente();
 
-    private boolean seModificaraCliente;
-
-    private Cliente clienteDeLaTabla;
+    private boolean seModificaraCliente;    
 
     /**
      * Creates new form VtnAgrega_oModificaCliente
@@ -218,18 +216,18 @@ public class VtnAgrega_oModificaCliente extends javax.swing.JFrame {
         try {
             if (!seModificaraCliente) {
                 boolean seAgregoCliente = ctrlCliente.agregar(tempCliente);
-                 if (seAgregoCliente) mensaje("Cliente Agregado");
-                 else mensaje("Cliente No Agregado");
+                 if (seAgregoCliente) mostrarMensajeEnPantalla("Cliente Agregado");
+                 else mostrarMensajeEnPantalla("Cliente No Agregado");
                 
             }else{
                 boolean seModificoCliente = ctrlCliente.modificar(tempCliente);
-                 if (seModificoCliente) mensaje("Cliente Modificado");
-                 else  mensaje("Cliente No Modificado");
+                 if (seModificoCliente) mostrarMensajeEnPantalla("Cliente Modificado");
+                 else  mostrarMensajeEnPantalla("Cliente No Modificado");
                  //lo devolvemos a su estado de inicio.
                 seModificaraCliente = false;
             }
         } catch (SQLException ex) {
-            mensaje("Hubo un error con la "
+            mostrarMensajeEnPantalla("Hubo un error con la "
                     + "base de datos. " + ex.getLocalizedMessage());
         }
 
@@ -248,7 +246,7 @@ public class VtnAgrega_oModificaCliente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtIdClienteActionPerformed
 
-    private void mensaje(String mensaje) {
+    private void mostrarMensajeEnPantalla(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 1);
     }
 
@@ -364,19 +362,4 @@ public class VtnAgrega_oModificaCliente extends javax.swing.JFrame {
     public void setSeModificaraCliente(boolean seModificaraCliente) {
         this.seModificaraCliente = seModificaraCliente;
     }
-
-    /**
-     * @return the clienteDeLaTabla
-     */
-    public Cliente getClienteDeLaTabla() {
-        return clienteDeLaTabla;
-    }
-
-    /**
-     * @param clienteDeLaTabla the clienteDeLaTabla to set
-     */
-    public void setClienteDeLaTabla(Cliente clienteDeLaTabla) {
-        this.clienteDeLaTabla = clienteDeLaTabla;
-    }
-
 }

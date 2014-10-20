@@ -334,8 +334,7 @@ public class VtnClientes extends javax.swing.JFrame {
             vtnModificaCliente.setSeModificaraCliente(true);
             //hacemos visible la ventana:
             vtnModificaCliente.setVisible(true);
-
-            vtnModificaCliente.setClienteDeLaTabla(clienteTemporal);
+            
             //cerramos esta ventana:
             cerrarEstaVentana();
         } else {
