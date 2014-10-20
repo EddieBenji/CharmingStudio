@@ -8,6 +8,7 @@ import Controlador.DAO.DAOClientes;
 import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
 import Modelo.Proveedor;
+import Modelo.Servicio;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -20,7 +21,11 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VtnProveedores extends javax.swing.JFrame {
 
+    
+    private static final int SI = 0;
+    private static final int MOSTRAR_DOS_OPCIONES = 0;
     private static VtnProveedores instanciaDeVtnProveedores = new VtnProveedores();
+
     /**
      * Creates new form VtnProveedores
      */
@@ -45,13 +50,13 @@ public class VtnProveedores extends javax.swing.JFrame {
 
         btnAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tablaProveedores = new javax.swing.JTable();
+        listaProveedores = new javax.swing.JTable();
         btnBuscar = new javax.swing.JButton();
         txtNombreProveedor = new javax.swing.JTextField();
         btnRegresar = new javax.swing.JButton();
+        tituloProveedores = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Proveedores");
@@ -63,26 +68,20 @@ public class VtnProveedores extends javax.swing.JFrame {
             }
         });
 
-        tablaProveedores.setModel(new javax.swing.table.DefaultTableModel(
+        listaProveedores.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Nombre", "Dirección", "Telefono", "Correo", "Banquetera", "Carpa", "Luces", "Lugar", "Música"
+                "ID", "Nombre", "Dirección", "Telefono", "Correo", "Banquetera", "Carpa", "Luces", "Lugar", "Música"
             }
         ));
-        jScrollPane1.setViewportView(tablaProveedores);
+        jScrollPane1.setViewportView(listaProveedores);
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
-            }
-        });
-
-        txtNombreProveedor.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtNombreProveedorActionPerformed(evt);
             }
         });
 
@@ -93,12 +92,22 @@ public class VtnProveedores extends javax.swing.JFrame {
             }
         });
 
+        tituloProveedores.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        tituloProveedores.setText("Proveedores");
+
         btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
         btnEliminar.setText("Eliminar");
-
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        jLabel1.setText("Proveedores");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,29 +123,29 @@ public class VtnProveedores extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(52, 52, 52)
                                 .addComponent(btnAgregar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(170, 170, 170)
-                                .addComponent(btnModificar)
-                                .addGap(48, 48, 48)
-                                .addComponent(btnEliminar))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 82, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
+                    .addComponent(tituloProveedores)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnBuscar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addGap(54, 54, 54)
+                                .addComponent(btnEliminar))
+                            .addComponent(btnBuscar))))
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
+                .addComponent(tituloProveedores)
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,7 +186,8 @@ public class VtnProveedores extends javax.swing.JFrame {
 
         try {
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/
-            LinkedList<Proveedor> listaDeProveedores = ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
+            LinkedList<Proveedor> listaDeProveedores = 
+                    ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
             llenarTablaDeDatos(listaDeProveedores);
 
         } catch (SQLException ex) {
@@ -194,62 +204,250 @@ public class VtnProveedores extends javax.swing.JFrame {
         cerrarEstaVentana();
     }//GEN-LAST:event_btnRegresarActionPerformed
 
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        //creamos un proveedor temporal, a partir del renglón seleccionado en la tabla:
+        Proveedor proveedorTemporal = obtenerInformacionDeRenglonSelecccionado();
+
+        /*Si el proveedor temporal fue nulo, entonces no se seleccionó
+         alguno de la tabla, por eso nos interesa más cuando no
+         sea nulo, es el caso más común:*/
+        if (proveedorTemporal != null) {
+            //obtenemos la instancia de la ventana: 
+            VtnAgrega_oModificaProveedor vtnModificaProveedor
+                    = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
+            
+             DAOProveedores ctrlBuscarProveedores = new DAOProveedores();
+
+        try {
+            /*El controlador, devuelve una lista con los proveedores que coincidieron con la búsqueda:*/
+            LinkedList<Proveedor> listaDeProveedores = ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
+            proveedorTemporal=listaDeProveedores.getFirst();
+            
+        } catch (SQLException ex) {
+
+            //si hay Excepción, mostramos el mensaje en pantalla:
+            mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
+        }
+            
+            //Obtenemos el id del proveedor que se seleccionó en la tabla:
+         
+            /*El id del proveedor que aparece en la tabla, lo ponemos 
+             en el JTextField de la siguiente Ventana: */
+            
+            
+            //Obtenemos el nombre del cliente que se seleccionó en la tabla:
+            String nombre = proveedorTemporal.getNombrePersona();
+            /*El nombre del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField de la siguiente Ventana: */
+            vtnModificaProveedor.getTxtNombreProveedor().setText(nombre);
+
+            //Obtenemos la direccción del cliente que se seleccionó en la tabla:
+            String direccion = proveedorTemporal.getDireccionPersona();
+            /*La dirección del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField que le corresponde, de la siguiente Ventana: */
+            vtnModificaProveedor.getTxtDireccionProveedor().setText(direccion);
+
+            //Obtenemos el teléfono del cliente que se seleccionó en la tabla:
+            String telefono = proveedorTemporal.getTelefonoPersona();
+            /*El teléfono del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField que le corresponde, de la siguiente Ventana: */
+            vtnModificaProveedor.getTxtTelefonoCliente().setText(telefono);
+
+            //Obtenemos el correo del cliente que se seleccionó en la tabla:
+            String correo = proveedorTemporal.getCorreoPersona();
+            /*El correo del cliente que aparece en la tabla, lo ponemos 
+             en el JTextField que le corresponde, de la siguiente Ventana: */
+            vtnModificaProveedor.getTxtCorreoProveedor().setText(correo);
+            
+            for(Servicio serv:proveedorTemporal.getProvServicios()){
+                
+                /*Para cada uno de los servicios del proveedor,
+                  activamos su correspondiente CheckBox
+                  y escribimos su costo en su textField*/
+                if(serv.getServNombre().equals("Banquetera")){
+                    vtnModificaProveedor.getCbBanqueteraEvento().setSelected(true);
+                    vtnModificaProveedor.getTxtBanqueterEvento().setText(Float.toString(serv.getCosto()));
+                    vtnModificaProveedor.getTxtBanqueterEvento().setEditable(true);
+                }
+                if(serv.getServNombre().equals("Luces")){
+                    vtnModificaProveedor.getCbLucesEvento().setSelected(true);
+                    vtnModificaProveedor.getTxtLucesEvento().setText(Float.toString(serv.getCosto()));
+                    vtnModificaProveedor.getTxtLucesEvento().setEditable(true);
+                }
+                if(serv.getServNombre().equals("Carpa")){
+                    vtnModificaProveedor.getCbCarpaEvento().setSelected(true);
+                    vtnModificaProveedor.getTxtCarpaEvento().setText(Float.toString(serv.getCosto()));
+                    vtnModificaProveedor.getTxtCarpaEvento().setEditable(true);
+                }
+                if(serv.getServNombre().equals("Lugar")){
+                    vtnModificaProveedor.getCbLugarEvento().setSelected(true);
+                    vtnModificaProveedor.getTxtLugarEvento().setText(Float.toString(serv.getCosto()));
+                    vtnModificaProveedor.getTxtLugarEvento().setEditable(true);
+                }
+                if(serv.getServNombre().equals("Musica")){
+                    vtnModificaProveedor.getCbMusicaEvento().setSelected(true);
+                    vtnModificaProveedor.getTxtMusicaEvento().setText(Float.toString(serv.getCosto()));
+                    vtnModificaProveedor.getTxtMusicaEvento().setEditable(true);
+                }
+            }
+
+            //le ponemos el título a la ventana:
+            vtnModificaProveedor.setTitle("Modificará la información de un proveedor");
+            /*ponemos en verdadero un booleano, indicando que 
+             se modificará un cliente: */
+            vtnModificaProveedor.setSeModificaraProveedor(true);
+            //hacemos visible la ventana:
+            vtnModificaProveedor.setVisible(true);
+
+            vtnModificaProveedor.setProveedorDeLaTabla(proveedorTemporal);
+            //cerramos esta ventana:
+            cerrarEstaVentana();
+        } else {
+            //quiere decir que el usuario no ha seleccionado algún cliente
+            //la tabla:
+            mostrarMensaje("No seleccionaste algún proveedor de la tabla.");
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        /*Obtenemos el cliente seleccionado de la tabla:*/
+        Proveedor proveedorQueSeEliminara = obtenerInformacionDeRenglonSelecccionado();
+        
+        //checamos si se seleccionó algún cliente de la tabla,
+        //es decir, si no es nulo.
+        if (proveedorQueSeEliminara != null) {
+            //le preguntamos al cliente si de verdad, desea eliminar el 
+            //cliente seleccionado:
+            int opcionEliminar = JOptionPane.showConfirmDialog(null,
+                    "Seguro desea eliminar el proveedor seleccionado?",
+                    "Eliminará el proveedor. ",
+                    MOSTRAR_DOS_OPCIONES
+            );
+            //si lo que escogió el usuario es igual a un "si"
+            if (opcionEliminar == SI) {
+                //creamos el controlador de clientes:
+                DAOProveedores controlProveedor = new DAOProveedores();
+
+                
+            try {
+                controlProveedor.eliminar(proveedorQueSeEliminara.getIdPersona());
+                mostrarMensaje("Proveedor eliminado");
+            } catch (SQLException ex) {
+                mostrarMensaje("Proveedor no eliminado. Error: " + ex.getLocalizedMessage());
+            }
+            }
+        }else{
+            mostrarMensaje("No ha seleccionado algún proveedor de la tabla");
+        }
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private Proveedor obtenerInformacionDeRenglonSelecccionado() {
+        //obtiene el número del renglón seleccionado en la tabla.
+        int numDeRenglonSeleccionado = this.listaProveedores.getSelectedRow();
+        /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
+        if (numDeRenglonSeleccionado < 0) {
+            return null;
+        }
+        //declaramos las constantes, de las columnas donde está la información:
+        int columnaId = 0, columnaNombre = 1, columnaDireccion = 2,
+                columnaTelefono = 3, columnaCorreo = 4;
+        //obtenemos la información del renglón seleccionado.
+        int id = (int) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaId);
+        String nombre = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaNombre);
+        String direccion = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
+        String telefono = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
+        String correo = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
+        Servicio[]servTemporal=new Servicio[0];
+        return new Proveedor(id, nombre, direccion, telefono, correo,servTemporal);
+    }
+    
     
     private void llenarTablaDeDatos(LinkedList<Proveedor> listaDeProveedores) {
         //Declaramos las columnas:
-        Object columnasDeDatos[] = new Object[9];
+        System.out.println(listaDeProveedores);
+        Object columnasDeDatos[] = new Object[10];
 
         //obtenemos el modelo default de la tabla:
-        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.tablaProveedores.getModel();
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.listaProveedores.getModel();
 
+        limpiarTabla();
+        
         if (listaDeProveedores != null) {
             //agregamos a cada columna los datos que le corresponden:
             for (Proveedor proveedor : listaDeProveedores) {
-                columnasDeDatos[0] = proveedor.getNombrePersona();
-                columnasDeDatos[1] = proveedor.getDireccionPersona();
-                columnasDeDatos[2] = proveedor.getTelefonoPersona();
-                columnasDeDatos[3] = proveedor.getCorreoPersona();
-                if(proveedor.getProvServicios()[0]!=null){
-                    columnasDeDatos[4] = "Si";
-                }else{
-                    columnasDeDatos[4] = "No";
-                }
-                if(proveedor.getProvServicios()[1]!=null){
-                    columnasDeDatos[5] = "Si";
-                }else{
+                columnasDeDatos[0] = proveedor.getIdPersona();
+                columnasDeDatos[1] = proveedor.getNombrePersona();
+                columnasDeDatos[2] = proveedor.getDireccionPersona();
+                columnasDeDatos[3] = proveedor.getTelefonoPersona();
+                columnasDeDatos[4] = proveedor.getCorreoPersona();
+                
+                for(Servicio serv: proveedor.getProvServicios()){
+                    if(serv.getServNombre().equals("Banquetera")){
+                        columnasDeDatos[5] = "Si";
+                        break;
+                    }else{
                     columnasDeDatos[5] = "No";
+                    }
                 }
-
-                if(proveedor.getProvServicios()[2]!=null){
-                    columnasDeDatos[6] = "Si";
-                }else{
+                
+                for(Servicio serv: proveedor.getProvServicios()){
+                    if(serv.getServNombre().equals("Carpa")){
+                        columnasDeDatos[6] = "Si";
+                        break;
+                    }else{
                     columnasDeDatos[6] = "No";
+                    }
                 }
-
-                if(proveedor.getProvServicios()[3]!=null){
-                    columnasDeDatos[7] = "Si";
-                }else{
-                    columnasDeDatos[7] = "No";
+                
+                for(Servicio serv: proveedor.getProvServicios()){
+                    if(serv.getServNombre().equals("Luces")){
+                        columnasDeDatos[7] = "Si";
+                        break;
+                    }else{
+                        columnasDeDatos[7] = "No";
+                    }
                 }
-
-                if(proveedor.getProvServicios()[4]!=null){
-                    columnasDeDatos[8] = "Si";
-                }else{
-                    columnasDeDatos[8] = "No";
+                
+                for(Servicio serv: proveedor.getProvServicios()){
+                    if(serv.getServNombre().equals("Lugar")){
+                        columnasDeDatos[8] = "Si";
+                        break;
+                    }else{
+                        columnasDeDatos[8] = "No";
+                    }
                 }
-
-
+                
+                for(Servicio serv: proveedor.getProvServicios()){
+                    if(serv.getServNombre().equals("Musica")){
+                        columnasDeDatos[9] = "Si";
+                        break;
+                    }else{
+                        columnasDeDatos[9] = "No";
+                    }
+                }
+                
+            }
+        
                 //agregamos los datos de cada columna en cada renglón:
                 modeloDeLaTabla.addRow(columnasDeDatos);
-            }
+            
         } else {
-            /*Aquí deberíamos limpiar nuestra tabla, pero nosé como D:*/
+            //se considera el else pero no se usa
 
         }
         //establecemos a nuestra tabla, el modelo que tenía:
-        this.tablaProveedores.setModel(modeloDeLaTabla);
+        this.listaProveedores.setModel(modeloDeLaTabla);
 
     }
+    
+    private void limpiarTabla() {
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.listaProveedores.getModel();
+        for (int i = 0; i < listaProveedores.getRowCount(); i++) {
+            modeloDeLaTabla.removeRow(0);
+            i -= 1;
+        }
+    }
+    
     
     private void cerrarEstaVentana() {
         borrarDatos();
@@ -305,9 +503,9 @@ public class VtnProveedores extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnRegresar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable tablaProveedores;
+    private javax.swing.JTable listaProveedores;
+    private javax.swing.JLabel tituloProveedores;
     private javax.swing.JTextField txtNombreProveedor;
     // End of variables declaration//GEN-END:variables
 }
