@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.LinkedList;
+
 /**
  * @author Lalo
  * @version 1.0
@@ -13,6 +15,7 @@ public class PaqueteCompleto extends PaqueteIntermedio {
     public PaqueteCompleto(Servicio ServBanquetera, Servicio servIluminacion, Servicio servCarpa,
             Servicio servLugar, Servicio servMusica, float precio) {
         super(ServBanquetera, servIluminacion, servCarpa,precio);
+        this.nombre="Completo";
         this.servLugar = servLugar;
         this.servMusica = servMusica;
     }
@@ -30,6 +33,16 @@ public class PaqueteCompleto extends PaqueteIntermedio {
         this.precio = precio;
     }
     
+    public LinkedList getServicios(){
+        LinkedList<Servicio> servicios=super.getServicios();
+        servicios.add(servLugar);
+        servicios.add(servMusica);
+        return servicios;
+    }
     
+    @Override
+    public String getNombre(){
+        return this.nombre;
+    }
 
 }

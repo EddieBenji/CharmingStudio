@@ -217,7 +217,35 @@ public class DAOEmpleados extends GestorBD {
         
     }
 
-   
+   public LinkedList buscarTodosLosEmpleados() throws SQLException {
+
+        Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
+        ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.
+                executeQuery("SELECT * FROM charmingstudio.empleado");
+        
+        /*En este caso, se espera que la búsqueda no siempre sea nula, por
+        lo que nos interesa el negativo de las sentencia:*/
+        if (!BusquedaDeEmpleados.wasNull()) {
+            
+            LinkedList<Empleado> empleados = new LinkedList<>();
+
+            while (BusquedaDeEmpleados.next()) {
+                
+                //agregamos c/cliente a la lista:
+                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1), 
+                        BusquedaDeEmpleados.getString(2), 
+                        BusquedaDeEmpleados.getString(3),
+                        BusquedaDeEmpleados.getString(4),
+                        BusquedaDeEmpleados.getString(5),
+                        BusquedaDeEmpleados.getFloat(6),
+                        BusquedaDeEmpleados.getFloat(7)));
+
+            }
+            return empleados;
+        }
+        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
+        return null;
+    }
 
     private void mostrarMensajeEnPantalla(String mensaje){
         JOptionPane.showMessageDialog(null, mensaje);

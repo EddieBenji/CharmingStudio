@@ -166,4 +166,30 @@ public class DAOMesaDeDulces {
     private void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje);
     }
+    
+    public LinkedList buscarTodasMD() throws SQLException {
+
+        Statement sentenciaDeBusquedaDeMD = Conexion.createStatement();
+        ResultSet BusquedaDeMD = sentenciaDeBusquedaDeMD.
+                executeQuery("SELECT * FROM charmingstudio.mesadulces");
+        
+        /*En este caso, se espera que la búsqueda no siempre sea nula, por
+        lo que nos interesa el negativo de las sentencia:*/
+        if (!BusquedaDeMD.wasNull()) {
+            
+            LinkedList<MesaDeDulces> mesas = new LinkedList<>();
+
+            while (BusquedaDeMD.next()) {
+                
+                //agregamos c/cliente a la lista:
+                mesas.add(new MesaDeDulces(BusquedaDeMD.getInt(1), 
+                        BusquedaDeMD.getString(2), 
+                        BusquedaDeMD.getFloat(3)));
+
+            }
+            return mesas;
+        }
+        mostrarMensaje("El cliente no se encuentra en la BD");
+        return null;
+    }
 }

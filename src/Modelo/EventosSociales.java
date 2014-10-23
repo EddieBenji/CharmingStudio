@@ -15,6 +15,7 @@ public class EventosSociales {
     private Paquete evtPaquete;
     private float evtPrecioTotal;
     private float evtComision;
+    private Empleado evtEmpleado;
 
     /**
      * Este constructor inicializa un nuevo objeto de tipo EventosSociales, pero
@@ -42,7 +43,7 @@ public class EventosSociales {
      */
     public EventosSociales(Cliente evtCliente, Date evtFecha,
             MesaDeDulces evtMesaDeDulces, Paquete evtPaquete,
-            float evtPrecioTotal, float evtComision) {
+            float evtPrecioTotal, float evtComision,Empleado evtEmpleado) {
 
         this.evtCliente = evtCliente;
         this.evtFecha = evtFecha;
@@ -50,6 +51,7 @@ public class EventosSociales {
         this.evtPaquete = evtPaquete;
         this.evtPrecioTotal = evtPrecioTotal;
         this.evtComision = evtComision;
+        this.evtEmpleado=evtEmpleado;
     }
 
     /**
@@ -69,5 +71,36 @@ public class EventosSociales {
     public void setPrecioTotal(float precio) {
 
     }
+
+    public Cliente getEvtCliente() {
+        return evtCliente;
+    }
+
+    public Date getEvtFecha() {
+        return evtFecha;
+    }
+
+    public MesaDeDulces getEvtMesaDeDulces() {
+        return evtMesaDeDulces;
+    }
+
+    public Paquete getEvtPaquete() {
+        return evtPaquete;
+    }
+
+    public float getEvtPrecioTotal() {
+        return evtPrecioTotal;
+    }
+
+    public float getEvtComision() {
+        return evtComision;
+    }
+
+    public Empleado getEvtEmpleado() {
+        return evtEmpleado;
+    }
+    
+    
+    
 
 }

@@ -5,12 +5,24 @@
 package Vista;
 
 import Controlador.DAO.DAOClientes;
+import Controlador.DAO.DAOEmpleados;
+import Controlador.DAO.DAOEventos;
+import Controlador.DAO.DAOMesaDeDulces;
 import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
+import Modelo.Empleado;
+import Modelo.EventosSociales;
+import Modelo.MesaDeDulces;
 import Modelo.Paquete;
 import Modelo.PaqueteBasico;
+import Modelo.PaqueteCompleto;
+import Modelo.PaqueteIntermedio;
 import Modelo.Proveedor;
+import Modelo.Servicio;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +49,8 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         llenaComboLugar();
         llenaComboCarpa();
         llenaComboMusica();
+        llenaComboMD();
+        llenaComboEmpleado();
         setLocationRelativeTo(null);
     }
     
@@ -73,6 +87,10 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         lblMusica = new javax.swing.JLabel();
         lblLugar = new javax.swing.JLabel();
         comboCliente = new javax.swing.JComboBox();
+        comboMesaDulces = new javax.swing.JComboBox();
+        lblMesa = new javax.swing.JLabel();
+        lblEmpleado = new javax.swing.JLabel();
+        comboEmpleado = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Evento");
@@ -118,7 +136,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
             }
         });
 
-        cbPaqCompleto.setText("Paquete competo");
+        cbPaqCompleto.setText("Paquete completo");
         cbPaqCompleto.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbPaqCompletoActionPerformed(evt);
@@ -152,6 +170,14 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
 
         comboCliente.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        comboMesaDulces.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblMesa.setText("Escoja la mesa de dulces:");
+
+        lblEmpleado.setText("Empleado: ");
+
+        comboEmpleado.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -184,16 +210,16 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                                                 .addComponent(txtFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addGap(18, 18, 18)
-                                                .addComponent(comboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                                .addComponent(comboCliente, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                                .addComponent(cbPaqIntermedio)
+                                .addGap(20, 20, 20))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(27, 27, 27)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(lblBanquetera)
-                                        .addGap(29, 29, 29)
-                                        .addComponent(lblCarpa))
+                                    .addComponent(lblBanquetera)
                                     .addComponent(lblLuces))))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(178, 183, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(43, 43, 43)
@@ -202,12 +228,14 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(comboBanquetera, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(comboCarpa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(86, 86, 86)
+                                .addGap(118, 118, 118)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblMusica)
-                                    .addComponent(comboMusica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addComponent(comboMusica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                 .addComponent(comboLuces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -217,9 +245,20 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                         .addGap(61, 61, 61))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(cbPaqIntermedio)
-                        .addGap(35, 35, 35)
-                        .addComponent(cbPaqCompleto)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblCarpa)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblEmpleado)
+                                    .addComponent(lblMesa))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cbPaqCompleto)
+                                    .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(17, 17, 17)
+                                        .addComponent(comboMesaDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                         .addGap(44, 44, 44))))
         );
         layout.setVerticalGroup(
@@ -230,11 +269,15 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(comboCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboMesaDulces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMesa))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtFechaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(lblEmpleado)
+                    .addComponent(comboEmpleado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbPaqBasico)
@@ -315,17 +358,73 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
 
     private void btnGuardarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEventoActionPerformed
         Paquete paquete=null;
-        Cliente c=new Cliente(0,(String)comboCliente.getSelectedItem(),"","","");
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
+        String strFecha = txtFechaEvento.getText();
+        Date fecha = null;
+        try {
+            fecha = formatoDelTexto.parse(strFecha);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        //System.out.println(fecha);
+        
+        Cliente cliente=new Cliente(0,(String)comboCliente.getSelectedItem(),"","","");
+        Empleado empleado=new Empleado(0,(String)comboEmpleado.getSelectedItem(),"","","",0,0);
+        MesaDeDulces mesa=new MesaDeDulces(0,(String)comboMesaDulces.getSelectedItem(),0);
+        Servicio servBanquetera=new Servicio("Banquetera",0);
+        Servicio servCarpa=new Servicio("Carpa",0);
+        Servicio servLuces=new Servicio("Luces",0);
+        Servicio servLugar=new Servicio("Lugar",0);
+        Servicio servMusica=new Servicio("Musica",0);
+        Proveedor[] prov=new Proveedor[1];
+        Servicio[] serv=null;
+        
         if (cbPaqBasico.isSelected()){
+            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
+            servBanquetera.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
+            servLuces.setProvedoresQueBrindanServicio(prov);
             
-            //paquete=new PaqueteBasico();
+            paquete=new PaqueteBasico(servBanquetera,servLuces,0);
+            
         }//fin if        
-        if (cbPaqBasico.isSelected()){
+        if (cbPaqIntermedio.isSelected()){
+            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
+            servBanquetera.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
+            servLuces.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboCarpa.getSelectedItem(),"","","",serv);
+            servCarpa.setProvedoresQueBrindanServicio(prov);
             
-        }//fin if
-        if (cbPaqBasico.isSelected()){
             
+            paquete=new PaqueteIntermedio(servBanquetera,servLuces,servCarpa,0);
         }//fin if
+        if (cbPaqCompleto.isSelected()){
+            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
+            servBanquetera.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
+            servLuces.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboCarpa.getSelectedItem(),"","","",serv);
+            servCarpa.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboLugar.getSelectedItem(),"","","",serv);
+            servLugar.setProvedoresQueBrindanServicio(prov);
+            prov[0]=new Proveedor(0,(String)comboMusica.getSelectedItem(),"","","",serv);
+            servMusica.setProvedoresQueBrindanServicio(prov);
+            
+            paquete=new PaqueteCompleto(servBanquetera,servLuces,servCarpa,servLugar,servMusica,0);
+        }//fin if
+        DAOEventos ctrlEvto=new DAOEventos();
+        EventosSociales eventoSocial=new EventosSociales(cliente,fecha,mesa,paquete,0,0,empleado);
+        if(!seModificaraEventoSocial){
+            try {
+                ctrlEvto.agregarEvento(eventoSocial);
+            } catch (SQLException ex) {
+                Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            
+        }
+        
     }//GEN-LAST:event_btnGuardarEventoActionPerformed
 
     
@@ -339,6 +438,22 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
             modeloCombo.addElement(cliente.getNombrePersona());
         }
         comboCliente.setModel(modeloCombo);
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void llenaComboEmpleado(){
+        try {
+            DAOEmpleados ctrlEmpleado=new DAOEmpleados();
+            LinkedList<Empleado> empleados=ctrlEmpleado.buscarTodosLosEmpleados();
+            
+              DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+        for (Empleado empleado : empleados) {
+            modeloCombo.addElement(empleado.getNombrePersona());
+        }
+        comboEmpleado.setModel(modeloCombo);
             
         } catch (SQLException ex) {
             Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
@@ -426,6 +541,23 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         
     }
     
+    private void llenaComboMD(){
+        DAOMesaDeDulces ctrlMesas=new DAOMesaDeDulces();
+        try {
+            LinkedList<MesaDeDulces> listaMesas=ctrlMesas.buscarTodasMD();
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+        for (MesaDeDulces mesa : listaMesas) {
+            modeloCombo.addElement(mesa.getmdNombreDeMesa());
+        }
+        comboMesaDulces.setModel(modeloCombo);
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+    
         private void cerrarEstaVentana() {
         //borraDatosDeCampos();
         this.dispose();
@@ -473,16 +605,20 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     private javax.swing.JComboBox comboBanquetera;
     private javax.swing.JComboBox comboCarpa;
     private javax.swing.JComboBox comboCliente;
+    private javax.swing.JComboBox comboEmpleado;
     private javax.swing.JComboBox comboLuces;
     private javax.swing.JComboBox comboLugar;
+    private javax.swing.JComboBox comboMesaDulces;
     private javax.swing.JComboBox comboMusica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel lblBanquetera;
     private javax.swing.JLabel lblCarpa;
+    private javax.swing.JLabel lblEmpleado;
     private javax.swing.JLabel lblLuces;
     private javax.swing.JLabel lblLugar;
+    private javax.swing.JLabel lblMesa;
     private javax.swing.JLabel lblMusica;
     private javax.swing.JTextField txtFechaEvento;
     // End of variables declaration//GEN-END:variables

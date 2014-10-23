@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.LinkedList;
+
 /**
  * @author Lalo
  * @version 1.0
@@ -19,6 +21,7 @@ public class PaqueteBasico extends Paquete {
      * @param precio
      */
     public PaqueteBasico(Servicio ServBanquetera, Servicio servIluminacion, float precio) {
+        this.nombre="Basico";
         this.ServBanquetera = ServBanquetera;
         this.servIluminacion = servIluminacion;
         this.precio = precio;
@@ -40,6 +43,18 @@ public class PaqueteBasico extends Paquete {
     @Override
     public void setPrecio(float precio) {
         this.precio = precio;
+    }
+    
+    public LinkedList getServicios(){
+        LinkedList<Servicio> servicios=new LinkedList();
+        servicios.add(ServBanquetera);
+        servicios.add(servIluminacion);
+        return servicios;
+    }
+    
+    @Override
+    public String getNombre(){
+        return this.nombre;
     }
 
 }

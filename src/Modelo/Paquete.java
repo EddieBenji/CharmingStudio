@@ -1,5 +1,7 @@
 package Modelo;
 
+import java.util.LinkedList;
+
 /**
  * @author Lalo
  * @version 1.0
@@ -7,12 +9,17 @@ package Modelo;
  */
 public abstract class Paquete {
 
+    String nombre;
     protected float precio;
 
     public Paquete() {}
 
     public abstract float getPrecio();
+    
+    public abstract String getNombre();
 
     public abstract void setPrecio(float precio);
+    
+    public abstract LinkedList<Servicio> getServicios();
 
 }
