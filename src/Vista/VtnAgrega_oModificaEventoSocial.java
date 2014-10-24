@@ -9,19 +9,12 @@ import Controlador.ControladorEmpleado;
 import Controlador.ControladorEventos;
 import Controlador.ControladorMesaDeDulces;
 import Controlador.ControladorProveedores;
-import Controlador.DAO.DAOClientes;
-import Controlador.DAO.DAOEmpleados;
-import Controlador.DAO.DAOEventos;
-import Controlador.DAO.DAOMesaDeDulces;
-import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
 import Modelo.Empleado;
 import Modelo.EventosSociales;
 import Modelo.MesaDeDulces;
 import Modelo.Paquete;
 import Modelo.PaqueteBasico;
-import Modelo.PaqueteCompleto;
-import Modelo.PaqueteIntermedio;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
@@ -478,8 +471,16 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         
     }
     
+    private void borrarDatosDeCampos() {
+        this.txtFechaEvento.setText("");
+        this.cbPaqBasico.setSelected(false);
+        this.cbPaqIntermedio.setSelected(false);
+        this.cbPaqCompleto.setSelected(false);
+    }
+
+    
         private void cerrarEstaVentana() {
-        //borraDatosDeCampos();
+        borrarDatosDeCampos();
         this.dispose();
     }
     /**

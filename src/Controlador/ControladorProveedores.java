@@ -9,6 +9,7 @@ import Controlador.DAO.DAOEmpleados;
 import Controlador.DAO.DAOProveedores;
 import Modelo.Persona;
 import Modelo.Proveedor;
+import Modelo.Servicio;
 import java.sql.SQLException;
 import java.util.LinkedList;
 
@@ -16,7 +17,8 @@ import java.util.LinkedList;
  *
  * @author Carlos
  */
-public class ControladorProveedores {
+public class ControladorProveedores implements ControladorPersona {
+    
     DAOProveedores dao=new DAOProveedores();
     
     public Proveedor buscarEspecifico(String nombrePersona) throws SQLException {
@@ -27,7 +29,13 @@ public class ControladorProveedores {
     
     public boolean agregar(Persona proveedor) throws SQLException {
 
-        return dao.agregar(proveedor);
+        ControladorServicios ctrlServ=new ControladorServicios();
+        Proveedor prov=(Proveedor)proveedor;
+        for(Servicio serv:prov.getProvServicios()){
+            serv.setId(ctrlServ.buscarServicio(serv.getServNombre()).getId());
+            
+        }
+        return dao.agregar(prov);
 
     }
 
@@ -39,6 +47,12 @@ public class ControladorProveedores {
     
     public boolean modificar(Persona persona) throws SQLException {
 
+        ControladorServicios ctrlServ=new ControladorServicios();
+        Proveedor proveedor=(Proveedor)persona;
+        for(Servicio serv:proveedor.getProvServicios()){
+            serv.setId(ctrlServ.buscarServicio(serv.getServNombre()).getId());
+            
+        }
         return dao.modificar(persona);
     }
     

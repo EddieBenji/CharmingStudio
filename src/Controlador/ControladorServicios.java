@@ -15,6 +15,7 @@ import java.sql.SQLException;
  * @author Carlos
  */
 public class ControladorServicios {
+    
     DAOServicios dao=new DAOServicios();
     
     public Servicio buscarServicio(String nombreServicio) throws SQLException {
@@ -22,6 +23,7 @@ public class ControladorServicios {
         return dao.devuelveServicio(nombreServicio);
         
     }
+    
     public Servicio buscarServicio(int idServicio) throws SQLException {
 
         return dao.devuelveServicio(idServicio);

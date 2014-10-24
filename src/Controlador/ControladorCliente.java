@@ -14,13 +14,12 @@ import java.util.LinkedList;
  *
  * @author Alejandro
  */
-public class ControladorCliente {
+public class ControladorCliente implements ControladorPersona {
 
     DAOClientes dao = new DAOClientes();
     
+ 
     public boolean agregar(Persona cliente) throws SQLException {
-
-        
 
         return dao.agregar(cliente);
 

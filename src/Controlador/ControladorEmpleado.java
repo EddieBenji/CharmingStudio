@@ -14,8 +14,10 @@ import java.util.LinkedList;
  *
  * @author Alejandro
  */
-public class ControladorEmpleado {
+public class ControladorEmpleado implements ControladorPersona {
+    
     DAOEmpleados dao = new DAOEmpleados();
+    
     public boolean agregar(Persona empleado) throws SQLException {
 
        return dao.agregar(empleado);

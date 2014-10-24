@@ -193,8 +193,11 @@ public class DAOClientes extends GestorBD {
                 + "charmingstudio.cliente WHERE Nombre ='"+nombreCliente+"'");
         busquedaIdCliente.next();
         
-        Cliente cliente=new Cliente(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),
-                busquedaIdCliente.getString(3),busquedaIdCliente.getString(4),busquedaIdCliente.getString(5));
+        Cliente cliente=new Cliente(busquedaIdCliente.getInt(1),
+                busquedaIdCliente.getString(2),
+                busquedaIdCliente.getString(3),
+                busquedaIdCliente.getString(4),
+                busquedaIdCliente.getString(5));
         
         
         return cliente;

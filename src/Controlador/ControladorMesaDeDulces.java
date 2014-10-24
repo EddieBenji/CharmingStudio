@@ -22,8 +22,7 @@ public class ControladorMesaDeDulces {
     }
 
     public boolean eliminarMD(int idMesaDeDulces) throws SQLException {
-        
-
+       
         return dao.eliminarMD(idMesaDeDulces);
     }
     
@@ -36,8 +35,8 @@ public class ControladorMesaDeDulces {
       
         return dao.modificarMD(mesaDeDulcesAModificar);
     }
+    
     public MesaDeDulces buscarEspecifico(String nombreMesa) throws SQLException {
-
 
         return dao.buscarEspecificamente(nombreMesa);
         

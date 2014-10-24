@@ -60,7 +60,8 @@ public class DAOServicios {
         boolean seEliminoServicio = false;
         Statement sentencia = Conexion.createStatement();
 
-        sentencia.executeUpdate("DELETE FROM charmingstudio.servicios WHERE idServicios= '" + idServicio + "'");
+        sentencia.executeUpdate("DELETE FROM charmingstudio.servicios WHERE"+
+                " idServicios= '" + idServicio + "'");
         seEliminoServicio = true;
 
         return seEliminoServicio;
@@ -75,7 +76,8 @@ public class DAOServicios {
     public LinkedList buscarServicio(String nombreServicio) throws SQLException {
         LinkedList<Servicio> servicio = new LinkedList<>();
         Statement sentencia = Conexion.createStatement();
-        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.cliente WHERE Nombre LIKE '%" + nombreServicio + "%'");
+        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.cliente"+
+                " WHERE Nombre LIKE '%" + nombreServicio + "%'");
         if (!Busqueda.wasNull()) {
             while (Busqueda.next()) {
                 servicio.add(new Servicio(Busqueda.getString(2),0));
@@ -97,7 +99,8 @@ public class DAOServicios {
     
     public Servicio devuelveServicio(String serv) throws SQLException{
         Statement sentencia=Conexion.createStatement();
-        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE Nombre ='"+serv+"'");
+        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"+
+                " WHERE Nombre ='"+serv+"'");
         busqueda.next();
         
         Servicio servicio=new Servicio(busqueda.getString(2),0);
@@ -107,7 +110,8 @@ public class DAOServicios {
     
     public Servicio devuelveServicio(int id) throws SQLException{
         Statement sentencia=Conexion.createStatement();
-        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE IdServicios ='"+id+"'");
+        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"+
+                " WHERE IdServicios ='"+id+"'");
         busqueda.next();
         
         Servicio servicio=new Servicio(busqueda.getString(2),0);

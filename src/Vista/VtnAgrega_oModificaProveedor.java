@@ -61,7 +61,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         Dirección = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        tituloProveedor = new javax.swing.JLabel();
         cbCarpaEvento = new javax.swing.JCheckBox();
         cbBanqueteraEvento = new javax.swing.JCheckBox();
         cbLucesEvento = new javax.swing.JCheckBox();
@@ -72,6 +72,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         txtLucesEvento = new javax.swing.JTextField();
         txtLugarEvento = new javax.swing.JTextField();
         txtMusicaEvento = new javax.swing.JTextField();
+        lblSeleccionar = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Proveedor");
@@ -104,8 +105,8 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
         jLabel2.setText("Teléfono:");
 
-        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel3.setText("Proveedor");
+        tituloProveedor.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        tituloProveedor.setText("Proveedor");
 
         cbCarpaEvento.setText("Carpa");
         cbCarpaEvento.addActionListener(new java.awt.event.ActionListener() {
@@ -143,34 +144,16 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         });
 
         txtBanqueteraEvento.setEditable(false);
-        txtBanqueteraEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtBanqueteraEventoActionPerformed(evt);
-            }
-        });
 
         txtCarpaEvento.setEditable(false);
 
         txtLucesEvento.setEditable(false);
-        txtLucesEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLucesEventoActionPerformed(evt);
-            }
-        });
 
         txtLugarEvento.setEditable(false);
-        txtLugarEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLugarEventoActionPerformed(evt);
-            }
-        });
 
         txtMusicaEvento.setEditable(false);
-        txtMusicaEvento.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtMusicaEventoActionPerformed(evt);
-            }
-        });
+
+        lblSeleccionar.setText("Seleccione los servicios del proveedor y establezca sus costos:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -199,13 +182,16 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(cbLugarEvento))
                             .addComponent(txtCarpaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 10, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, 8, Short.MAX_VALUE)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(txtMusicaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtLugarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(95, 95, 95))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(btnGuardarProveedor))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(61, 61, 61)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -227,18 +213,17 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                                 .addComponent(txtCorreoProveedor))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(20, 20, 20)
-                        .addComponent(jLabel3))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnGuardarProveedor)
-                        .addGap(151, 151, 151)))
+                        .addComponent(tituloProveedor))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(35, 35, 35)
+                        .addComponent(lblSeleccionar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel3)
+                .addComponent(tituloProveedor)
                 .addGap(17, 17, 17)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -256,6 +241,8 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                     .addComponent(Correo)
                     .addComponent(txtCorreoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
+                .addComponent(lblSeleccionar)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbBanqueteraEvento)
                     .addComponent(cbLugarEvento)
@@ -271,7 +258,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                     .addComponent(cbMusicaEvento)
                     .addComponent(txtLucesEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtMusicaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarProveedor)
                     .addComponent(btnRegresarVtnProveedores))
@@ -551,7 +538,8 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbMusicaEvento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel lblSeleccionar;
+    private javax.swing.JLabel tituloProveedor;
     private javax.swing.JTextField txtBanqueteraEvento;
     private javax.swing.JTextField txtCarpaEvento;
     private javax.swing.JTextField txtCorreoProveedor;

@@ -70,7 +70,8 @@ public class DAOMesaDeDulces {
         return existeMesaDeDulces;
     }
 
-    private boolean compararMesaDeDulces(MesaDeDulces mesaDeDulcesEncontradoEnBD, MesaDeDulces mesaDeDulcesA_modificar) {
+    private boolean compararMesaDeDulces(MesaDeDulces mesaDeDulcesEncontradoEnBD,
+            MesaDeDulces mesaDeDulcesA_modificar) {
         //primero obtenemos ambos nombres:
         String nombreMesaDeDulcesEncontradoEnBD = mesaDeDulcesEncontradoEnBD.getmdNombreDeMesa();
         String nombreMesaDeDulcesA_modificar = mesaDeDulcesA_modificar.getmdNombreDeMesa();
@@ -104,7 +105,8 @@ public class DAOMesaDeDulces {
 
         Statement sentEliminaMesaDeDulces = Conexion.createStatement();
 
-        sentEliminaMesaDeDulces.executeUpdate("DELETE FROM charmingstudio.mesadulces WHERE idMesaDulces= '" + idMesaDeDulces + "'");
+        sentEliminaMesaDeDulces.executeUpdate("DELETE FROM charmingstudio.mesadulces"+
+                " WHERE idMesaDulces= '" + idMesaDeDulces + "'");
         seEliminoMesaDeDulces = true;
 
         return seEliminoMesaDeDulces;
@@ -114,8 +116,8 @@ public class DAOMesaDeDulces {
     public LinkedList buscarCoincidencias(String nombreMesaDeDulces) throws SQLException {
 
         Statement sentenciaDeBusquedaDeMesaDeDulces = Conexion.createStatement();
-        ResultSet BusquedaDeMesaDeDulces = sentenciaDeBusquedaDeMesaDeDulces.executeQuery("SELECT * "
-                + "FROM charmingstudio.mesadulces WHERE Nombre LIKE '%" + nombreMesaDeDulces + "%'");
+        ResultSet BusquedaDeMesaDeDulces = sentenciaDeBusquedaDeMesaDeDulces.executeQuery("SELECT * "+
+                "FROM charmingstudio.mesadulces WHERE Nombre LIKE '%" + nombreMesaDeDulces + "%'");
         if (!BusquedaDeMesaDeDulces.wasNull()) {
             //creamos la lista:
             LinkedList<MesaDeDulces> mesaDeDulces = new LinkedList<>();
@@ -123,7 +125,9 @@ public class DAOMesaDeDulces {
             while (BusquedaDeMesaDeDulces.next()) {
                 //agregamos c/cliente a la lista:
 
-                mesaDeDulces.add(new MesaDeDulces(BusquedaDeMesaDeDulces.getInt(1), BusquedaDeMesaDeDulces.getString(2), BusquedaDeMesaDeDulces.getFloat(3)));
+                mesaDeDulces.add(new MesaDeDulces(BusquedaDeMesaDeDulces.getInt(1),
+                        BusquedaDeMesaDeDulces.getString(2), 
+                        BusquedaDeMesaDeDulces.getFloat(3)));
 
             }
             return mesaDeDulces;
@@ -195,12 +199,14 @@ public class DAOMesaDeDulces {
     }
 
     public MesaDeDulces buscarEspecificamente(String nombreMesa) throws SQLException {
-        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
-        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
-                + "charmingstudio.mesadulces WHERE Nombre ='"+nombreMesa+"'");
-        busquedaIdCliente.next();
+        Statement sentenciaBuscaMD=Conexion.createStatement();
+        ResultSet busquedaMD=sentenciaBuscaMD.executeQuery("SELECT * FROM "+
+                "charmingstudio.mesadulces WHERE Nombre ='"+nombreMesa+"'");
+        busquedaMD.next();
         
-        MesaDeDulces mesa=new MesaDeDulces(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),busquedaIdCliente.getFloat(3));
+        MesaDeDulces mesa=new MesaDeDulces(busquedaMD.getInt(1),
+                busquedaMD.getString(2),
+                busquedaMD.getFloat(3));
         
         
         return mesa;

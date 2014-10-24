@@ -173,8 +173,13 @@ public class DAOEmpleados extends GestorBD {
             while (BusquedaDeEmpleados.next()) {
                 //agregamos c/empleado a la lista:
 
-                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1), BusquedaDeEmpleados.getString(2), BusquedaDeEmpleados.getString(3),
-                        BusquedaDeEmpleados.getString(4), BusquedaDeEmpleados.getString(5), BusquedaDeEmpleados.getFloat(6), BusquedaDeEmpleados.getFloat(7)));
+                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1),
+                        BusquedaDeEmpleados.getString(2),
+                        BusquedaDeEmpleados.getString(3),
+                        BusquedaDeEmpleados.getString(4), 
+                        BusquedaDeEmpleados.getString(5), 
+                        BusquedaDeEmpleados.getFloat(6), 
+                        BusquedaDeEmpleados.getFloat(7)));
 
             }
             return empleados;
@@ -249,14 +254,18 @@ public class DAOEmpleados extends GestorBD {
     }
    
    public Empleado buscarEspecificamente(String nombreEmpleado) throws SQLException{
-        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
-        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
+        Statement sentenciaBuscaEmpleado=Conexion.createStatement();
+        ResultSet busquedaEmpleado=sentenciaBuscaEmpleado.executeQuery("SELECT * FROM "
                 + "charmingstudio.empleado WHERE Nombre ='"+nombreEmpleado+"'");
-        busquedaIdCliente.next();
+        busquedaEmpleado.next();
         
-        Empleado empleado=new Empleado(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),
-                busquedaIdCliente.getString(3),busquedaIdCliente.getString(4),busquedaIdCliente.getString(5),
-                busquedaIdCliente.getFloat(6),busquedaIdCliente.getFloat(7));
+        Empleado empleado=new Empleado(busquedaEmpleado.getInt(1),
+                busquedaEmpleado.getString(2),
+                busquedaEmpleado.getString(3),
+                busquedaEmpleado.getString(4),
+                busquedaEmpleado.getString(5),
+                busquedaEmpleado.getFloat(6),
+                busquedaEmpleado.getFloat(7));
         
         
         return empleado;
