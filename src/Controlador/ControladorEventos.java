@@ -25,40 +25,22 @@ public class ControladorEventos {
     
     public void agregarEvento(EventosSociales evento) throws SQLException{
         
-        /*Mira carlos, checa las pequeñas funciones que hice;*/
         Cliente cliente = encontrarCliente( evento.getEvtCliente() );
         evento.setEvtCliente(cliente);
-        /*Así como esta primera, que hagas todas. 
-        Como dice el libro de refactorización, con funciones pequeñas.*/
         
         Empleado empleado=encontrarEmpleado( evento.getEvtEmpleado() );
         evento.setEvtEmpleado(empleado);
-        
-        ControladorMesaDeDulces ctrlMesa=new ControladorMesaDeDulces();
-        MesaDeDulces mesa=ctrlMesa.buscarPorNombre(evento.getEvtMesaDeDulces().getmdNombreDeMesa());
+
+        MesaDeDulces mesa=encontrarMesaDeDulces( evento.getEvtMesaDeDulces() );
         evento.setEvtMesaDeDulces(mesa);
         
-        LinkedList<Proveedor> proveedores=new LinkedList();
-        ControladorProveedores ctrlProv=new ControladorProveedores();
+        LinkedList<Proveedor> proveedores=encontrarProveedores( evento.getEvtPaquete().getProveedores() );
+        evento.getEvtPaquete().setProveedores(proveedores);
         
-        for(Proveedor prov:evento.getEvtPaquete().getProveedores()){
-            proveedores.add(ctrlProv.buscarPorNombre(prov.getNombrePersona()));
-        }
-       evento.getEvtPaquete().setProveedores(proveedores);
-        System.out.println(evento.getEvtPaquete().getProveedores()); 
+              
+        LinkedList<Servicio> servicios=encontrarServicios( evento.getEvtPaquete().getServicios());
+        evento.getEvtPaquete().setServicios(servicios);
         
-        LinkedList<Servicio> servicios=new LinkedList();
-        ControladorServicios ctrlServ=new ControladorServicios();
-            System.out.println("Llego hasta servicio");
-            
-        for(Servicio serv:evento.getEvtPaquete().getServicios()){
-            //serv.setId(ctrlServ.buscarId(serv.getServNombre()));
-            servicios.add(ctrlServ.buscarServicio(serv.getServNombre()));
-        }evento.getEvtPaquete().setServicios(servicios);
-        
-        
-        //evento.getEvtPaquete().setServicios(servicios);
-        System.out.println(evento.getEvtPaquete().getServicios()); 
         int idPaquete=getIdPaquete(evento.getEvtPaquete().getNombre());
         evento.getEvtPaquete().setIdPaquete(idPaquete);
         
@@ -88,14 +70,41 @@ public class ControladorEventos {
         return clienteEncontrado;
     }
     
-        private Empleado encontrarEmpleado(Empleado empleadoA_Encontrar) throws SQLException{
+    private Empleado encontrarEmpleado(Empleado empleadoA_Encontrar) throws SQLException{
         
         ControladorEmpleado ctrlEmpleado = new ControladorEmpleado();
         Empleado empleadoEncontrado = ctrlEmpleado.buscarPorNombre(empleadoA_Encontrar.getNombrePersona());
         
         return empleadoEncontrado;
     }
+        
+    private MesaDeDulces encontrarMesaDeDulces(MesaDeDulces mesaA_Encontrar) throws SQLException{
+        
+        ControladorMesaDeDulces ctrlMesa= new ControladorMesaDeDulces();
+        MesaDeDulces mesaEncontrada = ctrlMesa.buscarPorNombre(mesaA_Encontrar.getmdNombreDeMesa());
+        
+        return mesaEncontrada;
+    }
     
+    private LinkedList encontrarProveedores(LinkedList<Proveedor> proveedoresA_Encontrar) throws SQLException{
+        LinkedList<Proveedor> proveedores=new LinkedList();
+        ControladorProveedores ctrlProv=new ControladorProveedores();
+        
+        for(Proveedor prov:proveedoresA_Encontrar){
+            proveedores.add(ctrlProv.buscarPorNombre(prov.getNombrePersona()));
+        }
+        return proveedores;
+    }
+    
+    private LinkedList encontrarServicios(LinkedList<Servicio> serviciosA_Encontrar) throws SQLException{
+        LinkedList<Servicio> servicios=new LinkedList();
+        ControladorServicios ctrlServicio=new ControladorServicios();
+        
+        for(Servicio servicio:serviciosA_Encontrar){
+            servicios.add(ctrlServicio.buscarServicio(servicio.getServNombre()));
+        }
+        return servicios;
+    }
     
     
     
