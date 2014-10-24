@@ -36,7 +36,7 @@ public class ControladorMesaDeDulces {
         return dao.modificarMD(mesaDeDulcesAModificar);
     }
     
-    public MesaDeDulces buscarEspecifico(String nombreMesa) throws SQLException {
+    public MesaDeDulces buscarPorNombre(String nombreMesa) throws SQLException {
 
         return dao.buscarEspecificamente(nombreMesa);
         

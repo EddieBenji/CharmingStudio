@@ -39,7 +39,7 @@ public class ControladorEmpleado implements ControladorPersona {
         return dao.modificar(persona);
     }
     
-    public Empleado buscarEspecifico(String nombrePersona) throws SQLException {
+    public Empleado buscarPorNombre(String nombrePersona) throws SQLException {
 
         return dao.buscarEspecificamente(nombrePersona);
       

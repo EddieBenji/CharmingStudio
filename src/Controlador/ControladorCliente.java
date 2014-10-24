@@ -38,7 +38,7 @@ public class ControladorCliente implements ControladorPersona {
         return dao.buscarCoincidencias(nombrePersona);
     }
     
-    public Cliente buscarEspecifico(String nombrePersona) throws SQLException {
+    public Cliente buscarPorNombre(String nombrePersona) throws SQLException {
 
         return dao.buscarEspecificamente(nombrePersona);
         

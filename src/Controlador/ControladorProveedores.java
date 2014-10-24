@@ -21,7 +21,7 @@ public class ControladorProveedores implements ControladorPersona {
     
     DAOProveedores dao=new DAOProveedores();
     
-    public Proveedor buscarEspecifico(String nombrePersona) throws SQLException {
+    public Proveedor buscarPorNombre(String nombrePersona) throws SQLException {
 
         return dao.buscarEspecificamente(nombrePersona);
   

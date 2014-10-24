@@ -5,7 +5,6 @@
 package Controlador;
 
 import Controlador.DAO.ConexionBaseDatos;
-import Controlador.DAO.DAOEmpleados;
 import Controlador.DAO.DAOEventos;
 import Modelo.Cliente;
 import Modelo.Empleado;
@@ -21,29 +20,29 @@ import java.util.LinkedList;
  * @author Carlos
  */
 public class ControladorEventos {
-    ConexionBaseDatos conexion;
+    
     DAOEventos dao=new DAOEventos();
     
     public void agregarEvento(EventosSociales evento) throws SQLException{
         
-        ControladorCliente ctrlCliente=new ControladorCliente();
-        Cliente cliente=ctrlCliente.buscarEspecifico(evento.getEvtCliente().getNombrePersona());
+        /*Mira carlos, checa las pequeñas funciones que hice;*/
+        Cliente cliente = encontrarCliente( evento.getEvtCliente() );
         evento.setEvtCliente(cliente);
+        /*Así como esta primera, que hagas todas. 
+        Como dice el libro de refactorización, con funciones pequeñas.*/
         
-        ControladorEmpleado ctrlEmpleado=new ControladorEmpleado();
-        Empleado empleado=ctrlEmpleado.buscarEspecifico(evento.getEvtEmpleado().getNombrePersona());
+        Empleado empleado=encontrarEmpleado( evento.getEvtEmpleado() );
         evento.setEvtEmpleado(empleado);
         
         ControladorMesaDeDulces ctrlMesa=new ControladorMesaDeDulces();
-        MesaDeDulces mesa=ctrlMesa.buscarEspecifico(evento.getEvtMesaDeDulces().getmdNombreDeMesa());
+        MesaDeDulces mesa=ctrlMesa.buscarPorNombre(evento.getEvtMesaDeDulces().getmdNombreDeMesa());
         evento.setEvtMesaDeDulces(mesa);
         
         LinkedList<Proveedor> proveedores=new LinkedList();
         ControladorProveedores ctrlProv=new ControladorProveedores();
-        System.out.println("Llego hasta proveedor");
         
         for(Proveedor prov:evento.getEvtPaquete().getProveedores()){
-            proveedores.add(ctrlProv.buscarEspecifico(prov.getNombrePersona()));
+            proveedores.add(ctrlProv.buscarPorNombre(prov.getNombrePersona()));
         }
        evento.getEvtPaquete().setProveedores(proveedores);
         System.out.println(evento.getEvtPaquete().getProveedores()); 
@@ -80,6 +79,25 @@ public class ControladorEventos {
         }
         return 0;
     }
+    
+    private Cliente encontrarCliente(Cliente clienteA_Encontrar) throws SQLException{
+        
+        ControladorCliente ctrlCliente = new ControladorCliente();
+        Cliente clienteEncontrado = ctrlCliente.buscarPorNombre(clienteA_Encontrar.getNombrePersona());
+        
+        return clienteEncontrado;
+    }
+    
+        private Empleado encontrarEmpleado(Empleado empleadoA_Encontrar) throws SQLException{
+        
+        ControladorEmpleado ctrlEmpleado = new ControladorEmpleado();
+        Empleado empleadoEncontrado = ctrlEmpleado.buscarPorNombre(empleadoA_Encontrar.getNombrePersona());
+        
+        return empleadoEncontrado;
+    }
+    
+    
+    
     
     
     
