@@ -1,5 +1,6 @@
 package Controlador.DAO;
 
+import Controlador.ControladorServicios;
 import Modelo.Persona;
 import Modelo.Proveedor;
 import Modelo.Servicio;
@@ -59,12 +60,16 @@ public class DAOProveedores extends GestorBD {
                     + " Nombre='" + proveedor.getNombrePersona() + "'");
             idProveedor.next();
         
+            ControladorServicios ctrlServicio=new ControladorServicios();
+            
+            
             for (Servicio provServicio : proveedor.getProvServicios()) {
-                int idServicio=devuelveIdServicio(provServicio.getServNombre());
+                
+                int claveServicio=ctrlServicio.buscarServicio(provServicio.getServNombre()).getId();
                 sentenciaAgregaProveedor.executeUpdate("INSERT INTO charmingstudio.provee "+
                     "(`idProveedor`, `idServicios`, `costo`)" + "VALUES("+
                     "'" + idProveedor.getInt(1) + "',"+
-                    "'" + idServicio + "',"+
+                    "'" + claveServicio + "',"+
                     "'" + provServicio.getCosto() + "')");
             }//fin for
             
@@ -185,7 +190,6 @@ public class DAOProveedores extends GestorBD {
         if (!BusquedaDeProveedores.wasNull()) {
             //creamos la lista:
             
-
             while (BusquedaDeProveedores.next()) {
                 //agregamos c/empleado a la lista:
                 servicios=serviciosDelProveedor(BusquedaDeProveedores.getInt(1));
@@ -207,17 +211,19 @@ public class DAOProveedores extends GestorBD {
         mostrarMensaje("El proveedor no se encuentra en la BD");
         return null;
     }
-public LinkedList serviciosDelProveedor(int clave) throws SQLException{
+    
+    public LinkedList serviciosDelProveedor(int claveProveedor) throws SQLException{
         LinkedList<Servicio> servicio = new LinkedList<>();
         LinkedList<Integer> clavesDeServicios=new LinkedList();
         LinkedList<String> nombresDeServicios=new LinkedList();
+        ControladorServicios ctrlServicio=new ControladorServicios();
         
         Statement sentenciaBuscaIdServicios = Conexion.createStatement();
         Statement sentenciaBuscaServicios = Conexion.createStatement();
         Statement sentenciaBuscaNombresServ = Conexion.createStatement();
         
         ResultSet BusquedaIdServicios = sentenciaBuscaIdServicios.executeQuery("SELECT * FROM" +
-                " charmingstudio.provee WHERE idProveedor = '" + clave + "'");
+                " charmingstudio.provee WHERE idProveedor = '" + claveProveedor + "'");
         
         if (!BusquedaIdServicios.wasNull()) {
             while (BusquedaIdServicios.next()) {
@@ -227,14 +233,24 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
         
         ResultSet BusquedaNombresDeServicios=null;
         ResultSet BusquedaServicios = sentenciaBuscaServicios.executeQuery("SELECT * FROM "+
-                "charmingstudio.provee WHERE idProveedor = '" + clave + "'");
+                "charmingstudio.provee WHERE idProveedor = '" + claveProveedor + "'");
+        
         for(Integer llave : clavesDeServicios){
+           
            BusquedaNombresDeServicios = sentenciaBuscaNombresServ.executeQuery("SELECT * FROM " +
                    "charmingstudio.servicios WHERE idServicios = '" + llave + "'");
            while (BusquedaNombresDeServicios.next()) {
            nombresDeServicios.add(BusquedaNombresDeServicios.getString(2));
+           
+            
            }//fin while
+          /* 
+            Servicio serv=ctrlServicio.buscarServicio(llave);
+            serv.setCosto(BusquedaServicios.getFloat("Costo"));
+            servicio.add(serv);
+            */
         }//fin for
+        
         if (!BusquedaNombresDeServicios.wasNull()) {
             BusquedaNombresDeServicios.next();
             int i=0;
@@ -247,7 +263,10 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
         }else{
             
         }
-        
+        /*
+        if(!servicio.isEmpty()){
+            return servicio;
+        }*/
         //si llega aqui, no tiene servicios
         return null;
     }
@@ -264,9 +283,8 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
 
         //en caso de que no haya el usuario en la BD. 
         Statement sentenciaDeActualizacionDeProveedor = Conexion.createStatement();
-        Statement sentenciaDeActualizacionDePrecios = Conexion.createStatement();
-        Statement sent=Conexion.createStatement();
-        Statement sent2=Conexion.createStatement();
+        Statement sentenciaBorraDeProvee=Conexion.createStatement();
+        Statement sentenciaActualizaPrecios=Conexion.createStatement();
         int actualizaInfoProveedor
                 = sentenciaDeActualizacionDeProveedor.executeUpdate("UPDATE charmingstudio.proveedor "
                         + "SET `Nombre` = '" + proveedorA_modificar.getNombrePersona() + "'"
@@ -276,17 +294,16 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
                         + "' WHERE `idProveedor`='" + proveedorA_modificar.getIdPersona() + "'");
 
         
-        sent.executeUpdate("DELETE FROM charmingstudio.provee WHERE idProveedor = '" + 
+        sentenciaBorraDeProvee.executeUpdate("DELETE FROM charmingstudio.provee WHERE idProveedor = '" + 
                 proveedorA_modificar.getIdPersona() + "'");
         
+        ControladorServicios ctrlServicio=new ControladorServicios();
         for (int i = 0; i < proveedorA_modificar.getProvServicios().length; i++) {
-            
-        
-        //ResultSet Busqueda3 = sent.executeQuery("SELECT * FROM charmingstudio.provee WHERE idProveedor = '" + proveedorA_modificar.getIdPersona() + "'");
-        sent2.executeUpdate("INSERT INTO charmingstudio.provee "+
-                    "(`idProveedor`, `idServicios`, `costo`)" + "VALUES("+
+            int claveServicio=ctrlServicio.buscarServicio(proveedorA_modificar.getProvServicios()[i].getServNombre()).getId();
+            sentenciaActualizaPrecios.executeUpdate("INSERT INTO charmingstudio.provee "+
+                    "(`idProveedor`, `idServicios`, `Costo`)" + "VALUES("+
                     "'" + proveedorA_modificar.getIdPersona() + "',"+
-                    "'" + devuelveIdServicio(proveedorA_modificar.getProvServicios()[i].getServNombre()) + "',"+
+                    "'" + claveServicio + "',"+
                     "'" + proveedorA_modificar.getProvServicios()[i].getCosto() + "')");
         
         }
@@ -303,23 +320,33 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
     private void mostrarMensaje(String mensaje){
         JOptionPane.showMessageDialog(null, mensaje);
     }
-
-    private int devuelveIdServicio(String serv) throws SQLException{
-        Statement sentencia=Conexion.createStatement();
-        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE Nombre ='"+serv+"'");
-        busqueda.next();
+    
+    public Proveedor buscarEspecificamente(String nombreProveedor) throws SQLException{
+        Statement sentenciaBuscaEmpleado=Conexion.createStatement();
+        ResultSet busquedaEmpleado=sentenciaBuscaEmpleado.executeQuery("SELECT * FROM "
+                + "charmingstudio.proveedor WHERE Nombre ='"+nombreProveedor+"'");
+        busquedaEmpleado.next();
         
-        return busqueda.getInt(1);
+        Proveedor proveedor=new Proveedor(busquedaEmpleado.getInt(1),busquedaEmpleado.getString(2),
+                busquedaEmpleado.getString(3),
+                busquedaEmpleado.getString(4),
+                busquedaEmpleado.getString(5),
+                null);
+        
+        
+        return proveedor;
     }
+
+    
     
     public LinkedList proveedoresDelServicio(String servicio) throws SQLException{
+        ControladorServicios ctrlServicio=new ControladorServicios();
         LinkedList<Proveedor> proveedores=new LinkedList();
-         LinkedList<Integer> clavesDEProvs=new LinkedList();
+        LinkedList<Integer> clavesDEProvs=new LinkedList();
         LinkedList<String> nombresDeProvs=new LinkedList();
         
-            int claveServicio=devuelveIdServicio(servicio);
-            
-            Statement sentenciaBuscaIdServicios = Conexion.createStatement();
+        int claveServicio=ctrlServicio.buscarServicio(servicio).getId();
+        
         Statement sentenciaBuscaServicios = Conexion.createStatement();
         Statement sentenciaBuscaNombresServ = Conexion.createStatement();
             
@@ -332,6 +359,7 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
                 clavesDEProvs.add(BusquedaIDProvs.getInt(1));
             }//fin while
         }//fin if
+        
         for(Integer llave : clavesDEProvs){
            ResultSet BusquedaNombresDeProvs = sentenciaBuscaNombresServ.executeQuery("SELECT * FROM " +
                    "charmingstudio.proveedor WHERE idProveedor = '" + llave + "'");
@@ -339,31 +367,12 @@ public LinkedList serviciosDelProveedor(int clave) throws SQLException{
            nombresDeProvs.add(BusquedaNombresDeProvs.getString(2));
            }//fin while
         }//fin for
-        for(String nom : nombresDeProvs){
-            Servicio[]servs=new Servicio[0];
-            proveedores.add(new Proveedor(0,nom,"","","",servs));
+        
+        for(String nombreProveedor : nombresDeProvs){
+            proveedores.add(new Proveedor(0,nombreProveedor,"","","",null));
         }
         
-        /*
-        ResultSet BusquedaNombresDeProvs=null;
-        ResultSet BusquedaServicios = sentenciaBuscaServicios.executeQuery("SELECT * FROM "+
-                "charmingstudio.provee WHERE idServicios = '" + claveServicio + "'");
-        for(Integer llave : clavesDEProvs){
-           BusquedaNombresDeProvs = sentenciaBuscaNombresServ.executeQuery("SELECT * FROM " +
-                   "charmingstudio.proveedor WHERE idProveedor = '" + llave + "'");
-           while (BusquedaNombresDeProvs.next()) {
-           nombresDeProvs.add(BusquedaNombresDeProvs.getString(2));
-           }//fin while
-        }//fin for
-        if (!BusquedaNombresDeProvs.wasNull()) {
-            BusquedaNombresDeProvs.next();
-            int i=0;
-            Servicio[]servs=new Servicio[0];
-            while (BusquedaServicios.next()) {
-                proveedores.add(new Proveedor(0,BusquedaServicios.getString(2),"","","",servs));
-                i++;
-            }//fin while
-            * */
+        
           return proveedores;  
         }
          

@@ -7,34 +7,41 @@ package Controlador;
 import Controlador.DAO.DAOMesaDeDulces;
 import Modelo.MesaDeDulces;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  *
  * @author Alejandro
  */
 public class ControladorMesaDeDulces {
-
-    public void agregarMD(MesaDeDulces mesaDulces) throws SQLException {
-        DAOMesaDeDulces dao = new DAOMesaDeDulces();
-
-        dao.agregarMD(mesaDulces);
+    DAOMesaDeDulces dao = new DAOMesaDeDulces();
+    
+    public boolean agregarMD(MesaDeDulces mesaDulces) throws SQLException {
+        
+        return dao.agregarMD(mesaDulces);
     }
 
-    public void eliminarMD(int idMesaDeDulces) throws SQLException {
-        DAOMesaDeDulces dao = new DAOMesaDeDulces();
+    public boolean eliminarMD(int idMesaDeDulces) throws SQLException {
+        
 
-        dao.eliminarMD(idMesaDeDulces);
+        return dao.eliminarMD(idMesaDeDulces);
     }
     
-    public void buscarCoincidencias(String nombreMesaDeDulces) throws SQLException {
-         DAOMesaDeDulces dao = new DAOMesaDeDulces();
-
-        dao.buscarCoincidencias(nombreMesaDeDulces);
+    public LinkedList buscarCoincidencias(String nombreMesaDeDulces) throws SQLException {
+         
+        return dao.buscarCoincidencias(nombreMesaDeDulces);
     }
     
-    public void modificarMD(MesaDeDulces mesaDeDulcesAModificar) throws SQLException {
+    public boolean modificarMD(MesaDeDulces mesaDeDulcesAModificar) throws SQLException {
+      
+        return dao.modificarMD(mesaDeDulcesAModificar);
+    }
+    public MesaDeDulces buscarEspecifico(String nombreMesa) throws SQLException {
+
         DAOMesaDeDulces dao = new DAOMesaDeDulces();
 
-        dao.modificarMD(mesaDeDulcesAModificar);
+        return dao.buscarEspecificamente(nombreMesa);
+        
+        
     }
 }

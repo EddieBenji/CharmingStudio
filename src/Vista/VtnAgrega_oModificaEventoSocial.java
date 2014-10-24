@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorEventos;
 import Controlador.DAO.DAOClientes;
 import Controlador.DAO.DAOEmpleados;
 import Controlador.DAO.DAOEventos;
@@ -376,48 +377,26 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         Servicio servLuces=new Servicio("Luces",0);
         Servicio servLugar=new Servicio("Lugar",0);
         Servicio servMusica=new Servicio("Musica",0);
-        Proveedor[] prov=new Proveedor[1];
-        Servicio[] serv=null;
+        
+        
         
         if (cbPaqBasico.isSelected()){
-            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
-            servBanquetera.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
-            servLuces.setProvedoresQueBrindanServicio(prov);
+            Proveedor prov=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",null);
+                       
+            Proveedor provLuces=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",null);
             
-            paquete=new PaqueteBasico(servBanquetera,servLuces,0);
+            
+            paquete=new PaqueteBasico(servBanquetera,prov,servLuces,provLuces);
             
         }//fin if        
-        if (cbPaqIntermedio.isSelected()){
-            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
-            servBanquetera.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
-            servLuces.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboCarpa.getSelectedItem(),"","","",serv);
-            servCarpa.setProvedoresQueBrindanServicio(prov);
-            
-            
-            paquete=new PaqueteIntermedio(servBanquetera,servLuces,servCarpa,0);
-        }//fin if
-        if (cbPaqCompleto.isSelected()){
-            prov[0]=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",serv);
-            servBanquetera.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",serv);
-            servLuces.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboCarpa.getSelectedItem(),"","","",serv);
-            servCarpa.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboLugar.getSelectedItem(),"","","",serv);
-            servLugar.setProvedoresQueBrindanServicio(prov);
-            prov[0]=new Proveedor(0,(String)comboMusica.getSelectedItem(),"","","",serv);
-            servMusica.setProvedoresQueBrindanServicio(prov);
-            
-            paquete=new PaqueteCompleto(servBanquetera,servLuces,servCarpa,servLugar,servMusica,0);
-        }//fin if
-        DAOEventos ctrlEvto=new DAOEventos();
+       
+       
+        ControladorEventos ctrlEvento=new ControladorEventos();
         EventosSociales eventoSocial=new EventosSociales(cliente,fecha,mesa,paquete,0,0,empleado);
         if(!seModificaraEventoSocial){
             try {
-                ctrlEvto.agregarEvento(eventoSocial);
+                ctrlEvento.agregarEvento(eventoSocial);
+                
             } catch (SQLException ex) {
                 Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
             }

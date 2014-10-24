@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorMesaDeDulces;
 import Controlador.DAO.DAOMesaDeDulces;
 import Modelo.MesaDeDulces;
 import java.sql.SQLException;
@@ -222,7 +223,7 @@ public class VtnAgrega_oModificaMesaDeDulces extends javax.swing.JFrame {
                 
         //Creamos la variable temporal de cliente..
         MesaDeDulces tempMesaDeDulces = new MesaDeDulces(id, nombre, precio);
-        DAOMesaDeDulces ctrlMesaDeDulces = new DAOMesaDeDulces();
+        ControladorMesaDeDulces ctrlMesaDeDulces = new ControladorMesaDeDulces();
         
         try {
             if (!seModificaraMesaDeDulces) {

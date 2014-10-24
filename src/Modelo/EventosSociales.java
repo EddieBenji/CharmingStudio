@@ -54,6 +54,7 @@ public class EventosSociales {
         this.evtEmpleado=evtEmpleado;
     }
 
+
     /**
      * Devuelve el precio total, del evento actual; Ya cobra la comisión del
      * 15%.
@@ -65,6 +66,7 @@ public class EventosSociales {
         float comisionEvt = (float) 0.15 * precioEvt;
         return (float) comisionEvt + precioEvt;
     }
+    
 
     /**puede que esta no sirva, no hace algo
      * @param precio.*/
@@ -98,6 +100,55 @@ public class EventosSociales {
 
     public Empleado getEvtEmpleado() {
         return evtEmpleado;
+    }
+
+    /**
+     * @param evtCliente the evtCliente to set
+     */
+    public void setEvtCliente(Cliente evtCliente) {
+        this.evtCliente = evtCliente;
+    }
+
+    /**
+     * @param evtFecha the evtFecha to set
+     */
+    public void setEvtFecha(Date evtFecha) {
+        this.evtFecha = evtFecha;
+    }
+
+    /**
+     * @param evtMesaDeDulces the evtMesaDeDulces to set
+     */
+    public void setEvtMesaDeDulces(MesaDeDulces evtMesaDeDulces) {
+        this.evtMesaDeDulces = evtMesaDeDulces;
+    }
+
+    /**
+     * @param evtPaquete the evtPaquete to set
+     */
+    public void setEvtPaquete(Paquete evtPaquete) {
+        this.evtPaquete = evtPaquete;
+    }
+
+    /**
+     * @param evtPrecioTotal the evtPrecioTotal to set
+     */
+    public void setEvtPrecioTotal(float evtPrecioTotal) {
+        this.evtPrecioTotal = evtPrecioTotal;
+    }
+
+    /**
+     * @param evtComision the evtComision to set
+     */
+    public void setEvtComision(float evtComision) {
+        this.evtComision = evtComision;
+    }
+
+    /**
+     * @param evtEmpleado the evtEmpleado to set
+     */
+    public void setEvtEmpleado(Empleado evtEmpleado) {
+        this.evtEmpleado = evtEmpleado;
     }
     
     

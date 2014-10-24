@@ -9,8 +9,9 @@ import java.util.Arrays;
  */
 public class Servicio {
 
+    private int id;
     private String servNombre;
-    private Proveedor provedoresQueBrindanServicio[];
+   
     private float costo;
 
     /**
@@ -37,22 +38,22 @@ public class Servicio {
         return servNombre;
     }
 
-    public Proveedor[] getProvedoresQueBrindanServicio() {
-        return provedoresQueBrindanServicio;
-    }
+   
 
     public void setServNombre(String servNombre) {
         this.servNombre = servNombre;
     }
 
-    public void setProvedoresQueBrindanServicio(Proveedor[] provedoresQueBrindanServicio) {
-        this.provedoresQueBrindanServicio = provedoresQueBrindanServicio;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public String toString() {
-        return "Servicio{" + "servNombre=" + servNombre + ", provedoresQueBrindanServicio=" + 
-                Arrays.toString(provedoresQueBrindanServicio) + '}';
+    public void setId(int id) {
+        this.id = id;
     }
+
+    
+
+  
 
 }

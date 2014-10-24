@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorMesaDeDulces;
 import Controlador.DAO.DAOMesaDeDulces;
 import Modelo.MesaDeDulces;
 import java.sql.SQLException;
@@ -199,7 +200,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de mesa de dulces:
-                DAOMesaDeDulces controlMesaDeDulces = new DAOMesaDeDulces();
+                ControladorMesaDeDulces controlMesaDeDulces = new ControladorMesaDeDulces();
 
 
                 try {
@@ -219,7 +220,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         // TODO add your handling code here:
         /*Declaramos el controlador que busca los clientes
          en la base de datos: */
-        DAOMesaDeDulces ctrlBuscarMesaDeDulces = new DAOMesaDeDulces();
+        ControladorMesaDeDulces ctrlBuscarMesaDeDulces = new ControladorMesaDeDulces();
 
         try {
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/

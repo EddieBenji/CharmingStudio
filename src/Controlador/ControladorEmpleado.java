@@ -5,40 +5,42 @@
 package Controlador;
 
 import Controlador.DAO.DAOEmpleados;
+import Modelo.Empleado;
 import Modelo.Persona;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  *
  * @author Alejandro
  */
 public class ControladorEmpleado {
+    DAOEmpleados dao = new DAOEmpleados();
+    public boolean agregar(Persona empleado) throws SQLException {
 
-    public void agregar(Persona empleado) throws SQLException {
-
-        DAOEmpleados dao = new DAOEmpleados();
-
-        dao.agregar(empleado);
+       return dao.agregar(empleado);
 
     }
 
-    public void eliminar(int idEmpleado) throws SQLException {
+    public boolean eliminar(int idEmpleado) throws SQLException {
 
-        DAOEmpleados dao = new DAOEmpleados();
-
-        dao.eliminar(idEmpleado);
+        return dao.eliminar(idEmpleado);
     }
 
-    public void buscarCoincidencias(String nombrePersona) throws SQLException {
+    public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
        
-        DAOEmpleados dao = new DAOEmpleados();
-
-        dao.buscarCoincidencias(nombrePersona);
+        return dao.buscarCoincidencias(nombrePersona);
     }
     
-    public void modificar(Persona persona) throws SQLException{
-        DAOEmpleados dao = new DAOEmpleados();
+    public boolean modificar(Persona persona) throws SQLException{
+       
+        return dao.modificar(persona);
+    }
+    
+    public Empleado buscarEspecifico(String nombrePersona) throws SQLException {
 
-        dao.modificar(persona);
+        return dao.buscarEspecificamente(nombrePersona);
+        
+        
     }
 }

@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorEmpleado;
 import Controlador.DAO.DAOEmpleados;
 import Modelo.Empleado;
 import java.sql.SQLException;
@@ -196,7 +197,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
 
         /*Declaramos el controlador que busca los empleados
          en la base de datos:                              */
-        DAOEmpleados ctrlBuscarEmpleados = new DAOEmpleados();
+        ControladorEmpleado ctrlBuscarEmpleados = new ControladorEmpleado();
 
         try {
             /*El controlador, devuelve una lista con los empleados que coincidieron con la búsqueda:*/
@@ -322,7 +323,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de empleados:
-                DAOEmpleados controlEmpleado = new DAOEmpleados();
+                ControladorEmpleado controlEmpleado = new ControladorEmpleado();
 
                 try {
                     controlEmpleado.eliminar(empleadoQueSeEliminara.getIdPersona());
@@ -357,7 +358,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
                 columnasDeDatos[3] = empleado.getTelefonoPersona();
                 columnasDeDatos[4] = empleado.getCorreoPersona();
                 columnasDeDatos[5] = empleado.getEmpDesempenio();
-                columnasDeDatos[6] = empleado.getEmpSueldo();               //DUDA ACA
+                columnasDeDatos[6] = empleado.getEmpSueldo();               
 
                 //agregamos los datos de cada columna en cada renglón:
                 modeloDeLaTabla.addRow(columnasDeDatos);

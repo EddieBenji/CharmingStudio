@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorProveedores;
 import Controlador.DAO.DAOClientes;
 import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
@@ -355,7 +356,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         String correo = this.txtCorreoProveedor.getText();
         
         Proveedor tempProveedor = new Proveedor(0,nombre, direccion, telefono, correo, serviciosProveedor);
-        DAOProveedores ctrlProveedor = new DAOProveedores();
+        ControladorProveedores ctrlProveedor = new ControladorProveedores();
                 
         try {
                         
@@ -371,7 +372,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                  else  mensaje("Proveedor No Modificado");
                  //lo devolvemos a su estado de inicio.
                 seModificaraProveedor = false;
-                System.out.println(seModificaraProveedor);
+                
             }
         } catch (SQLException ex) {
             mensaje("Hubo un error con la "
@@ -452,7 +453,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     /**
      * @return the txtTelefonoCliente
      */
-    public javax.swing.JTextField getTxtTelefonoCliente() {
+    public javax.swing.JTextField getTxtTelefonoProveedor() {
         return txtTelefonoProveedor;
     }
     public javax.swing.JTextField getTxtBanqueterEvento() {

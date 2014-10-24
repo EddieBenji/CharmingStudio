@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorProveedores;
 import Controlador.DAO.DAOClientes;
 import Controlador.DAO.DAOProveedores;
 import Modelo.Cliente;
@@ -171,7 +172,7 @@ public class VtnProveedores extends javax.swing.JFrame {
 
     private void btnAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarActionPerformed
         VtnAgrega_oModificaProveedor vtnAgregaProveedores = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
-        vtnAgregaProveedores.setTitle("Agregará un cliente");
+        vtnAgregaProveedores.setTitle("Agregará un proveedor");
         vtnAgregaProveedores.setVisible(true);
 
         cerrarEstaVentana();
@@ -180,12 +181,12 @@ public class VtnProveedores extends javax.swing.JFrame {
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         
         
-         /*Declaramos el controlador que busca los clientes
+         /*Declaramos el controlador que busca los provs
          en la base de datos:                              */
-        DAOProveedores ctrlBuscarProveedores = new DAOProveedores();
+        ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
 
         try {
-            /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/
+            /*El controlador, devuelve una lista con los provs que coincidieron con la búsqueda:*/
             LinkedList<Proveedor> listaDeProveedores = 
                     ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
             llenarTablaDeDatos(listaDeProveedores);
@@ -216,7 +217,7 @@ public class VtnProveedores extends javax.swing.JFrame {
             VtnAgrega_oModificaProveedor vtnModificaProveedor
                     = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
             
-             DAOProveedores ctrlBuscarProveedores = new DAOProveedores();
+             ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
 
         try {
             /*El controlador, devuelve una lista con los proveedores que coincidieron con la búsqueda:*/
@@ -235,23 +236,23 @@ public class VtnProveedores extends javax.swing.JFrame {
              en el JTextField de la siguiente Ventana: */
             
             
-            //Obtenemos el nombre del cliente que se seleccionó en la tabla:
+            //Obtenemos el nombre del prov que se seleccionó en la tabla:
             String nombre = proveedorTemporal.getNombrePersona();
-            /*El nombre del cliente que aparece en la tabla, lo ponemos 
+            /*El nombre del prov que aparece en la tabla, lo ponemos 
              en el JTextField de la siguiente Ventana: */
             vtnModificaProveedor.getTxtNombreProveedor().setText(nombre);
 
-            //Obtenemos la direccción del cliente que se seleccionó en la tabla:
+            //Obtenemos la direccción del prov que se seleccionó en la tabla:
             String direccion = proveedorTemporal.getDireccionPersona();
-            /*La dirección del cliente que aparece en la tabla, lo ponemos 
+            /*La dirección del provs que aparece en la tabla, lo ponemos 
              en el JTextField que le corresponde, de la siguiente Ventana: */
             vtnModificaProveedor.getTxtDireccionProveedor().setText(direccion);
 
-            //Obtenemos el teléfono del cliente que se seleccionó en la tabla:
+            //Obtenemos el teléfono del prov que se seleccionó en la tabla:
             String telefono = proveedorTemporal.getTelefonoPersona();
-            /*El teléfono del cliente que aparece en la tabla, lo ponemos 
+            /*El teléfono del prov que aparece en la tabla, lo ponemos 
              en el JTextField que le corresponde, de la siguiente Ventana: */
-            vtnModificaProveedor.getTxtTelefonoCliente().setText(telefono);
+            vtnModificaProveedor.getTxtTelefonoProveedor().setText(telefono);
 
             //Obtenemos el correo del cliente que se seleccionó en la tabla:
             String correo = proveedorTemporal.getCorreoPersona();
@@ -294,7 +295,7 @@ public class VtnProveedores extends javax.swing.JFrame {
             //le ponemos el título a la ventana:
             vtnModificaProveedor.setTitle("Modificará la información de un proveedor");
             /*ponemos en verdadero un booleano, indicando que 
-             se modificará un cliente: */
+             se modificará un prov: */
             vtnModificaProveedor.setSeModificaraProveedor(true);
             //hacemos visible la ventana:
             vtnModificaProveedor.setVisible(true);
@@ -303,21 +304,21 @@ public class VtnProveedores extends javax.swing.JFrame {
             //cerramos esta ventana:
             cerrarEstaVentana();
         } else {
-            //quiere decir que el usuario no ha seleccionado algún cliente
+            //quiere decir que el usuario no ha seleccionado algún prov
             //la tabla:
             mostrarMensaje("No seleccionaste algún proveedor de la tabla.");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        /*Obtenemos el cliente seleccionado de la tabla:*/
+        /*Obtenemos el prov seleccionado de la tabla:*/
         Proveedor proveedorQueSeEliminara = obtenerInformacionDeRenglonSelecccionado();
         
-        //checamos si se seleccionó algún cliente de la tabla,
+        //checamos si se seleccionó algún prov de la tabla,
         //es decir, si no es nulo.
         if (proveedorQueSeEliminara != null) {
-            //le preguntamos al cliente si de verdad, desea eliminar el 
-            //cliente seleccionado:
+            //le preguntamos al prov si de verdad, desea eliminar el 
+            //prov seleccionado:
             int opcionEliminar = JOptionPane.showConfirmDialog(null,
                     "Seguro desea eliminar el proveedor seleccionado?",
                     "Eliminará el proveedor. ",
@@ -325,8 +326,8 @@ public class VtnProveedores extends javax.swing.JFrame {
             );
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
-                //creamos el controlador de clientes:
-                DAOProveedores controlProveedor = new DAOProveedores();
+                //creamos el controlador de prov:
+                ControladorProveedores controlProveedor = new ControladorProveedores();
 
                 
             try {
@@ -357,8 +358,8 @@ public class VtnProveedores extends javax.swing.JFrame {
         String direccion = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
         String telefono = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
         String correo = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
-        Servicio[]servTemporal=new Servicio[0];
-        return new Proveedor(id, nombre, direccion, telefono, correo,servTemporal);
+        //Servicio[]servTemporal=new Servicio[0];
+        return new Proveedor(id, nombre, direccion, telefono, correo,null);
     }
     
     

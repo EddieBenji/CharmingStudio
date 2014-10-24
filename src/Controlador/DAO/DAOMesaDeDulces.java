@@ -1,5 +1,6 @@
 package Controlador.DAO;
 
+import Modelo.Cliente;
 import Modelo.MesaDeDulces;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -191,5 +192,17 @@ public class DAOMesaDeDulces {
         }
         mostrarMensaje("El cliente no se encuentra en la BD");
         return null;
+    }
+
+    public MesaDeDulces buscarEspecificamente(String nombreMesa) throws SQLException {
+        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
+        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
+                + "charmingstudio.mesadulces WHERE Nombre ='"+nombreMesa+"'");
+        busquedaIdCliente.next();
+        
+        MesaDeDulces mesa=new MesaDeDulces(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),busquedaIdCliente.getFloat(3));
+        
+        
+        return mesa;
     }
 }

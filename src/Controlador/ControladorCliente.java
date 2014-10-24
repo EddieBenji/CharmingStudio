@@ -5,6 +5,7 @@
 package Controlador;
 
 import Controlador.DAO.DAOClientes;
+import Modelo.Cliente;
 import Modelo.Persona;
 import java.sql.SQLException;
 
@@ -37,6 +38,15 @@ public class ControladorCliente {
         DAOClientes dao = new DAOClientes();
 
         dao.buscarCoincidencias(nombrePersona);
+    }
+    
+    public Cliente buscarEspecifico(String nombrePersona) throws SQLException {
+
+        DAOClientes dao = new DAOClientes();
+
+        return dao.buscarEspecificamente(nombrePersona);
+        
+        
     }
 
     public void modificar(Persona persona) throws SQLException {

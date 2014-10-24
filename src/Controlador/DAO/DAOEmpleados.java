@@ -1,5 +1,6 @@
 package Controlador.DAO;
 
+import Modelo.Cliente;
 import Modelo.Persona;
 import Modelo.Empleado;
 import java.sql.Connection;
@@ -245,6 +246,20 @@ public class DAOEmpleados extends GestorBD {
         }
         mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
+    }
+   
+   public Empleado buscarEspecificamente(String nombreEmpleado) throws SQLException{
+        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
+        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
+                + "charmingstudio.empleado WHERE Nombre ='"+nombreEmpleado+"'");
+        busquedaIdCliente.next();
+        
+        Empleado empleado=new Empleado(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),
+                busquedaIdCliente.getString(3),busquedaIdCliente.getString(4),busquedaIdCliente.getString(5),
+                busquedaIdCliente.getFloat(6),busquedaIdCliente.getFloat(7));
+        
+        
+        return empleado;
     }
 
     private void mostrarMensajeEnPantalla(String mensaje){

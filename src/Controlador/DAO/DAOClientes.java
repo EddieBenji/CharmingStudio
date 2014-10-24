@@ -186,6 +186,20 @@ public class DAOClientes extends GestorBD {
         mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
     }
+    
+    public Cliente buscarEspecificamente(String nombreCliente) throws SQLException{
+        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
+        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
+                + "charmingstudio.cliente WHERE Nombre ='"+nombreCliente+"'");
+        busquedaIdCliente.next();
+        
+        Cliente cliente=new Cliente(busquedaIdCliente.getInt(1),busquedaIdCliente.getString(2),
+                busquedaIdCliente.getString(3),busquedaIdCliente.getString(4),busquedaIdCliente.getString(5));
+        
+        
+        return cliente;
+    }
+    
 
     /**
      * Esta función se encarga de mostrar un mensaje específico a manera de

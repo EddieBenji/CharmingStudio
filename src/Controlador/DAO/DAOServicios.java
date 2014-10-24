@@ -95,6 +95,23 @@ public class DAOServicios {
         return false;
     }
     
-
+    public Servicio devuelveServicio(String serv) throws SQLException{
+        Statement sentencia=Conexion.createStatement();
+        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE Nombre ='"+serv+"'");
+        busqueda.next();
+        
+        Servicio servicio=new Servicio(busqueda.getString(2),0);
+        servicio.setId(busqueda.getInt(1));
+        return servicio ;
+    }
     
+    public Servicio devuelveServicio(int id) throws SQLException{
+        Statement sentencia=Conexion.createStatement();
+        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE IdServicios ='"+id+"'");
+        busqueda.next();
+        
+        Servicio servicio=new Servicio(busqueda.getString(2),0);
+        servicio.setId(busqueda.getInt(1));
+        return servicio ;
+    }
 }
