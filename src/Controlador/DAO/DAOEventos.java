@@ -46,10 +46,7 @@ public class DAOEventos {
         //Se crean dos para que no creen conflictos entre ellos.
 
         Statement sentenciaAgregaEvento = Conexion.createStatement();
-
-
         Statement sentenciaAgregaArma = Conexion.createStatement();
-
 
         java.sql.Date sqlDate = new java.sql.Date(evento.getEvtFecha().getTime());
 
@@ -59,11 +56,12 @@ public class DAOEventos {
                         + "'" + evento.getEvtPaquete().getIdPaquete() + "',"
                         + "'" + evento.getEvtPaquete().getProveedores().get(i).getIdPersona() + "',"
                     + "'" + evento.getEvtPaquete().getServicios().get(i).getId() + "')");
-        }
+        }//fin for
 
         for (int i = 0; i < evento.getEvtPaquete().getProveedores().size(); i++) {
             sentenciaAgregaEvento.executeUpdate("INSERT INTO charmingstudio.eventos "
-                    + "(`idCliente`, `idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`,`idPaquetes`, `idProveedor`,`idServicio` )"
+                    + "(`idCliente`, `idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`,"
+                    + "`idPaquetes`, `idProveedor`,`idServicio` )"
                     + "VALUES("
                     + "'" + evento.getEvtCliente().getIdPersona() + "',"
                     + "'" + evento.getEvtMesaDeDulces().getIdMesaDulces() + "',"
@@ -74,25 +72,9 @@ public class DAOEventos {
                     + "'" + evento.getEvtPaquete().getProveedores().get(i).getIdPersona() + "',"
                     + "'" + evento.getEvtPaquete().getServicios().get(i).getId() + "')");
 
-        }
-
-
-
-
-
-
+        }//fin for
         seAgregoEvento = true;
         //}//fin if
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -125,29 +107,11 @@ public class DAOEventos {
         return false;
     }
 
-    private int devuelveIdServicio(String serv) throws SQLException {
-        Statement sentencia = Conexion.createStatement();
-        ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios WHERE Nombre ='" + serv + "'");
-        busqueda.next();
-
-        return busqueda.getInt(1);
-    }
-
-    private int devuelveIdProveedor(String prov) throws SQLException {
-        Statement sentencia = Conexion.createStatement();
-        ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.proveedor WHERE Nombre ='" + prov + "'");
-        busqueda.next();
-
-        return busqueda.getInt(1);
-    }
-
+  
     public float calculaPrecioTotal(EventosSociales evento) throws SQLException {
         float precioTotal = 0;
 
         precioTotal = precioTotal + evento.getPrecioTotal();
-
-
-
         return precioTotal;
     }
 /*

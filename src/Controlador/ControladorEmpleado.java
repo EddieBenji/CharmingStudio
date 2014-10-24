@@ -40,7 +40,12 @@ public class ControladorEmpleado {
     public Empleado buscarEspecifico(String nombrePersona) throws SQLException {
 
         return dao.buscarEspecificamente(nombrePersona);
-        
+      
+    }
+    
+    public LinkedList buscarTodosLosEmpleados() throws SQLException {
+
+        return dao.buscarTodosLosEmpleados();
         
     }
 }

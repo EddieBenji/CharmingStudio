@@ -4,7 +4,11 @@
  */
 package Vista;
 
+import Controlador.ControladorCliente;
+import Controlador.ControladorEmpleado;
 import Controlador.ControladorEventos;
+import Controlador.ControladorMesaDeDulces;
+import Controlador.ControladorProveedores;
 import Controlador.DAO.DAOClientes;
 import Controlador.DAO.DAOEmpleados;
 import Controlador.DAO.DAOEventos;
@@ -45,11 +49,11 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     public VtnAgrega_oModificaEventoSocial() {
         initComponents();
         llenaComboCliente();
-        llenaComboBanquetera();
-        llenaComboLuces();
-        llenaComboLugar();
-        llenaComboCarpa();
-        llenaComboMusica();
+        llenaComboServicio("Banquetera",comboBanquetera);
+        llenaComboServicio("Luces",comboLuces);
+        llenaComboServicio("Lugar",comboLugar);
+        llenaComboServicio("Carpa",comboCarpa);
+        llenaComboServicio("Musica",comboMusica);
         llenaComboMD();
         llenaComboEmpleado();
         setLocationRelativeTo(null);
@@ -409,7 +413,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     
     private void llenaComboCliente(){
         try {
-            DAOClientes ctrlCliente=new DAOClientes();
+            ControladorCliente ctrlCliente=new ControladorCliente();
             LinkedList<Cliente> clientes=ctrlCliente.buscarTodosLosClientes();
             
               DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
@@ -425,7 +429,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     
     private void llenaComboEmpleado(){
         try {
-            DAOEmpleados ctrlEmpleado=new DAOEmpleados();
+            ControladorEmpleado ctrlEmpleado=new ControladorEmpleado();
             LinkedList<Empleado> empleados=ctrlEmpleado.buscarTodosLosEmpleados();
             
               DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
@@ -439,79 +443,15 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         }
     }
     
-    private void llenaComboBanquetera(){
-        DAOProveedores cprov=new DAOProveedores();
+    private void llenaComboServicio(String servicio,javax.swing.JComboBox comboBox){
+        ControladorProveedores ctrlProv=new ControladorProveedores();
         try {
-            LinkedList<Proveedor> listaServ=cprov.proveedoresDelServicio("Banquetera");
+            LinkedList<Proveedor> listaServicios=ctrlProv.proveedoresDelServicio(servicio);
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServ) {
+        for (Proveedor prov : listaServicios) {
             modeloCombo.addElement(prov.getNombrePersona());
         }
-        comboBanquetera.setModel(modeloCombo);
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    private void llenaComboLuces(){
-        DAOProveedores cprov=new DAOProveedores();
-        try {
-            LinkedList<Proveedor> listaServ=cprov.proveedoresDelServicio("Luces");
-            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServ) {
-            modeloCombo.addElement(prov.getNombrePersona());
-        }
-        comboLuces.setModel(modeloCombo);
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    private void llenaComboLugar(){
-        DAOProveedores cprov=new DAOProveedores();
-        try {
-            LinkedList<Proveedor> listaServ=cprov.proveedoresDelServicio("Lugar");
-            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServ) {
-            modeloCombo.addElement(prov.getNombrePersona());
-        }
-        comboLugar.setModel(modeloCombo);
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    private void llenaComboCarpa(){
-        DAOProveedores cprov=new DAOProveedores();
-        try {
-            LinkedList<Proveedor> listaServ=cprov.proveedoresDelServicio("Carpa");
-            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServ) {
-            modeloCombo.addElement(prov.getNombrePersona());
-        }
-        comboCarpa.setModel(modeloCombo);
-            
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }
-    private void llenaComboMusica(){
-        DAOProveedores cprov=new DAOProveedores();
-        try {
-            LinkedList<Proveedor> listaServ=cprov.proveedoresDelServicio("Musica");
-            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServ) {
-            modeloCombo.addElement(prov.getNombrePersona());
-        }
-        comboMusica.setModel(modeloCombo);
+        comboBox.setModel(modeloCombo);
             
             
         } catch (SQLException ex) {
@@ -520,8 +460,9 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         
     }
     
+    
     private void llenaComboMD(){
-        DAOMesaDeDulces ctrlMesas=new DAOMesaDeDulces();
+        ControladorMesaDeDulces ctrlMesas=new ControladorMesaDeDulces();
         try {
             LinkedList<MesaDeDulces> listaMesas=ctrlMesas.buscarTodasMD();
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();

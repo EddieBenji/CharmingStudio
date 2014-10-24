@@ -44,9 +44,12 @@ public class ControladorProveedores {
     
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
        
-        
-
         return dao.buscarCoincidencias(nombrePersona);
+    }
+    
+    public LinkedList proveedoresDelServicio(String servicio) throws SQLException {
+       
+        return dao.proveedoresDelServicio(servicio);
     }
 
 }

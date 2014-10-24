@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorCliente;
 import Controlador.DAO.DAOClientes;
 import Modelo.Cliente;
 import java.sql.SQLException;
@@ -211,7 +212,7 @@ public class VtnAgrega_oModificaCliente extends javax.swing.JFrame {
                 
         //Creamos la variable temporal de cliente..
         Cliente tempCliente = new Cliente(id,nombre, direccion, telefono, correo);
-        DAOClientes ctrlCliente = new DAOClientes();
+        ControladorCliente ctrlCliente = new ControladorCliente();
         
         try {
             if (!seModificaraCliente) {

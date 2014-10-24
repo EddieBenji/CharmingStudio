@@ -4,6 +4,7 @@
  */
 package Vista;
 
+import Controlador.ControladorCliente;
 import Controlador.DAO.DAOClientes;
 import Modelo.Cliente;
 import java.sql.SQLException;
@@ -211,7 +212,7 @@ public class VtnClientes extends javax.swing.JFrame {
             //si lo que escogió el usuario es igual a un "si"
             if (opcionEliminar == SI) {
                 //creamos el controlador de clientes:
-                DAOClientes controlCliente = new DAOClientes();
+                ControladorCliente controlCliente = new ControladorCliente();
 
                 
             try {
@@ -232,7 +233,7 @@ public class VtnClientes extends javax.swing.JFrame {
 
         /*Declaramos el controlador que busca los clientes
          en la base de datos:                              */
-        DAOClientes ctrlBuscarClientes = new DAOClientes();
+        ControladorCliente ctrlBuscarClientes = new ControladorCliente();
 
         try {
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/

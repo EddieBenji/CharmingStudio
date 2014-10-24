@@ -8,6 +8,7 @@ import Controlador.DAO.DAOClientes;
 import Modelo.Cliente;
 import Modelo.Persona;
 import java.sql.SQLException;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,44 +16,45 @@ import java.sql.SQLException;
  */
 public class ControladorCliente {
 
-    public void agregar(Persona cliente) throws SQLException {
+    DAOClientes dao = new DAOClientes();
+    
+    public boolean agregar(Persona cliente) throws SQLException {
 
-        DAOClientes dao = new DAOClientes();
+        
 
-        dao.agregar(cliente);
-
-
-    }
-
-    public void eliminar(int IdCliente) throws SQLException {
-
-        DAOClientes dao = new DAOClientes();
-
-        dao.eliminar(IdCliente);
+        return dao.agregar(cliente);
 
 
     }
 
-    public void buscarCoincidencia(String nombrePersona) throws SQLException {
+    public boolean eliminar(int IdCliente) throws SQLException {
 
-        DAOClientes dao = new DAOClientes();
+        return dao.eliminar(IdCliente);
 
-        dao.buscarCoincidencias(nombrePersona);
+
+    }
+
+    public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
+
+        return dao.buscarCoincidencias(nombrePersona);
     }
     
     public Cliente buscarEspecifico(String nombrePersona) throws SQLException {
-
-        DAOClientes dao = new DAOClientes();
 
         return dao.buscarEspecificamente(nombrePersona);
         
         
     }
 
-    public void modificar(Persona persona) throws SQLException {
+    public boolean modificar(Persona persona) throws SQLException {
 
-        DAOClientes dao = new DAOClientes();
-
-        dao.modificar(persona);
+        return dao.modificar(persona);
     }
+    
+    public LinkedList buscarTodosLosClientes() throws SQLException {
+
+        return dao.buscarTodosLosClientes();
+        
+    }
+    
 }

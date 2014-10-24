@@ -38,10 +38,15 @@ public class ControladorMesaDeDulces {
     }
     public MesaDeDulces buscarEspecifico(String nombreMesa) throws SQLException {
 
-        DAOMesaDeDulces dao = new DAOMesaDeDulces();
 
         return dao.buscarEspecificamente(nombreMesa);
         
+    }
+    
+    
+    public LinkedList buscarTodasMD() throws SQLException {
+
+        return dao.buscarTodasMD();
         
     }
 }
