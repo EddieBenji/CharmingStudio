@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Controlador.DAO;
 
 import Modelo.Servicio;
@@ -25,26 +20,27 @@ public class DAOServicios {
 
     public DAOServicios() {
         try {
-            Conexion = ConexionBaseDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
+            Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
             System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
             Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      *
      * @param servicio
      * @throws java.sql.SQLException
      * @return
-     * 
+     *
      */
     public boolean agregarServicio(Servicio servicio) throws SQLException {
         boolean seAgregoServicio = false;
-
+        
         Statement sentencia = Conexion.createStatement();
-        sentencia.executeUpdate("INSERT INTO charmingstudio.servicios (`Nombre`)" + "VALUES("
-                + "'" + servicio.getServNombre() + "')");
+        sentencia.executeUpdate("INSERT INTO charmingstudio.servicios (`Nombre`, costo) " + "VALUES("
+                + "'" + servicio.getServNombre() + "', "+servicio.getCosto()+")");
         seAgregoServicio = true;
 
         return seAgregoServicio;
@@ -53,34 +49,34 @@ public class DAOServicios {
     /**
      *
      * @param idServicio
-     * @return 
-     * @throws java.sql.SQLException 
+     * @return
+     * @throws java.sql.SQLException
      */
     public boolean eliminarServicio(int idServicio) throws SQLException {
         boolean seEliminoServicio = false;
         Statement sentencia = Conexion.createStatement();
 
-        sentencia.executeUpdate("DELETE FROM charmingstudio.servicios WHERE"+
-                " idServicios= '" + idServicio + "'");
+        sentencia.executeUpdate("DELETE FROM charmingstudio.servicios WHERE"
+                + " idServicios= '" + idServicio + "'");
         seEliminoServicio = true;
 
         return seEliminoServicio;
     }
-
+    
     /**
      *
      * @param nombreServicio
-     * @return 
-     * @throws java.sql.SQLException 
+     * @return
+     * @throws java.sql.SQLException
      */
     public LinkedList buscarServicio(String nombreServicio) throws SQLException {
         LinkedList<Servicio> servicio = new LinkedList<>();
         Statement sentencia = Conexion.createStatement();
-        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.cliente"+
-                " WHERE Nombre LIKE '%" + nombreServicio + "%'");
+        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.cliente"
+                + " WHERE Nombre LIKE '%" + nombreServicio + "%'");
         if (!Busqueda.wasNull()) {
             while (Busqueda.next()) {
-                servicio.add(new Servicio(Busqueda.getString(2),0));
+                servicio.add(new Servicio(Busqueda.getString(2), 0));
             }
             return servicio;
         }
@@ -91,31 +87,33 @@ public class DAOServicios {
     /**
      *
      * @param nombreServicio
-     * @return 
+     * @return
      */
     public boolean modificarServicio(String nombreServicio) {
         return false;
     }
-    
-    public Servicio devuelveServicio(String serv) throws SQLException{
-        Statement sentencia=Conexion.createStatement();
-        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"+
-                " WHERE Nombre ='"+serv+"'");
+
+    public Servicio devuelveServicio(String serv) throws SQLException {
+        Statement sentencia = Conexion.createStatement();
+        ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
+                + " WHERE Nombre ='" + serv + "'");
         busqueda.next();
-        
-        Servicio servicio=new Servicio(busqueda.getString(2),0);
+
+        Servicio servicio = new Servicio(busqueda.getString(2), 0);
         servicio.setId(busqueda.getInt(1));
-        return servicio ;
+        return servicio;
     }
-    
-    public Servicio devuelveServicio(int id) throws SQLException{
-        Statement sentencia=Conexion.createStatement();
-        ResultSet busqueda=sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"+
-                " WHERE IdServicios ='"+id+"'");
+
+    public Servicio encontrarServicio(int id) throws SQLException {
+        Statement sentencia = Conexion.createStatement();
+        ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
+                + " WHERE IdServicios ='" + id + "'");
         busqueda.next();
         
-        Servicio servicio=new Servicio(busqueda.getString(2),0);
+        //Empaquetamos el objeto, con todos sus datos:
+        Servicio servicio = new Servicio(busqueda.getString(2), busqueda.getFloat(3));
         servicio.setId(busqueda.getInt(1));
-        return servicio ;
+        
+        return servicio;
     }
 }

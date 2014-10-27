@@ -1,7 +1,5 @@
 package Modelo;
 
-import java.util.Arrays;
-
 /**
  * @author Lalo
  * @version 1.0
@@ -11,7 +9,6 @@ public class Servicio {
 
     private int id;
     private String servNombre;
-   
     private float costo;
 
     /**
@@ -22,8 +19,13 @@ public class Servicio {
      * @param costo
      */
     public Servicio(String nombre, float costo) {
+        this.id = 0;
         this.servNombre = nombre;
         this.costo = costo;
+    }
+
+    public Servicio() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public float getCosto() {
@@ -50,6 +52,12 @@ public class Servicio {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Servicio: " + "Id: " + id + " Nombre de servicio: " + servNombre + 
+                 " Costo: " + costo ;
     }
 
     

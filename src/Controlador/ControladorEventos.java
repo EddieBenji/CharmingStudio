@@ -4,7 +4,6 @@
  */
 package Controlador;
 
-import Controlador.DAO.ConexionBaseDatos;
 import Controlador.DAO.DAOEventos;
 import Modelo.Cliente;
 import Modelo.Empleado;

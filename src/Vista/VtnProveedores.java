@@ -22,7 +22,6 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VtnProveedores extends javax.swing.JFrame {
 
-    
     private static final int SI = 0;
     private static final int MOSTRAR_DOS_OPCIONES = 0;
     private static VtnProveedores instanciaDeVtnProveedores = new VtnProveedores();
@@ -39,7 +38,7 @@ public class VtnProveedores extends javax.swing.JFrame {
     public static VtnProveedores getInstanciaDeVtnProveedores() {
         return instanciaDeVtnProveedores;
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -119,28 +118,31 @@ public class VtnProveedores extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnRegresar))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(52, 52, 52)
-                                .addComponent(btnAgregar))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 591, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 82, Short.MAX_VALUE)))
+                    .addComponent(jScrollPane1))
                 .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnBuscar)
+                .addGap(395, 395, 395))
             .addGroup(layout.createSequentialGroup()
-                .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(tituloProveedores)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtNombreProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(286, 286, 286)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(119, 119, 119)
                                 .addComponent(btnModificar)
                                 .addGap(54, 54, 54)
                                 .addComponent(btnEliminar))
-                            .addComponent(btnBuscar))))
-                .addContainerGap(314, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnAgregar)
+                                .addGap(246, 246, 246))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(400, 400, 400)
+                        .addComponent(tituloProveedores)))
+                .addContainerGap(339, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -179,16 +181,15 @@ public class VtnProveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAgregarActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        
-        
-         /*Declaramos el controlador que busca los provs
-         en la base de datos:                              */
-        ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
 
+        /*Declaramos el controlador que busca los provs
+         en la base de datos:                              */
+        ControladorProveedores ctrlBuscaProveedores = new ControladorProveedores();
+        String nombreProveedor = this.txtNombreProveedor.getText();
         try {
             /*El controlador, devuelve una lista con los provs que coincidieron con la búsqueda:*/
-            LinkedList<Proveedor> listaDeProveedores = 
-                    ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
+            LinkedList<Proveedor> listaDeProveedores
+                    = ctrlBuscaProveedores.buscarCoincidencias(nombreProveedor);
             llenarTablaDeDatos(listaDeProveedores);
 
         } catch (SQLException ex) {
@@ -216,26 +217,23 @@ public class VtnProveedores extends javax.swing.JFrame {
             //obtenemos la instancia de la ventana: 
             VtnAgrega_oModificaProveedor vtnModificaProveedor
                     = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
-            
-             ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
 
-        try {
-            /*El controlador, devuelve una lista con los proveedores que coincidieron con la búsqueda:*/
-            LinkedList<Proveedor> listaDeProveedores = ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
-            proveedorTemporal=listaDeProveedores.getFirst();
-            
-        } catch (SQLException ex) {
+            ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
 
-            //si hay Excepción, mostramos el mensaje en pantalla:
-            mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
-        }
-            
+            try {
+                /*El controlador, devuelve una lista con los proveedores que coincidieron con la búsqueda:*/
+                LinkedList<Proveedor> listaDeProveedores = ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
+                proveedorTemporal = listaDeProveedores.getFirst();
+
+            } catch (SQLException ex) {
+
+                //si hay Excepción, mostramos el mensaje en pantalla:
+                mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
+            }
+
             //Obtenemos el id del proveedor que se seleccionó en la tabla:
-         
             /*El id del proveedor que aparece en la tabla, lo ponemos 
              en el JTextField de la siguiente Ventana: */
-            
-            
             //Obtenemos el nombre del prov que se seleccionó en la tabla:
             String nombre = proveedorTemporal.getNombrePersona();
             /*El nombre del prov que aparece en la tabla, lo ponemos 
@@ -259,33 +257,33 @@ public class VtnProveedores extends javax.swing.JFrame {
             /*El correo del cliente que aparece en la tabla, lo ponemos 
              en el JTextField que le corresponde, de la siguiente Ventana: */
             vtnModificaProveedor.getTxtCorreoProveedor().setText(correo);
-            
-            for(Servicio serv:proveedorTemporal.getProvServicios()){
-                
+
+            for (Servicio serv : proveedorTemporal.getServiciosQueProvee()) {
+
                 /*Para cada uno de los servicios del proveedor,
-                  activamos su correspondiente CheckBox
-                  y escribimos su costo en su textField*/
-                if(serv.getServNombre().equals("Banquetera")){
+                 activamos su correspondiente CheckBox
+                 y escribimos su costo en su textField*/
+                if (serv.getServNombre().equals("Banquetera")) {
                     vtnModificaProveedor.getCbBanqueteraEvento().setSelected(true);
                     vtnModificaProveedor.getTxtBanqueterEvento().setText(Float.toString(serv.getCosto()));
                     vtnModificaProveedor.getTxtBanqueterEvento().setEditable(true);
                 }
-                if(serv.getServNombre().equals("Luces")){
+                if (serv.getServNombre().equals("Luces")) {
                     vtnModificaProveedor.getCbLucesEvento().setSelected(true);
                     vtnModificaProveedor.getTxtLucesEvento().setText(Float.toString(serv.getCosto()));
                     vtnModificaProveedor.getTxtLucesEvento().setEditable(true);
                 }
-                if(serv.getServNombre().equals("Carpa")){
+                if (serv.getServNombre().equals("Carpa")) {
                     vtnModificaProveedor.getCbCarpaEvento().setSelected(true);
                     vtnModificaProveedor.getTxtCarpaEvento().setText(Float.toString(serv.getCosto()));
                     vtnModificaProveedor.getTxtCarpaEvento().setEditable(true);
                 }
-                if(serv.getServNombre().equals("Lugar")){
+                if (serv.getServNombre().equals("Lugar")) {
                     vtnModificaProveedor.getCbLugarEvento().setSelected(true);
                     vtnModificaProveedor.getTxtLugarEvento().setText(Float.toString(serv.getCosto()));
                     vtnModificaProveedor.getTxtLugarEvento().setEditable(true);
                 }
-                if(serv.getServNombre().equals("Musica")){
+                if (serv.getServNombre().equals("Musica")) {
                     vtnModificaProveedor.getCbMusicaEvento().setSelected(true);
                     vtnModificaProveedor.getTxtMusicaEvento().setText(Float.toString(serv.getCosto()));
                     vtnModificaProveedor.getTxtMusicaEvento().setEditable(true);
@@ -313,7 +311,7 @@ public class VtnProveedores extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         /*Obtenemos el prov seleccionado de la tabla:*/
         Proveedor proveedorQueSeEliminara = obtenerInformacionDeRenglonSelecccionado();
-        
+
         //checamos si se seleccionó algún prov de la tabla,
         //es decir, si no es nulo.
         if (proveedorQueSeEliminara != null) {
@@ -329,15 +327,14 @@ public class VtnProveedores extends javax.swing.JFrame {
                 //creamos el controlador de prov:
                 ControladorProveedores controlProveedor = new ControladorProveedores();
 
-                
-            try {
-                controlProveedor.eliminar(proveedorQueSeEliminara.getIdPersona());
-                mostrarMensaje("Proveedor eliminado");
-            } catch (SQLException ex) {
-                mostrarMensaje("Proveedor no eliminado. Error: " + ex.getLocalizedMessage());
+                try {
+                    controlProveedor.eliminar(proveedorQueSeEliminara.getIdPersona());
+                    mostrarMensaje("Proveedor eliminado");
+                } catch (SQLException ex) {
+                    mostrarMensaje("Proveedor no eliminado. Error: " + ex.getLocalizedMessage());
+                }
             }
-            }
-        }else{
+        } else {
             mostrarMensaje("No ha seleccionado algún proveedor de la tabla");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -345,11 +342,12 @@ public class VtnProveedores extends javax.swing.JFrame {
     private Proveedor obtenerInformacionDeRenglonSelecccionado() {
         //obtiene el número del renglón seleccionado en la tabla.
         int numDeRenglonSeleccionado = this.listaProveedores.getSelectedRow();
+        
         /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
         if (numDeRenglonSeleccionado < 0) {
             return null;
         }
-        //declaramos las constantes, de las columnas donde está la información:
+        //declaramos las constantes de las columnas, donde está la información:
         int columnaId = 0, columnaNombre = 1, columnaDireccion = 2,
                 columnaTelefono = 3, columnaCorreo = 4;
         //obtenemos la información del renglón seleccionado.
@@ -358,21 +356,36 @@ public class VtnProveedores extends javax.swing.JFrame {
         String direccion = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
         String telefono = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
         String correo = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
-        //Servicio[]servTemporal=new Servicio[0];
-        return new Proveedor(id, nombre, direccion, telefono, correo,null);
+        
+        /*Habría que implementar esta PARTE, tiene que llamar a 
+        ObtenerServiciosDelProveedor*/
+        
+        return new Proveedor(id, nombre, direccion, telefono, correo);
     }
     
+    private LinkedList<Servicio> obtenerServiciosDelProveedor(int renglonSeleccionado){
+        int  columnaBanquetera = 5, columnaCarpa = 6, columnaLuces = 7, columnalugar = 8
+                , columnaLugar = 9;
+        LinkedList<Servicio> servicios = new LinkedList<>();        
+        
+        String Banquetera = (String) listaProveedores.getValueAt(renglonSeleccionado, columnaBanquetera );
+        if(!Banquetera.isEmpty()) {
+            
+        }
+        return null;
+    }
     
     private void llenarTablaDeDatos(LinkedList<Proveedor> listaDeProveedores) {
-        //Declaramos las columnas:
-        System.out.println(listaDeProveedores);
+        
+        
+        //Declaramos las columnas:        
         Object columnasDeDatos[] = new Object[10];
 
         //obtenemos el modelo default de la tabla:
         DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.listaProveedores.getModel();
 
         limpiarTabla();
-        
+
         if (listaDeProveedores != null) {
             //agregamos a cada columna los datos que le corresponden:
             for (Proveedor proveedor : listaDeProveedores) {
@@ -381,57 +394,57 @@ public class VtnProveedores extends javax.swing.JFrame {
                 columnasDeDatos[2] = proveedor.getDireccionPersona();
                 columnasDeDatos[3] = proveedor.getTelefonoPersona();
                 columnasDeDatos[4] = proveedor.getCorreoPersona();
-                
-                for(Servicio serv: proveedor.getProvServicios()){
-                    if(serv.getServNombre().equals("Banquetera")){
+
+                for (Servicio serv : proveedor.getServiciosQueProvee()) {
+                    if (serv.getServNombre().equals("Banquetera")) {
                         columnasDeDatos[5] = "Si";
                         break;
-                    }else{
-                    columnasDeDatos[5] = "No";
+                    } else {
+                        columnasDeDatos[5] = "No";
                     }
                 }
-                
-                for(Servicio serv: proveedor.getProvServicios()){
-                    if(serv.getServNombre().equals("Carpa")){
+
+                for (Servicio serv : proveedor.getServiciosQueProvee()) {
+                    if (serv.getServNombre().equals("Carpa")) {
                         columnasDeDatos[6] = "Si";
                         break;
-                    }else{
-                    columnasDeDatos[6] = "No";
+                    } else {
+                        columnasDeDatos[6] = "No";
                     }
                 }
-                
-                for(Servicio serv: proveedor.getProvServicios()){
-                    if(serv.getServNombre().equals("Luces")){
+
+                for (Servicio serv : proveedor.getServiciosQueProvee()) {
+                    if (serv.getServNombre().equals("Luces")) {
                         columnasDeDatos[7] = "Si";
                         break;
-                    }else{
+                    } else {
                         columnasDeDatos[7] = "No";
                     }
                 }
-                
-                for(Servicio serv: proveedor.getProvServicios()){
-                    if(serv.getServNombre().equals("Lugar")){
+
+                for (Servicio serv : proveedor.getServiciosQueProvee()) {
+                    if (serv.getServNombre().equals("Lugar")) {
                         columnasDeDatos[8] = "Si";
                         break;
-                    }else{
+                    } else {
                         columnasDeDatos[8] = "No";
                     }
                 }
-                
-                for(Servicio serv: proveedor.getProvServicios()){
-                    if(serv.getServNombre().equals("Musica")){
+
+                for (Servicio serv : proveedor.getServiciosQueProvee()) {
+                    if (serv.getServNombre().equals("Musica")) {
                         columnasDeDatos[9] = "Si";
                         break;
-                    }else{
+                    } else {
                         columnasDeDatos[9] = "No";
                     }
                 }
-                
+
             }
-        
-                //agregamos los datos de cada columna en cada renglón:
-                modeloDeLaTabla.addRow(columnasDeDatos);
-            
+
+            //agregamos los datos de cada columna en cada renglón:
+            modeloDeLaTabla.addRow(columnasDeDatos);
+
         } else {
             //se considera el else pero no se usa
 
@@ -440,7 +453,7 @@ public class VtnProveedores extends javax.swing.JFrame {
         this.listaProveedores.setModel(modeloDeLaTabla);
 
     }
-    
+
     private void limpiarTabla() {
         DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.listaProveedores.getModel();
         for (int i = 0; i < listaProveedores.getRowCount(); i++) {
@@ -448,8 +461,7 @@ public class VtnProveedores extends javax.swing.JFrame {
             i -= 1;
         }
     }
-    
-    
+
     private void cerrarEstaVentana() {
         borrarDatos();
         this.dispose();
@@ -464,6 +476,7 @@ public class VtnProveedores extends javax.swing.JFrame {
     private void mostrarMensaje(String mensaje) {
         JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
     }
+
     /**
      * @param args the command line arguments
      */

@@ -23,7 +23,7 @@ public class ConexionBaseDatos {
      *
      * @return la instancia de la clase.
      */
-    public static ConexionBaseDatos getInstanciaConexionDeBaseDatos() {
+    public static ConexionBaseDatos getInstancia() {
         return instanciaDeConexionBaseDeDatos;
     }
 

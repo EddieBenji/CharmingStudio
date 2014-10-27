@@ -21,7 +21,7 @@ public class DAOClientes extends GestorBD {
     @SuppressWarnings({"static-access", "static-access"})
     public DAOClientes() {
         try {
-            Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
+            Conexion = BaseDeDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
             mostrarMensajeEnPantalla("No hubo conexión" + ex.getLocalizedMessage());
         }

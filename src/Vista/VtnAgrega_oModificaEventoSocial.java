@@ -378,9 +378,9 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         
         
         if (cbPaqBasico.isSelected()){
-            Proveedor prov=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","",null);
+            Proveedor prov=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","");
                        
-            Proveedor provLuces=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","",null);
+            Proveedor provLuces=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","");
             
             
             paquete=new PaqueteBasico(servBanquetera,prov,servLuces,provLuces);

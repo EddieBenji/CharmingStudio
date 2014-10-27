@@ -23,7 +23,7 @@ public class DAOMesaDeDulces {
 
     public DAOMesaDeDulces() {
         try {
-            Conexion = ConexionBaseDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
+            Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
             System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");

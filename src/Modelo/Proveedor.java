@@ -1,6 +1,7 @@
 package Modelo;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 
 /**
  * @author Lalo
@@ -9,7 +10,7 @@ import java.util.Arrays;
  */
 public class Proveedor extends Persona {
 
-    private Servicio provServicios[];
+    private LinkedList<Servicio> provServicios;
 
     /**
      * Establece un nuevo objeto de tipo proveedor, con sus respectivos
@@ -20,24 +21,33 @@ public class Proveedor extends Persona {
      * @param direccion
      * @param telefono
      * @param correo
-     * @param provServicio
      */
-    public Proveedor(int id, String nombre, String direccion, String telefono, String correo, Servicio[] provServicio) {
+    public Proveedor(int id, String nombre, String direccion, String telefono, String correo) {
         super(id, nombre, direccion, telefono, correo);
-        this.provServicios = provServicio;
-    }
-
-    public Servicio[] getProvServicios() {
-        return provServicios;
-    }
-
-    public void setProvServicios(Servicio[] provServicios) {
-        this.provServicios = provServicios;
+        //this.provServicios = new LinkedList<>();
     }
 
     @Override
     public String toString() {
-        return "Proveedor: " + super.toString() + "Servicios que provee:" + Arrays.toString(provServicios) + '}';
+        return "Proveedor: " + super.toString() + "Servicios que provee:" + getServiciosQueProvee();
+    }
+
+    /**
+     * @return the provServicios
+     */
+    public LinkedList<Servicio> getServiciosQueProvee() {
+        return provServicios;
+    }
+
+    /**
+     * @param provServicios the provServicios to set
+     */
+    public void setServiciosQueProvee(LinkedList<Servicio> provServicios) {
+        this.provServicios = provServicios;
+    }
+
+    public void agregarUnServicio(Servicio servicioA_agregar) {
+        provServicios.add(servicioA_agregar);
     }
 
 }

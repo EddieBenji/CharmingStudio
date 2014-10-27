@@ -22,10 +22,10 @@ public class DAOEmpleados extends GestorBD {
     private Connection Conexion;
 
     public DAOEmpleados() {
-       try {
-            Conexion = BaseDeDatos.getInstanciaConexionDeBaseDatos().getConexionBD();
+        try {
+            Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
-            mostrarMensajeEnPantalla("No hubo conexión" + ex.getLocalizedMessage());
+            
         }
     }
 
@@ -38,10 +38,10 @@ public class DAOEmpleados extends GestorBD {
     @Override
     public boolean agregar(Persona persona) throws SQLException {
         Empleado empleado = (Empleado) persona;
-   
+
         Statement sentencia = Conexion.createStatement();
         boolean seAgregoEmpleado = false;;
-      if (!existeEmpleado(empleado)) {
+        if (!existeEmpleado(empleado)) {
             sentencia.executeUpdate("INSERT INTO charmingstudio.empleado (`Nombre`, "
                     + "`Direccion`, `Telefono`, `Correo`, `Desempeno`, `Sueldo` )" + "VALUES("
                     + "'" + empleado.getNombrePersona() + "',"
@@ -74,7 +74,7 @@ public class DAOEmpleados extends GestorBD {
 
     }
 
-        private boolean existeEmpleado(Empleado empleado) throws SQLException {
+    private boolean existeEmpleado(Empleado empleado) throws SQLException {
 
         LinkedList<Empleado> listaDeEmpleados = buscarCoincidencias(empleado.getNombrePersona());;
         boolean existeUsuario = false;
@@ -93,16 +93,14 @@ public class DAOEmpleados extends GestorBD {
 
         return existeUsuario;
     }
-    
-        private boolean compararEmpleados(Empleado empleadoEncontradoEnBD, Empleado empleadoA_modificar) {
+
+    private boolean compararEmpleados(Empleado empleadoEncontradoEnBD, Empleado empleadoA_modificar) {
         //primero obtenemos ambos nombres:
         String nombreEmpleadoEncontradoEnBD = empleadoEncontradoEnBD.getNombrePersona();
         String nombreEmpleadoA_modificar = empleadoA_modificar.getNombrePersona();
         //comparamos los nombres:
         if (nombreEmpleadoEncontradoEnBD.equalsIgnoreCase(nombreEmpleadoA_modificar)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
 
         //obtenemos las direcciones:
@@ -111,8 +109,6 @@ public class DAOEmpleados extends GestorBD {
         //comparamos las direcciones:
         if (direccionEmpleadoEncontradoEnBD.equalsIgnoreCase(direccionEmpleadoA_modificar)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
 
         //obtenemos los teléfonos:
@@ -120,8 +116,6 @@ public class DAOEmpleados extends GestorBD {
         String telefonoEmpleadoA_modificar = empleadoA_modificar.getTelefonoPersona();
         if (telefonoEmpleadoEncontradoEnBD.equalsIgnoreCase(telefonoEmpleadoA_modificar)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
 
         //obtenemos los correos::
@@ -129,32 +123,26 @@ public class DAOEmpleados extends GestorBD {
         String correoEmpleadoA_modificar = empleadoA_modificar.getCorreoPersona();
         if (correoEmpleadoEncontradoEnBD.equalsIgnoreCase(correoEmpleadoA_modificar)) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
-        
+
         //obtenemos los desempenios::
         float desempenioEmpleadoEncontradoEnBD = empleadoEncontradoEnBD.getEmpDesempenio();
         float desempenioEmpleadoA_modificar = empleadoA_modificar.getEmpDesempenio();
         if (desempenioEmpleadoEncontradoEnBD == desempenioEmpleadoA_modificar) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
-        
+
         //obtenemos los sueldos::
         float sueldoEmpleadoEncontradoEnBD = empleadoEncontradoEnBD.getEmpSueldo();
         float sueldoEmpleadoA_modificar = empleadoA_modificar.getEmpSueldo();
         if (sueldoEmpleadoEncontradoEnBD == sueldoEmpleadoA_modificar) {
             return true;
-        } else {
-            //el else fue considerado, pero no es necesario.
         }
 
-        /*Si llega hasta aquí, entonces los clientes son distintos:*/
+        /*Si llega hasta aquí, entonces los empleados son distintos:*/
         return false;
     }
-        
+
     /**
      *
      * @param nombrePersona
@@ -163,7 +151,7 @@ public class DAOEmpleados extends GestorBD {
      */
     @Override
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
-          Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
+        Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
         ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.executeQuery("SELECT * "
                 + "FROM charmingstudio.empleado WHERE Nombre LIKE '%" + nombrePersona + "%'");
         if (!BusquedaDeEmpleados.wasNull()) {
@@ -176,15 +164,14 @@ public class DAOEmpleados extends GestorBD {
                 empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1),
                         BusquedaDeEmpleados.getString(2),
                         BusquedaDeEmpleados.getString(3),
-                        BusquedaDeEmpleados.getString(4), 
-                        BusquedaDeEmpleados.getString(5), 
-                        BusquedaDeEmpleados.getFloat(6), 
+                        BusquedaDeEmpleados.getString(4),
+                        BusquedaDeEmpleados.getString(5),
+                        BusquedaDeEmpleados.getFloat(6),
                         BusquedaDeEmpleados.getFloat(7)));
 
             }
             return empleados;
         }
-        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
 
     }
@@ -196,8 +183,8 @@ public class DAOEmpleados extends GestorBD {
      * @throws java.sql.SQLException
      */
     @Override
-    public boolean modificar(Persona persona) throws SQLException{
-                //el parámetro solo es de entrada:
+    public boolean modificar(Persona persona) throws SQLException {
+        //el parámetro solo es de entrada:
         Empleado empleadoA_modificar = (Empleado) persona;
 
         //en caso de que no haya el usuario en la BD. 
@@ -219,27 +206,26 @@ public class DAOEmpleados extends GestorBD {
 
         //devuelve si se pudo o no, modificar el empleado:
         return sePudoModificarInfoEmpleado;
-        
-        
+
     }
 
-   public LinkedList buscarTodosLosEmpleados() throws SQLException {
+    public LinkedList obtenerTodosLosEmpleados() throws SQLException {
 
         Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
         ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.
                 executeQuery("SELECT * FROM charmingstudio.empleado");
-        
+
         /*En este caso, se espera que la búsqueda no siempre sea nula, por
-        lo que nos interesa el negativo de las sentencia:*/
+         lo que nos interesa el negativo de las sentencia:*/
         if (!BusquedaDeEmpleados.wasNull()) {
-            
+
             LinkedList<Empleado> empleados = new LinkedList<>();
 
             while (BusquedaDeEmpleados.next()) {
-                
+
                 //agregamos c/cliente a la lista:
-                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1), 
-                        BusquedaDeEmpleados.getString(2), 
+                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1),
+                        BusquedaDeEmpleados.getString(2),
                         BusquedaDeEmpleados.getString(3),
                         BusquedaDeEmpleados.getString(4),
                         BusquedaDeEmpleados.getString(5),
@@ -249,31 +235,26 @@ public class DAOEmpleados extends GestorBD {
             }
             return empleados;
         }
-        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
+        
         return null;
     }
-   
-   public Empleado buscarEspecificamente(String nombreEmpleado) throws SQLException{
-        Statement sentenciaBuscaEmpleado=Conexion.createStatement();
-        ResultSet busquedaEmpleado=sentenciaBuscaEmpleado.executeQuery("SELECT * FROM "
-                + "charmingstudio.empleado WHERE Nombre ='"+nombreEmpleado+"'");
+
+    public Empleado buscarPorNombre(String nombreEmpleado) throws SQLException {
+        Statement sentenciaBuscaEmpleado = Conexion.createStatement();
+        ResultSet busquedaEmpleado = sentenciaBuscaEmpleado.executeQuery("SELECT * FROM "
+                + "charmingstudio.empleado WHERE Nombre ='" + nombreEmpleado + "'");
         busquedaEmpleado.next();
-        
-        Empleado empleado=new Empleado(busquedaEmpleado.getInt(1),
+
+        Empleado empleado = new Empleado(busquedaEmpleado.getInt(1),
                 busquedaEmpleado.getString(2),
                 busquedaEmpleado.getString(3),
                 busquedaEmpleado.getString(4),
                 busquedaEmpleado.getString(5),
                 busquedaEmpleado.getFloat(6),
                 busquedaEmpleado.getFloat(7));
-        
-        
+
         return empleado;
     }
 
-    private void mostrarMensajeEnPantalla(String mensaje){
-        JOptionPane.showMessageDialog(null, mensaje);
-    }
-    
-    
+
 }

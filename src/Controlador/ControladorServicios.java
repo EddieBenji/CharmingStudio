@@ -26,8 +26,13 @@ public class ControladorServicios {
     
     public Servicio buscarServicio(int idServicio) throws SQLException {
 
-        return dao.devuelveServicio(idServicio);
+        return dao.encontrarServicio(idServicio);
         
     }
+    
+    public boolean agregarServicio(Servicio servicioParaAgregar) throws SQLException{
+        return dao.agregarServicio(servicioParaAgregar);
+    }
+    
     
 }
