@@ -69,6 +69,8 @@ public class DAOProveedores extends GestorBD {
     }
 
     private void agregarProveedorA_suTabla(Proveedor proveedor) throws SQLException {
+        /*INSERT INTO charmingstudio.proveedor (`Nombre`, `Direccion`, `Telefono`, `Correo`) 
+	VALUES ('Eduardo', 'Vergel 2', '9831170', 'eduardo@hotmail.com')*/
         Statement sentenciaAgregaProveedor = Conexion.createStatement();
         sentenciaAgregaProveedor.executeUpdate("INSERT INTO charmingstudio.proveedor "
                 + "(`Nombre`, `Direccion`, `Telefono`, `Correo`)" + "VALUES("
@@ -111,6 +113,10 @@ public class DAOProveedores extends GestorBD {
         return existeUsuario;
     }
 
+    public Proveedor obtenerProveedor(Proveedor prov){
+        return null;
+    }
+    
     private boolean compararProveedores(Proveedor proveedorEncontradoEnBD, Proveedor proveedorA_modificar) {
         //primero obtenemos ambos nombres:
         String nombreProveedorEncontradoEnBD = proveedorEncontradoEnBD.getNombrePersona();

@@ -47,6 +47,9 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Charming Studio");
+        setAlwaysOnTop(true);
+        setLocationByPlatform(true);
+        setName("VtnPrincipal"); // NOI18N
 
         btnClientes.setText("Clientes");
         btnClientes.addActionListener(new java.awt.event.ActionListener() {

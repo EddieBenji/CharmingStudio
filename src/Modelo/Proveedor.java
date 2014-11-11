@@ -1,6 +1,5 @@
 package Modelo;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 
 /**
@@ -27,11 +26,6 @@ public class Proveedor extends Persona {
         //this.provServicios = new LinkedList<>();
     }
 
-    @Override
-    public String toString() {
-        return "Proveedor: " + super.toString() + "Servicios que provee:" + getServiciosQueProvee();
-    }
-
     /**
      * @return the provServicios
      */
@@ -45,9 +39,9 @@ public class Proveedor extends Persona {
     public void setServiciosQueProvee(LinkedList<Servicio> provServicios) {
         this.provServicios = provServicios;
     }
-
-    public void agregarUnServicio(Servicio servicioA_agregar) {
-        provServicios.add(servicioA_agregar);
+    @Override
+    public String toString() {
+        return "Proveedor: " + super.toString() + "Servicios que provee:" + getServiciosQueProvee();
     }
 
 }

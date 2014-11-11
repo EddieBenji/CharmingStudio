@@ -385,7 +385,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         if (this.cbLucesEvento.isSelected()) {
 
             precioServicio = Float.parseFloat(this.txtLucesEvento.getText());
-            servicios.add(new Servicio("Luces", precioServicio));
+            servicios.add(new Servicio("Iluminacion", precioServicio));
 
         }
         if (this.cbLugarEvento.isSelected()) {

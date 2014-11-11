@@ -5,9 +5,6 @@
 package Vista;
 
 import Controlador.ControladorProveedores;
-import Controlador.DAO.DAOClientes;
-import Controlador.DAO.DAOProveedores;
-import Modelo.Cliente;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 
@@ -218,18 +215,7 @@ public class VtnProveedores extends javax.swing.JFrame {
             VtnAgrega_oModificaProveedor vtnModificaProveedor
                     = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
 
-            ControladorProveedores ctrlBuscarProveedores = new ControladorProveedores();
-
-            try {
-                /*El controlador, devuelve una lista con los proveedores que coincidieron con la búsqueda:*/
-                LinkedList<Proveedor> listaDeProveedores = ctrlBuscarProveedores.buscarCoincidencias(this.txtNombreProveedor.getText());
-                proveedorTemporal = listaDeProveedores.getFirst();
-
-            } catch (SQLException ex) {
-
-                //si hay Excepción, mostramos el mensaje en pantalla:
-                mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
-            }
+            
 
             //Obtenemos el id del proveedor que se seleccionó en la tabla:
             /*El id del proveedor que aparece en la tabla, lo ponemos 
@@ -338,46 +324,33 @@ public class VtnProveedores extends javax.swing.JFrame {
             mostrarMensaje("No ha seleccionado algún proveedor de la tabla");
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
+//declaramos las constantes de las columnas, donde está la información:
+    private static final int columnaId = 0, columnaNombre = 1, columnaDireccion = 2,
+            columnaTelefono = 3, columnaCorreo = 4;
 
     private Proveedor obtenerInformacionDeRenglonSelecccionado() {
         //obtiene el número del renglón seleccionado en la tabla.
         int numDeRenglonSeleccionado = this.listaProveedores.getSelectedRow();
-        
+
         /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
         if (numDeRenglonSeleccionado < 0) {
             return null;
         }
-        //declaramos las constantes de las columnas, donde está la información:
-        int columnaId = 0, columnaNombre = 1, columnaDireccion = 2,
-                columnaTelefono = 3, columnaCorreo = 4;
+
         //obtenemos la información del renglón seleccionado.
         int id = (int) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaId);
         String nombre = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaNombre);
         String direccion = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
         String telefono = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
         String correo = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
-        
+
         /*Habría que implementar esta PARTE, tiene que llamar a 
-        ObtenerServiciosDelProveedor*/
-        
+         ObtenerServiciosDelProveedor*/
         return new Proveedor(id, nombre, direccion, telefono, correo);
     }
-    
-    private LinkedList<Servicio> obtenerServiciosDelProveedor(int renglonSeleccionado){
-        int  columnaBanquetera = 5, columnaCarpa = 6, columnaLuces = 7, columnalugar = 8
-                , columnaLugar = 9;
-        LinkedList<Servicio> servicios = new LinkedList<>();        
-        
-        String Banquetera = (String) listaProveedores.getValueAt(renglonSeleccionado, columnaBanquetera );
-        if(!Banquetera.isEmpty()) {
-            
-        }
-        return null;
-    }
-    
+
     private void llenarTablaDeDatos(LinkedList<Proveedor> listaDeProveedores) {
-        
-        
+
         //Declaramos las columnas:        
         Object columnasDeDatos[] = new Object[10];
 
@@ -386,72 +359,66 @@ public class VtnProveedores extends javax.swing.JFrame {
 
         limpiarTabla();
 
-        if (listaDeProveedores != null) {
-            //agregamos a cada columna los datos que le corresponden:
-            for (Proveedor proveedor : listaDeProveedores) {
-                columnasDeDatos[0] = proveedor.getIdPersona();
-                columnasDeDatos[1] = proveedor.getNombrePersona();
-                columnasDeDatos[2] = proveedor.getDireccionPersona();
-                columnasDeDatos[3] = proveedor.getTelefonoPersona();
-                columnasDeDatos[4] = proveedor.getCorreoPersona();
+        if (listaDeProveedores == null) {
+            return;
+        }
 
-                for (Servicio serv : proveedor.getServiciosQueProvee()) {
-                    if (serv.getServNombre().equals("Banquetera")) {
-                        columnasDeDatos[5] = "Si";
-                        break;
-                    } else {
-                        columnasDeDatos[5] = "No";
-                    }
-                }
+        //agregamos a cada columna los datos que le corresponden:
+        for (Proveedor proveedor : listaDeProveedores) {
+            columnasDeDatos[columnaId] = proveedor.getIdPersona();
+            columnasDeDatos[columnaNombre] = proveedor.getNombrePersona();
+            columnasDeDatos[columnaDireccion] = proveedor.getDireccionPersona();
+            columnasDeDatos[columnaTelefono] = proveedor.getTelefonoPersona();
+            columnasDeDatos[columnaCorreo] = proveedor.getCorreoPersona();
 
-                for (Servicio serv : proveedor.getServiciosQueProvee()) {
-                    if (serv.getServNombre().equals("Carpa")) {
-                        columnasDeDatos[6] = "Si";
-                        break;
-                    } else {
-                        columnasDeDatos[6] = "No";
-                    }
-                }
-
-                for (Servicio serv : proveedor.getServiciosQueProvee()) {
-                    if (serv.getServNombre().equals("Luces")) {
-                        columnasDeDatos[7] = "Si";
-                        break;
-                    } else {
-                        columnasDeDatos[7] = "No";
-                    }
-                }
-
-                for (Servicio serv : proveedor.getServiciosQueProvee()) {
-                    if (serv.getServNombre().equals("Lugar")) {
-                        columnasDeDatos[8] = "Si";
-                        break;
-                    } else {
-                        columnasDeDatos[8] = "No";
-                    }
-                }
-
-                for (Servicio serv : proveedor.getServiciosQueProvee()) {
-                    if (serv.getServNombre().equals("Musica")) {
-                        columnasDeDatos[9] = "Si";
-                        break;
-                    } else {
-                        columnasDeDatos[9] = "No";
-                    }
-                }
-
-            }
+            columnasDeDatos = (Object[]) verificarServiciosDeProveedor(proveedor.getServiciosQueProvee(),
+                    columnasDeDatos);
 
             //agregamos los datos de cada columna en cada renglón:
             modeloDeLaTabla.addRow(columnasDeDatos);
-
-        } else {
-            //se considera el else pero no se usa
-
         }
+
         //establecemos a nuestra tabla, el modelo que tenía:
         this.listaProveedores.setModel(modeloDeLaTabla);
 
+    }
+
+    private static final int columnaBanquetera = 5;
+    private static final int columnaCarpa = 6;
+    private static final int columnaIluminacion = 7;
+    private static final int columnaLugar = 8;
+    private static final int columnaMusica = 9;
+
+    private Object verificarServiciosDeProveedor(LinkedList<Servicio> servicios, Object[] datos) {
+        //seteamos en No, la columnas ya que si hay un servicio, solo se ponen en si.
+        datos = inicializarColumnas(datos);
+        for (Servicio cada : servicios) {
+            switch (cada.getServNombre()) {
+                case "Banquetera":
+                    datos[columnaBanquetera] = "Si";
+                    break;
+                case "Carpa":
+                    datos[columnaCarpa] = "Si";
+                    break;
+                case "Iluminacion":
+                    datos[columnaIluminacion] = "Si";
+                    break;
+                case "Lugar":
+                    datos[columnaLugar] = "Si";
+                    break;
+                case "Musica":
+                    datos[columnaMusica] = "Si";
+                    break;
+            }
+        }
+        return datos;
+    }
+
+    private Object[] inicializarColumnas(Object[] datos) {
+        for (int i = columnaBanquetera; i <= columnaMusica; i++) {
+            datos[i] = "No";
+        }
+        return datos;
     }
 
     private void limpiarTabla() {

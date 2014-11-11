@@ -28,13 +28,14 @@ public class ControladorProveedores implements ControladorPersona {
         //creamos un objeto de tipo proveedor:
         Proveedor prov = (Proveedor) proveedor;
 
-
+        
         /*Como en la sentencia anterior se agregaron a la BD,
          ahora necesitamos los IDs que el SMBD les asignó,
          para mantener la relación entre el proveedor
-         y el servicio que provee*/
+         y el servicio que provee
+        */
         prov.setServiciosQueProvee(actualizarInfoServicios(prov.getServiciosQueProvee()));
-
+       
         return dao.agregar(prov);
 
     }
