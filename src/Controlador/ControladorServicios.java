@@ -30,9 +30,5 @@ public class ControladorServicios {
         
     }
     
-    public boolean agregarServicio(Servicio servicioParaAgregar) throws SQLException{
-        return dao.agregarServicio(servicioParaAgregar);
-    }
-    
     
 }

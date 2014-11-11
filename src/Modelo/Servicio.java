@@ -18,12 +18,17 @@ public class Servicio {
      * @param nombre
      * @param costo
      */
-    public Servicio(String nombre, float costo) {
+    public Servicio(int id,String nombre) {
+        this.id = id;
+        this.servNombre = nombre;
+    }
+    
+    public Servicio( String nombre, float costo){
         this.id = 0;
         this.servNombre = nombre;
         this.costo = costo;
     }
-
+    
     public Servicio() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

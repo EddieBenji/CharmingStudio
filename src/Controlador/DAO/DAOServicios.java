@@ -21,30 +21,12 @@ public class DAOServicios {
     public DAOServicios() {
         try {
             Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
-            System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
             Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    /**
-     *
-     * @param servicio
-     * @throws java.sql.SQLException
-     * @return
-     *
-     */
-    public boolean agregarServicio(Servicio servicio) throws SQLException {
-        boolean seAgregoServicio = false;
-        
-        Statement sentencia = Conexion.createStatement();
-        sentencia.executeUpdate("INSERT INTO charmingstudio.servicios (`Nombre`, costo) " + "VALUES("
-                + "'" + servicio.getServNombre() + "', "+servicio.getCosto()+")");
-        seAgregoServicio = true;
-
-        return seAgregoServicio;
-    }
 
     /**
      *
@@ -76,7 +58,7 @@ public class DAOServicios {
                 + " WHERE Nombre LIKE '%" + nombreServicio + "%'");
         if (!Busqueda.wasNull()) {
             while (Busqueda.next()) {
-                servicio.add(new Servicio(Busqueda.getString(2), 0));
+                servicio.add(new Servicio(Busqueda.getInt(1),Busqueda.getString(2)));
             }
             return servicio;
         }
@@ -94,14 +76,17 @@ public class DAOServicios {
     }
 
     public Servicio devuelveServicio(String serv) throws SQLException {
+        System.out.println(serv);
+        
         Statement sentencia = Conexion.createStatement();
         ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
                 + " WHERE Nombre ='" + serv + "'");
-        busqueda.next();
-
-        Servicio servicio = new Servicio(busqueda.getString(2), 0);
-        servicio.setId(busqueda.getInt(1));
-        return servicio;
+            if(busqueda.wasNull()) return null;
+            
+            busqueda.next();
+            Servicio servicio = new Servicio(busqueda.getInt(1),busqueda.getString(2));
+            servicio.setId(busqueda.getInt(1));
+            return servicio;
     }
 
     public Servicio encontrarServicio(int id) throws SQLException {
@@ -111,8 +96,7 @@ public class DAOServicios {
         busqueda.next();
         
         //Empaquetamos el objeto, con todos sus datos:
-        Servicio servicio = new Servicio(busqueda.getString(2), busqueda.getFloat(3));
-        servicio.setId(busqueda.getInt(1));
+        Servicio servicio = new Servicio(busqueda.getInt(1),busqueda.getString(2));
         
         return servicio;
     }

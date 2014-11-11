@@ -24,7 +24,6 @@ public class DAOProveedores extends GestorBD {
     public DAOProveedores() {
         try {
             Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
-            System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
             Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -51,13 +50,16 @@ public class DAOProveedores extends GestorBD {
 
             LinkedList<Servicio> serviciosProveidos = proveedor.getServiciosQueProvee();
             int claveServ = 0;
+            float costoServ = 0;
             Statement sentenciaAgregaProveedor = Conexion.createStatement();
             for (Servicio servicio : serviciosProveidos) {
                 claveServ = servicio.getId();
+                costoServ = servicio.getCosto();
                 sentenciaAgregaProveedor.executeUpdate("INSERT INTO charmingstudio.provee "
-                        + "(`idProveedor`, `idServicios`)" + "VALUES("
+                        + "(`idProveedor`, `idServicios`, `costo`)" + "VALUES("
                         + "'" + idProveedor + "',"
-                        + "'" + claveServ + "')");
+                        + "'" + claveServ + "',"
+                        + "'" + costoServ + "')");
             }
             seAgregoProveedor = true;
         }//fin if
@@ -204,7 +206,6 @@ public class DAOProveedores extends GestorBD {
         } else {
             //el else fue considerado, pero no es necesario.
         }
-        mostrarMensaje("El proveedor no se encuentra en la BD");
         return null;
     }
 
@@ -276,9 +277,7 @@ public class DAOProveedores extends GestorBD {
         return sePudoModificarInfoProveedor;
     }
 
-    private void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje);
-    }
+
 
     public Proveedor buscarEspecificamente(String nombreProveedor) throws SQLException {
         Statement sentenciaBuscaProveedor = Conexion.createStatement();

@@ -28,11 +28,6 @@ public class ControladorProveedores implements ControladorPersona {
         //creamos un objeto de tipo proveedor:
         Proveedor prov = (Proveedor) proveedor;
 
-        /*Agregamos los servicios a su respetiva tabla, ya que no se puede
-         agregar un servicio. (No hay interfaz Gráfica para ésto);
-         Para mayor información, checar el documento de ERS.
-         */
-        agregarServicios(prov.getServiciosQueProvee());
 
         /*Como en la sentencia anterior se agregaron a la BD,
          ahora necesitamos los IDs que el SMBD les asignó,
@@ -44,19 +39,6 @@ public class ControladorProveedores implements ControladorPersona {
 
     }
 
-    /**
-     * Este método agrega a la BD, los servicios que el usuario escogió para el proveedor.
-     */
-    private void agregarServicios(LinkedList<Servicio> serviciosAGuardar) throws SQLException {
-
-        ControladorServicios ctrlServ = new ControladorServicios();
-        int indice = 0;
-
-        while (indice < serviciosAGuardar.size()) {
-            ctrlServ.agregarServicio(serviciosAGuardar.get(indice));
-            indice++;
-        }
-    }
 
     private LinkedList<Servicio> actualizarInfoServicios(LinkedList<Servicio> listaServicios) throws SQLException {
 

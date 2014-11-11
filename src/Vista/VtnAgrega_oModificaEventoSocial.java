@@ -41,6 +41,11 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
      */
     public VtnAgrega_oModificaEventoSocial() {
         initComponents();
+        llenarDatos();
+        setLocationRelativeTo(null);
+    }
+        
+        private void llenarDatos(){
         llenaComboCliente();
         llenaComboServicio("Banquetera",comboBanquetera);
         llenaComboServicio("Luces",comboLuces);
@@ -49,8 +54,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         llenaComboServicio("Musica",comboMusica);
         llenaComboMD();
         llenaComboEmpleado();
-        setLocationRelativeTo(null);
-    }
+        }
     
         public static VtnAgrega_oModificaEventoSocial getInstanciaDeVtnAgrega_oModificaEventoSocial() {
         return instanciaVtnAgregaoModificaEventoSocial;
@@ -369,11 +373,14 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         Cliente cliente=new Cliente(0,(String)comboCliente.getSelectedItem(),"","","");
         Empleado empleado=new Empleado(0,(String)comboEmpleado.getSelectedItem(),"","","",0,0);
         MesaDeDulces mesa=new MesaDeDulces(0,(String)comboMesaDulces.getSelectedItem(),0);
-        Servicio servBanquetera=new Servicio("Banquetera",0);
-        Servicio servCarpa=new Servicio("Carpa",0);
-        Servicio servLuces=new Servicio("Luces",0);
-        Servicio servLugar=new Servicio("Lugar",0);
-        Servicio servMusica=new Servicio("Musica",0);
+        Servicio servBanquetera=new Servicio(1,"Banquetera");
+        
+        
+        
+        Servicio servLuces=new Servicio(3,"Luces");
+        
+        
+        
         
         
         

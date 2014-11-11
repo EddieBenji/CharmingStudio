@@ -178,7 +178,6 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(152, 152, 152)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel2)
@@ -193,7 +192,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                         .addGap(1, 1, 1)
                         .addComponent(jLabel1))
                     .addComponent(Correo))
-                .addGap(123, 123, 123))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -222,6 +221,10 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtLugarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(22, 22, 22))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -356,8 +359,9 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
             }
         } catch (SQLException ex) {
-            mostrarMensajeEnPantalla("Hubo un error con la "
-                    + "base de datos. *******Fue en agregar Proveedor*****" + ex.getLocalizedMessage());
+            ex.printStackTrace();
+           // mostrarMensajeEnPantalla("Hubo un error con la "
+             //       + "base de datos. *******Fue en agregar Proveedor*****" + ex.getLocalizedMessage());
 
         }
     }//GEN-LAST:event_btnGuardarProveedorActionPerformed

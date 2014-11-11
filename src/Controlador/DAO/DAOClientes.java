@@ -23,7 +23,6 @@ public class DAOClientes extends GestorBD {
         try {
             Conexion = BaseDeDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
-            mostrarMensajeEnPantalla("No hubo conexión" + ex.getLocalizedMessage());
         }
     }
 
@@ -183,7 +182,6 @@ public class DAOClientes extends GestorBD {
             }
             return clientes;
         }
-        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
         return null;
     }
     
@@ -204,15 +202,6 @@ public class DAOClientes extends GestorBD {
     }
     
 
-    /**
-     * Esta función se encarga de mostrar un mensaje específico a manera de
-     * ventana.
-     *
-     * @param mensaje: es el mensaje que uno quiere mostrar en pantalla.
-     */
-    private void mostrarMensajeEnPantalla(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje);
-    }
 
     /**
      * Función que actualiza la información de un cliente en la base de datos,
@@ -273,7 +262,7 @@ public class DAOClientes extends GestorBD {
             }
             return clientes;
         }
-        mostrarMensajeEnPantalla("El cliente no se encuentra en la BD");
+        
         return null;
     }
     

@@ -24,7 +24,6 @@ public class DAOMesaDeDulces {
     public DAOMesaDeDulces() {
         try {
             Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
-            System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
             Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
@@ -132,7 +131,6 @@ public class DAOMesaDeDulces {
             }
             return mesaDeDulces;
         }
-        mostrarMensaje("El cliente no se encuentra en la BD");
         return null;
     }
 
@@ -168,9 +166,7 @@ public class DAOMesaDeDulces {
         return sePudoModificarInfoMesaDulces;
     }
 
-    private void mostrarMensaje(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje);
-    }
+
     
     public LinkedList buscarTodasMD() throws SQLException {
 
@@ -194,7 +190,6 @@ public class DAOMesaDeDulces {
             }
             return mesas;
         }
-        mostrarMensaje("El cliente no se encuentra en la BD");
         return null;
     }
 

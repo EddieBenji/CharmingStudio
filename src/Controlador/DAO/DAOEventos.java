@@ -27,7 +27,6 @@ public class DAOEventos {
     public DAOEventos() {
         try {
             Conexion = BaseDeDatos.getInstancia().getConexionBD();
-            System.out.println("Se conecto");
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
             Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
