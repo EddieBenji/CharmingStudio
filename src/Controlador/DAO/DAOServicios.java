@@ -110,4 +110,40 @@ public class DAOServicios {
 
         return servicio;
     }
+    
+     /**
+     * Este método se encarga de encontrar y devolver los servicios de un
+     * proveedor, a partir de la clave del proveedor.
+     *
+     * @param claveProveedor, única que se encunetra en la BD.
+     * @return
+     * @throws SQLException
+     */
+    public LinkedList encontrarServiciosDelProveedor(int claveProveedor) throws SQLException {
+
+        Statement sentenciaBuscaIdServicios = Conexion.createStatement();
+        ResultSet resultadoDeBusqueda = sentenciaBuscaIdServicios.executeQuery("SELECT * FROM"
+                + " charmingstudio.provee WHERE idProveedor = '" + claveProveedor + "'");
+
+        LinkedList<Servicio> servicios = new LinkedList<>();
+
+        if (resultadoDeBusqueda.wasNull()) {
+            return null;
+        }
+
+        Servicio _servicio;
+        int idServicio;
+        while (resultadoDeBusqueda.next()) {
+            idServicio = resultadoDeBusqueda.getInt(2);
+            //Ya tenemos el id, ahora necesitamos la info de la bd.
+            _servicio = encontrarServicioPorID(idServicio);
+            _servicio.setCosto(resultadoDeBusqueda.getFloat(3));
+            servicios.add(_servicio);
+        }//fin while
+        return servicios;
+
+    }
+    
+    
+    
 }

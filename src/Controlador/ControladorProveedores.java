@@ -18,7 +18,7 @@ public class ControladorProveedores implements ControladorPersona {
     @Override
     public Proveedor buscarPorNombre(String nombrePersona) throws SQLException {
 
-        return dao.buscarEspecificamente(nombrePersona);
+        return dao.buscarPorNombre(nombrePersona);
 
     }
 
@@ -28,31 +28,8 @@ public class ControladorProveedores implements ControladorPersona {
         //creamos un objeto de tipo proveedor:
         Proveedor prov = (Proveedor) proveedor;
 
-        /*Como en la sentencia anterior se agregaron a la BD,
-         ahora necesitamos los IDs que el SMBD les asignó,
-         para mantener la relación entre el proveedor
-         y el servicio que provee
-         */
-        prov.setServiciosQueProvee(actualizarInfoServicios(prov.getServiciosQueProvee()));
-
         return dao.agregar(prov);
 
-    }
-
-    private LinkedList<Servicio> actualizarInfoServicios(LinkedList<Servicio> listaServicios) throws SQLException {
-
-        int idServicio;
-        Servicio servicioTemp = null;
-        ControladorServicios ctrlServ = new ControladorServicios();
-
-        //Estableceremos el id de los servicios:
-        for (Servicio cadaServicio : listaServicios) {
-            servicioTemp = ctrlServ.buscarServicioPorNombre(cadaServicio.getServNombre());
-            idServicio = servicioTemp.getId();
-            cadaServicio.setId(idServicio);
-        }
-
-        return listaServicios;
     }
 
     @Override
@@ -64,16 +41,26 @@ public class ControladorProveedores implements ControladorPersona {
 
     @Override
     public boolean modificar(Persona persona) throws SQLException {
-        
+
         return dao.modificar(persona);
     }
 
     @Override
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
-
+        
         return dao.buscarCoincidencias(nombrePersona);
+        
     }
 
+    /**
+     * Encuentra todos los proveedores que proveen algún servicio, en primera
+     * instancia están los proveedores que dan más barato, dicho servicio.
+     * (TODAVÍA NO ESTÁ IMPLEMENTADO.)
+     *
+     * @param servicio, es el nombre del servicio.
+     * @return
+     * @throws SQLException
+     */
     public LinkedList proveedoresDelServicio(String servicio) throws SQLException {
 
         return dao.proveedoresDelServicio(servicio);
@@ -96,7 +83,7 @@ public class ControladorProveedores implements ControladorPersona {
         if (serviciosDeProveedor != null) {
             return serviciosDeProveedor;
         }
-        
+
         return null;
 
     }
