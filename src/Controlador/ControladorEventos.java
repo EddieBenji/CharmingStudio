@@ -100,7 +100,7 @@ public class ControladorEventos {
         ControladorServicios ctrlServicio=new ControladorServicios();
         
         for(Servicio servicio:serviciosA_Encontrar){
-            servicios.add(ctrlServicio.buscarServicio(servicio.getServNombre()));
+            servicios.add(ctrlServicio.buscarServicioPorNombre(servicio.getServNombre()));
         }
         return servicios;
     }

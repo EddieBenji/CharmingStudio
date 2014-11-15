@@ -10,6 +10,9 @@ import Modelo.Servicio;
 
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -215,11 +218,12 @@ public class VtnProveedores extends javax.swing.JFrame {
             VtnAgrega_oModificaProveedor vtnModificaProveedor
                     = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
 
-            
-
             //Obtenemos el id del proveedor que se seleccionó en la tabla:
+            String strId = String.valueOf(  proveedorTemporal.getIdPersona()  );
+
             /*El id del proveedor que aparece en la tabla, lo ponemos 
-             en el JTextField de la siguiente Ventana: */
+             en el JLabel de la siguiente Ventana: */
+            vtnModificaProveedor.getLbId().setText(strId);
             //Obtenemos el nombre del prov que se seleccionó en la tabla:
             String nombre = proveedorTemporal.getNombrePersona();
             /*El nombre del prov que aparece en la tabla, lo ponemos 
@@ -244,37 +248,7 @@ public class VtnProveedores extends javax.swing.JFrame {
              en el JTextField que le corresponde, de la siguiente Ventana: */
             vtnModificaProveedor.getTxtCorreoProveedor().setText(correo);
 
-            for (Servicio serv : proveedorTemporal.getServiciosQueProvee()) {
-
-                /*Para cada uno de los servicios del proveedor,
-                 activamos su correspondiente CheckBox
-                 y escribimos su costo en su textField*/
-                if (serv.getServNombre().equals("Banquetera")) {
-                    vtnModificaProveedor.getCbBanqueteraEvento().setSelected(true);
-                    vtnModificaProveedor.getTxtBanqueterEvento().setText(Float.toString(serv.getCosto()));
-                    vtnModificaProveedor.getTxtBanqueterEvento().setEditable(true);
-                }
-                if (serv.getServNombre().equals("Luces")) {
-                    vtnModificaProveedor.getCbLucesEvento().setSelected(true);
-                    vtnModificaProveedor.getTxtLucesEvento().setText(Float.toString(serv.getCosto()));
-                    vtnModificaProveedor.getTxtLucesEvento().setEditable(true);
-                }
-                if (serv.getServNombre().equals("Carpa")) {
-                    vtnModificaProveedor.getCbCarpaEvento().setSelected(true);
-                    vtnModificaProveedor.getTxtCarpaEvento().setText(Float.toString(serv.getCosto()));
-                    vtnModificaProveedor.getTxtCarpaEvento().setEditable(true);
-                }
-                if (serv.getServNombre().equals("Lugar")) {
-                    vtnModificaProveedor.getCbLugarEvento().setSelected(true);
-                    vtnModificaProveedor.getTxtLugarEvento().setText(Float.toString(serv.getCosto()));
-                    vtnModificaProveedor.getTxtLugarEvento().setEditable(true);
-                }
-                if (serv.getServNombre().equals("Musica")) {
-                    vtnModificaProveedor.getCbMusicaEvento().setSelected(true);
-                    vtnModificaProveedor.getTxtMusicaEvento().setText(Float.toString(serv.getCosto()));
-                    vtnModificaProveedor.getTxtMusicaEvento().setEditable(true);
-                }
-            }
+            activarServiciosDeProveedor(proveedorTemporal.getServiciosQueProvee());
 
             //le ponemos el título a la ventana:
             vtnModificaProveedor.setTitle("Modificará la información de un proveedor");
@@ -284,7 +258,6 @@ public class VtnProveedores extends javax.swing.JFrame {
             //hacemos visible la ventana:
             vtnModificaProveedor.setVisible(true);
 
-            vtnModificaProveedor.setProveedorDeLaTabla(proveedorTemporal);
             //cerramos esta ventana:
             cerrarEstaVentana();
         } else {
@@ -293,6 +266,45 @@ public class VtnProveedores extends javax.swing.JFrame {
             mostrarMensaje("No seleccionaste algún proveedor de la tabla.");
         }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void activarServiciosDeProveedor(LinkedList<Servicio> servicio) {
+        //Como estamos usando Singleton, entonces los cambios que se hagan aquí se conservarán:
+        VtnAgrega_oModificaProveedor vtnModificaProveedor = VtnAgrega_oModificaProveedor.getInstanciaVtnAgregaoModificaProveedor();
+
+        for (Servicio serv : servicio) {
+
+            /*Para cada uno de los servicios del proveedor,
+             activamos su correspondiente CheckBox
+             y escribimos su costo en su textField*/
+            if (serv.getServNombre().equals("Banquetera")) {
+                vtnModificaProveedor.getCbBanqueteraEvento().setSelected(true);
+                vtnModificaProveedor.getTxtBanqueterEvento().setText(Float.toString(serv.getCosto()));
+                vtnModificaProveedor.getTxtBanqueterEvento().setEditable(true);
+            }
+            if (serv.getServNombre().equals("Iluminacion")) {
+                vtnModificaProveedor.getCbLucesEvento().setSelected(true);
+                vtnModificaProveedor.getTxtLucesEvento().setText(Float.toString(serv.getCosto()));
+                vtnModificaProveedor.getTxtLucesEvento().setEditable(true);
+            }
+            if (serv.getServNombre().equals("Carpa")) {
+                vtnModificaProveedor.getCbCarpaEvento().setSelected(true);
+                vtnModificaProveedor.getTxtCarpaEvento().setText(Float.toString(serv.getCosto()));
+                vtnModificaProveedor.getTxtCarpaEvento().setEditable(true);
+            }
+            if (serv.getServNombre().equals("Lugar")) {
+                vtnModificaProveedor.getCbLugarEvento().setSelected(true);
+                vtnModificaProveedor.getTxtLugarEvento().setText(Float.toString(serv.getCosto()));
+                vtnModificaProveedor.getTxtLugarEvento().setEditable(true);
+            }
+            if (serv.getServNombre().equals("Musica")) {
+                vtnModificaProveedor.getCbMusicaEvento().setSelected(true);
+                vtnModificaProveedor.getTxtMusicaEvento().setText(Float.toString(serv.getCosto()));
+                vtnModificaProveedor.getTxtMusicaEvento().setEditable(true);
+            }
+        }
+
+    }
+
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         /*Obtenemos el prov seleccionado de la tabla:*/
@@ -344,9 +356,20 @@ public class VtnProveedores extends javax.swing.JFrame {
         String telefono = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
         String correo = (String) listaProveedores.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
 
-        /*Habría que implementar esta PARTE, tiene que llamar a 
-         ObtenerServiciosDelProveedor*/
-        return new Proveedor(id, nombre, direccion, telefono, correo);
+        Proveedor prov = new Proveedor(id, nombre, direccion, telefono, correo);
+
+        ControladorProveedores controladorProv = new ControladorProveedores();
+        try {
+            
+            LinkedList<Servicio> serviciosDeProveedor
+                    = controladorProv.encontrarServiciosDelProveedor(id);
+            prov.setServiciosQueProvee(serviciosDeProveedor);
+            
+        } catch (SQLException ex) {
+            mostrarMensaje("Error con la conexión de la BD. " + ex.getLocalizedMessage());
+        }
+
+        return prov;
     }
 
     private void llenarTablaDeDatos(LinkedList<Proveedor> listaDeProveedores) {
@@ -390,8 +413,10 @@ public class VtnProveedores extends javax.swing.JFrame {
     private static final int columnaMusica = 9;
 
     private Object verificarServiciosDeProveedor(LinkedList<Servicio> servicios, Object[] datos) {
-        //seteamos en No, la columnas ya que si hay un servicio, solo se ponen en si.
+        //Establecemos en "No" la columnas, ya que si hay un servicio, solo se ponen en si.
         datos = inicializarColumnas(datos);
+        
+        
         for (Servicio cada : servicios) {
             switch (cada.getServNombre()) {
                 case "Banquetera":

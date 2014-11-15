@@ -15,20 +15,34 @@ public class Servicio {
      * Establece un nuevo objeto de tipo servicio, con sus respectivos
      * atributos.
      *
+     * @param id
      * @param nombre
-     * @param costo
      */
-    public Servicio(int id,String nombre) {
+    public Servicio(int id, String nombre) {
         this.id = id;
         this.servNombre = nombre;
+        this.costo = 0;
     }
-    
-    public Servicio( String nombre, float costo){
+
+    /**
+     * Crea un nuevo objeto de tipo servicio, con sus siguientes parámetros:
+     *
+     * @param id
+     * @param servNombre
+     * @param costo
+     */
+    public Servicio(int id, String servNombre, float costo) {
+        this.id = id;
+        this.servNombre = servNombre;
+        this.costo = costo;
+    }
+
+    public Servicio(String nombre, float costo) {
         this.id = 0;
         this.servNombre = nombre;
         this.costo = costo;
     }
-    
+
     public Servicio() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
@@ -45,8 +59,6 @@ public class Servicio {
         return servNombre;
     }
 
-   
-
     public void setServNombre(String servNombre) {
         this.servNombre = servNombre;
     }
@@ -61,12 +73,8 @@ public class Servicio {
 
     @Override
     public String toString() {
-        return "Servicio: " + "Id: " + id + " Nombre de servicio: " + servNombre + 
-                 " Costo: " + costo ;
+        return "Servicio: " + "Id: " + id + " Nombre de servicio: " + servNombre
+                + " Costo: " + costo;
     }
-
-    
-
-  
 
 }

@@ -8,7 +8,6 @@ import Controlador.ControladorProveedores;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import javax.swing.JCheckBox;
 import javax.swing.JOptionPane;
@@ -19,15 +18,15 @@ import javax.swing.JOptionPane;
  */
 public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
-    private static VtnAgrega_oModificaProveedor instanciaVtnAgregaoModificaProveedor = new VtnAgrega_oModificaProveedor();
+    private static VtnAgrega_oModificaProveedor instanciaVtnAgregaoModificaProveedor
+            = new VtnAgrega_oModificaProveedor();
 
     private boolean seModificaraProveedor;
-    private Proveedor proveedorDeLaTabla;
 
     /**
      * Creates new form VtnAgrega_oModificaProveedor
      */
-    public VtnAgrega_oModificaProveedor() {
+    private VtnAgrega_oModificaProveedor() {
         initComponents();
         //colocamos la ventana en el centro.
         setLocationRelativeTo(null);
@@ -37,10 +36,6 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
     public static VtnAgrega_oModificaProveedor getInstanciaVtnAgregaoModificaProveedor() {
         return instanciaVtnAgregaoModificaProveedor;
-    }
-
-    public void setProveedorDeLaTabla(Proveedor proveedorDeLaTabla) {
-        this.proveedorDeLaTabla = proveedorDeLaTabla;
     }
 
     /**
@@ -70,10 +65,17 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         cbMusicaEvento = new javax.swing.JCheckBox();
         txtBanqueteraEvento = new javax.swing.JTextField();
         txtCarpaEvento = new javax.swing.JTextField();
-        txtLucesEvento = new javax.swing.JTextField();
+        txtIluminacionEvento = new javax.swing.JTextField();
         txtLugarEvento = new javax.swing.JTextField();
         txtMusicaEvento = new javax.swing.JTextField();
         lblSeleccionar = new javax.swing.JLabel();
+        lbId = new javax.swing.JLabel();
+        lbPrecio = new javax.swing.JLabel();
+        idBanquetera = new javax.swing.JLabel();
+        idCarpa = new javax.swing.JLabel();
+        idIluminacion = new javax.swing.JLabel();
+        idLugar = new javax.swing.JLabel();
+        idMusica = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Proveedor");
@@ -123,7 +125,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
             }
         });
 
-        cbLucesEvento.setText("Luces");
+        cbLucesEvento.setText("Iluminación");
         cbLucesEvento.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cbLucesEventoActionPerformed(evt);
@@ -148,13 +150,39 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
         txtCarpaEvento.setEditable(false);
 
-        txtLucesEvento.setEditable(false);
+        txtIluminacionEvento.setEditable(false);
 
         txtLugarEvento.setEditable(false);
 
         txtMusicaEvento.setEditable(false);
 
+        lblSeleccionar.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         lblSeleccionar.setText("Seleccione los servicios del proveedor y establezca sus costos:");
+
+        lbPrecio.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        lbPrecio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbPrecio.setText("Precio.");
+
+        idBanquetera.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idBanquetera.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        idBanquetera.setText("1");
+        idBanquetera.setEnabled(false);
+
+        idCarpa.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idCarpa.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        idCarpa.setText("2");
+
+        idIluminacion.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idIluminacion.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        idIluminacion.setText("3");
+
+        idLugar.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idLugar.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        idLugar.setText("4");
+
+        idMusica.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        idMusica.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+        idMusica.setText("5");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -163,74 +191,80 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnGuardarProveedor)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(161, 161, 161)
+                                .addComponent(tituloProveedor))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(jLabel1))
+                            .addComponent(Correo))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbId, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnRegresarVtnProveedores))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(btnRegresarVtnProveedores)
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(tituloProveedor)
-                                .addGap(242, 242, 242))))))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(152, 152, 152)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel2)
-                            .addComponent(Dirección))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtNombreProveedor)
-                            .addComponent(txtTelefonoProveedor)
-                            .addComponent(txtDireccionProveedor)
-                            .addComponent(txtCorreoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel1))
-                    .addComponent(Correo))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(45, 45, 45)
-                        .addComponent(cbBanqueteraEvento)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtBanqueteraEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cbCarpaEvento)
-                        .addGap(6, 6, 6))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addComponent(cbLucesEvento)
-                        .addGap(6, 6, 6)
-                        .addComponent(txtLucesEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(cbMusicaEvento)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtMusicaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtCarpaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(56, 56, 56)
-                        .addComponent(cbLugarEvento)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtLugarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(247, 247, 247)
+                                .addComponent(lbPrecio, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnGuardarProveedor)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel2)
+                                    .addComponent(Dirección))
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(lblSeleccionar, javax.swing.GroupLayout.PREFERRED_SIZE, 376, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(txtTelefonoProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE)
+                                        .addComponent(txtDireccionProveedor)
+                                        .addComponent(txtNombreProveedor)
+                                        .addComponent(txtCorreoProveedor))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(71, 71, 71)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(idCarpa, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(cbCarpaEvento, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(idMusica, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                    .addComponent(idLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                .addGap(18, 18, 18)
+                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(cbLugarEvento)
+                                                    .addComponent(cbMusicaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(layout.createSequentialGroup()
+                                                .addComponent(idIluminacion, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(18, 18, 18)
+                                                .addComponent(cbLucesEvento))))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(idBanquetera, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(18, 18, 18)
+                                        .addComponent(cbBanqueteraEvento)))
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtBanqueteraEvento)
+                                    .addComponent(txtLugarEvento)
+                                    .addComponent(txtIluminacionEvento)
+                                    .addComponent(txtMusicaEvento, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(txtCarpaEvento, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(0, 66, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(10, 10, 10)
-                .addComponent(tituloProveedor)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(tituloProveedor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lbId, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
@@ -249,27 +283,38 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                     .addComponent(txtCorreoProveedor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(lblSeleccionar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbCarpaEvento)
-                        .addComponent(txtCarpaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(cbBanqueteraEvento)
-                        .addComponent(cbLugarEvento)
-                        .addComponent(txtBanqueteraEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(txtLugarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbPrecio)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idBanquetera, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbBanqueteraEvento)
+                    .addComponent(txtBanqueteraEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(45, 45, 45)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cbCarpaEvento)
+                    .addComponent(idCarpa)
+                    .addComponent(txtCarpaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(33, 33, 33)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIluminacionEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cbLucesEvento)
+                    .addComponent(idIluminacion))
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtLugarEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbLugarEvento)
+                    .addComponent(idLugar))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbMusicaEvento)
-                    .addComponent(txtLucesEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(idMusica)
                     .addComponent(txtMusicaEvento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardarProveedor)
                     .addComponent(btnRegresarVtnProveedores))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -316,14 +361,14 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     private void inicializarCamposDeEvento() {
         this.txtBanqueteraEvento.setEditable(false);
         this.txtCarpaEvento.setEditable(false);
-        this.txtLucesEvento.setEditable(false);
+        this.txtIluminacionEvento.setEditable(false);
         this.txtMusicaEvento.setEditable(false);
         this.txtLugarEvento.setEditable(false);
     }
 
 
     private void btnGuardarProveedorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarProveedorActionPerformed
-        
+
         LinkedList<Servicio> servicios = obtenerServicioSeleccionados();
 
         String nombre = this.txtNombreProveedor.getText();
@@ -333,7 +378,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
         Proveedor tempProveedor = new Proveedor(0, nombre, direccion, telefono, correo);
         tempProveedor.setServiciosQueProvee(servicios);
-        
+
         ControladorProveedores ctrlProveedor = new ControladorProveedores();
 
         try {
@@ -347,7 +392,12 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
                 }
 
             } else {
-                tempProveedor.setIdPersona(proveedorDeLaTabla.getIdPersona());
+                /*
+                 El label del id, tiene el id del proveedor 
+                 en formato de String; entonces:
+                 */
+                int id = Integer.parseInt(this.lbId.getText());
+                tempProveedor.setIdPersona(id);
                 boolean seModificoProveedor = ctrlProveedor.modificar(tempProveedor);
                 if (seModificoProveedor) {
                     mostrarMensajeEnPantalla("Proveedor Modificado");
@@ -359,9 +409,8 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
             }
         } catch (SQLException ex) {
-            ex.printStackTrace();
-           // mostrarMensajeEnPantalla("Hubo un error con la "
-             //       + "base de datos. *******Fue en agregar Proveedor*****" + ex.getLocalizedMessage());
+            mostrarMensajeEnPantalla("Hubo un error con la "
+                    + "base de datos. *******Fue en agregar Proveedor*****" + ex.getLocalizedMessage());
 
         }
     }//GEN-LAST:event_btnGuardarProveedorActionPerformed
@@ -370,33 +419,43 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         LinkedList<Servicio> servicios = new LinkedList<>();
 
         float precioServicio = 0;
-
+        int idServicio = 0;
         if (this.cbBanqueteraEvento.isSelected()) {
 
             precioServicio = Float.parseFloat(this.txtBanqueteraEvento.getText());
-            servicios.add(new Servicio("Banquetera", precioServicio));
+            idServicio = Integer.parseInt(this.idBanquetera.getText());
+
+            servicios.add(new Servicio(idServicio, "Banquetera", precioServicio));
         }
         if (this.cbCarpaEvento.isSelected()) {
 
             precioServicio = Float.parseFloat(this.txtCarpaEvento.getText());
-            servicios.add(new Servicio("Carpa", precioServicio));
+            idServicio = Integer.parseInt(this.idCarpa.getText());
+
+            servicios.add(new Servicio(idServicio, "Carpa", precioServicio));
 
         }
         if (this.cbLucesEvento.isSelected()) {
 
-            precioServicio = Float.parseFloat(this.txtLucesEvento.getText());
-            servicios.add(new Servicio("Iluminacion", precioServicio));
+            precioServicio = Float.parseFloat(this.txtIluminacionEvento.getText());
+            idServicio = Integer.parseInt(this.idIluminacion.getText());
+
+            servicios.add(new Servicio(idServicio, "Iluminacion", precioServicio));
 
         }
         if (this.cbLugarEvento.isSelected()) {
 
             precioServicio = Float.parseFloat(this.txtLugarEvento.getText());
-            servicios.add(new Servicio("Lugar", precioServicio));
+            idServicio = Integer.parseInt(this.idLugar.getText());
+
+            servicios.add(new Servicio(idServicio, "Lugar", precioServicio));
 
         }
         if (this.cbMusicaEvento.isSelected()) {
             precioServicio = Float.parseFloat(this.txtMusicaEvento.getText());
-            servicios.add(new Servicio("Musica", precioServicio));
+            idServicio = Integer.parseInt(this.idMusica.getText());
+
+            servicios.add(new Servicio(idServicio, "Musica", precioServicio));
         }
         return servicios;
     }
@@ -411,10 +470,10 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
     private void cbLucesEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbLucesEventoActionPerformed
         if (this.cbLucesEvento.isSelected()) {
-            this.txtLucesEvento.setEditable(true);
+            this.txtIluminacionEvento.setEditable(true);
         } else {
-            this.txtLucesEvento.setText("");
-            this.txtLucesEvento.setEditable(false);
+            this.txtIluminacionEvento.setText("");
+            this.txtIluminacionEvento.setEditable(false);
         }
     }//GEN-LAST:event_cbLucesEventoActionPerformed
 
@@ -428,7 +487,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     }//GEN-LAST:event_cbLugarEventoActionPerformed
 
     private void mostrarMensajeEnPantalla(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
+        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 1);
     }
 
     private void borraDatosDeCampos() {
@@ -438,7 +497,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
         this.txtTelefonoProveedor.setText("");
         this.txtBanqueteraEvento.setText("");
         this.txtCarpaEvento.setText("");
-        this.txtLucesEvento.setText("");
+        this.txtIluminacionEvento.setText("");
         this.txtLugarEvento.setText("");
         this.txtMusicaEvento.setText("");
         this.cbBanqueteraEvento.setSelected(false);
@@ -487,7 +546,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     }
 
     public javax.swing.JTextField getTxtLucesEvento() {
-        return txtLucesEvento;
+        return txtIluminacionEvento;
     }
 
     public javax.swing.JTextField getTxtLugarEvento() {
@@ -526,7 +585,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     }
 
     /**
-     * @param seModificaraCliente the seModificaraCliente to set
+     * @param seModificaraProveedor
      */
     public void setSeModificaraProveedor(boolean seModificaraProveedor) {
         this.seModificaraProveedor = seModificaraProveedor;
@@ -561,6 +620,7 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new VtnAgrega_oModificaProveedor().setVisible(true);
             }
@@ -576,18 +636,32 @@ public class VtnAgrega_oModificaProveedor extends javax.swing.JFrame {
     private javax.swing.JCheckBox cbLucesEvento;
     private javax.swing.JCheckBox cbLugarEvento;
     private javax.swing.JCheckBox cbMusicaEvento;
+    private javax.swing.JLabel idBanquetera;
+    private javax.swing.JLabel idCarpa;
+    private javax.swing.JLabel idIluminacion;
+    private javax.swing.JLabel idLugar;
+    private javax.swing.JLabel idMusica;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel lbId;
+    private javax.swing.JLabel lbPrecio;
     private javax.swing.JLabel lblSeleccionar;
     private javax.swing.JLabel tituloProveedor;
     private javax.swing.JTextField txtBanqueteraEvento;
     private javax.swing.JTextField txtCarpaEvento;
     private javax.swing.JTextField txtCorreoProveedor;
     private javax.swing.JTextField txtDireccionProveedor;
-    private javax.swing.JTextField txtLucesEvento;
+    private javax.swing.JTextField txtIluminacionEvento;
     private javax.swing.JTextField txtLugarEvento;
     private javax.swing.JTextField txtMusicaEvento;
     private javax.swing.JTextField txtNombreProveedor;
     private javax.swing.JTextField txtTelefonoProveedor;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * @return the lbId
+     */
+    public javax.swing.JLabel getLbId() {
+        return lbId;
+    }
 }

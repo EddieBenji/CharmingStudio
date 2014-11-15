@@ -18,15 +18,15 @@ public class ControladorServicios {
     
     DAOServicios dao=new DAOServicios();
     
-    public Servicio buscarServicio(String nombreServicio) throws SQLException {
+    public Servicio buscarServicioPorNombre(String nombreServicio) throws SQLException {
 
-        return dao.devuelveServicio(nombreServicio);
+        return dao.encontrarServicioPorNombre(nombreServicio);
         
     }
     
-    public Servicio buscarServicio(int idServicio) throws SQLException {
+    public Servicio buscarServicioPorID(int idServicio) throws SQLException {
 
-        return dao.encontrarServicio(idServicio);
+        return dao.encontrarServicioPorID(idServicio);
         
     }
     

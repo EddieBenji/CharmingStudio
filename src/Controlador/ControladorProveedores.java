@@ -28,31 +28,29 @@ public class ControladorProveedores implements ControladorPersona {
         //creamos un objeto de tipo proveedor:
         Proveedor prov = (Proveedor) proveedor;
 
-        
         /*Como en la sentencia anterior se agregaron a la BD,
          ahora necesitamos los IDs que el SMBD les asignó,
          para mantener la relación entre el proveedor
          y el servicio que provee
-        */
+         */
         prov.setServiciosQueProvee(actualizarInfoServicios(prov.getServiciosQueProvee()));
-       
+
         return dao.agregar(prov);
 
     }
-
 
     private LinkedList<Servicio> actualizarInfoServicios(LinkedList<Servicio> listaServicios) throws SQLException {
 
         int idServicio;
         Servicio servicioTemp = null;
         ControladorServicios ctrlServ = new ControladorServicios();
-        
+
+        //Estableceremos el id de los servicios:
         for (Servicio cadaServicio : listaServicios) {
-            servicioTemp = ctrlServ.buscarServicio(  cadaServicio.getServNombre()  );
+            servicioTemp = ctrlServ.buscarServicioPorNombre(cadaServicio.getServNombre());
             idServicio = servicioTemp.getId();
             cadaServicio.setId(idServicio);
         }
-        
 
         return listaServicios;
     }
@@ -66,13 +64,7 @@ public class ControladorProveedores implements ControladorPersona {
 
     @Override
     public boolean modificar(Persona persona) throws SQLException {
-
-        ControladorServicios ctrlServ = new ControladorServicios();
-        Proveedor proveedor = (Proveedor) persona;
-        for (Servicio serv : proveedor.getServiciosQueProvee()) {
-            serv.setId(ctrlServ.buscarServicio(serv.getServNombre()).getId());
-
-        }
+        
         return dao.modificar(persona);
     }
 
@@ -85,6 +77,28 @@ public class ControladorProveedores implements ControladorPersona {
     public LinkedList proveedoresDelServicio(String servicio) throws SQLException {
 
         return dao.proveedoresDelServicio(servicio);
+    }
+
+    /**
+     * Método que se encarga de encontrar los servicios que un proveedor en
+     * específico está ofreciendo; Los encuentra en la BD, a partir de la clave
+     * del proveedor (ID).
+     *
+     * @param cveProveedor, único para cada proveedor.
+     * @return la lista de servicios que ofrece dicho proveedor.
+     * @throws SQLException, en caso de algún error con la conexión de la BD.
+     */
+    public LinkedList<Servicio> encontrarServiciosDelProveedor(int cveProveedor) throws SQLException {
+        DAOProveedores daoProv = new DAOProveedores();
+
+        LinkedList<Servicio> serviciosDeProveedor = daoProv.encontrarServiciosDelProveedor(cveProveedor);
+
+        if (serviciosDeProveedor != null) {
+            return serviciosDeProveedor;
+        }
+        
+        return null;
+
     }
 
 }

@@ -27,7 +27,6 @@ public class DAOServicios {
         }
     }
 
-
     /**
      *
      * @param idServicio
@@ -44,7 +43,7 @@ public class DAOServicios {
 
         return seEliminoServicio;
     }
-    
+
     /**
      *
      * @param nombreServicio
@@ -58,7 +57,7 @@ public class DAOServicios {
                 + " WHERE Nombre LIKE '%" + nombreServicio + "%'");
         if (!Busqueda.wasNull()) {
             while (Busqueda.next()) {
-                servicio.add(new Servicio(Busqueda.getInt(1),Busqueda.getString(2)));
+                servicio.add(new Servicio(Busqueda.getInt(1), Busqueda.getString(2)));
             }
             return servicio;
         }
@@ -75,29 +74,40 @@ public class DAOServicios {
         return false;
     }
 
-    public Servicio devuelveServicio(String serv) throws SQLException {
+    /**
+     * A partir del nombre que se le pase, se buscará en la BD, para encontrar
+     * toda la información asociada a ese servicio.
+     *
+     * @param serv, es el nombre del servicio a encontrar.
+     * @return el servicio con la información completa.
+     * @throws java.sql.SQLException, en caso de que haya un error con la
+     * conexión de la BD.
+     */
+    public Servicio encontrarServicioPorNombre(String serv) throws SQLException {
         System.out.println(serv);
-        
+
         Statement sentencia = Conexion.createStatement();
         ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
                 + " WHERE Nombre ='" + serv + "'");
-            if(busqueda.wasNull()) return null;
-            
-            busqueda.next();
-            Servicio servicio = new Servicio(busqueda.getInt(1),busqueda.getString(2));
-            servicio.setId(busqueda.getInt(1));
-            return servicio;
+        if (busqueda.wasNull()) {
+            return null;
+        }
+
+        busqueda.next();
+        Servicio servicio = new Servicio(busqueda.getInt(1), busqueda.getString(2));
+
+        return servicio;
     }
 
-    public Servicio encontrarServicio(int id) throws SQLException {
+    public Servicio encontrarServicioPorID(int id) throws SQLException {
         Statement sentencia = Conexion.createStatement();
         ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
                 + " WHERE IdServicios ='" + id + "'");
         busqueda.next();
-        
+
         //Empaquetamos el objeto, con todos sus datos:
-        Servicio servicio = new Servicio(busqueda.getInt(1),busqueda.getString(2));
-        
+        Servicio servicio = new Servicio(busqueda.getInt(1), busqueda.getString(2));
+
         return servicio;
-    }   
+    }
 }
