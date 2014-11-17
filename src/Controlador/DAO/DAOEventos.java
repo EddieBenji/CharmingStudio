@@ -4,9 +4,9 @@ import Modelo.EventosSociales;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Calendar;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.GregorianCalendar;
 
 /**
  * @author Lalo
@@ -15,60 +15,76 @@ import java.util.logging.Logger;
  */
 public class DAOEventos {
 
-    protected ConexionBaseDatos BaseDeDatos;
     Connection Conexion;
 
     public DAOEventos() {
         try {
-            Conexion = BaseDeDatos.getInstancia().getConexionBD();
+            Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
-            System.out.println("No hay conexion");
-            Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
     }
 
     /**
      *
      * @param eventoA_Guardar
+     * @throws java.sql.SQLException
      */
     public void agregarEvento(EventosSociales eventoA_Guardar) throws SQLException {
 
-        boolean seAgregoEvento = false;
-        EventosSociales evento = eventoA_Guardar;
+    }
 
-        //Se crean dos para que no creen conflictos entre ellos.
+    /**
+     * Agrega un nuevo evento a la tabla de eventos.
+     *
+     * @param idCliente
+     * @param idMesasDulces
+     * @param Fecha
+     * @param PrecioTotal
+     * @param idEmpleado
+     * @param idPaquetes
+     * @param idProveedor
+     * @param idServicios
+     * @return 
+     * @throws SQLException
+     */
+    public boolean agregarElemento(int idCliente, int idMesasDulces, Calendar Fecha,
+            float PrecioTotal, int idEmpleado, int idPaquetes,
+            int idProveedor, int idServicios) throws SQLException {
 
-        Statement sentenciaAgregaEvento = Conexion.createStatement();
-        Statement sentenciaAgregaArma = Conexion.createStatement();
+        Statement sentenciaDeInsercion = Conexion.createStatement();
+        String strFecha = obtenerFecha(Fecha);
+        
+        boolean seAgregoElemento = sentenciaDeInsercion.execute("INSERT INTO charmingstudio.eventos "
+                + "(`idCliente`,`idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`, "
+                + "`idPaquetes`,`idProveedor`,`idServicios`)"
+                + "VALUES("
+                + "'" + idCliente + "',"
+                + "'" + idMesasDulces + "',"
+                + "'" + strFecha + "',"
+                + "'" + PrecioTotal + "',"
+                + "'" + idEmpleado + "',"
+                + "'" + idPaquetes + "',"
+                + "'" + idProveedor + "',"
+                + "'" + idServicios + "')");
 
-        java.sql.Date sqlDate = new java.sql.Date(evento.getEvtFecha().getTime());
-/*
-        for (int i = 0; i < evento.getEvtPaquete().getProveedores().size(); i++) {
-            sentenciaAgregaArma.executeUpdate("INSERT INTO charmingstudio.arma "
-                        + "(`idPaquete`, `idProveedor`,`idServicio` )" + "VALUES("
-                        + "'" + evento.getEvtPaquete().getIdPaquete() + "',"
-                        + "'" + evento.getEvtPaquete().getProveedores().get(i).getIdPersona() + "',"
-                    + "'" + evento.getEvtPaquete().getServicios().get(i).getId() + "')");
-        }//fin for
+        return seAgregoElemento;
 
-        for (int i = 0; i < evento.getEvtPaquete().getProveedores().size(); i++) {
-            sentenciaAgregaEvento.executeUpdate("INSERT INTO charmingstudio.eventos "
-                    + "(`idCliente`, `idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`,"
-                    + "`idPaquetes`, `idProveedor`,`idServicio` )"
-                    + "VALUES("
-                    + "'" + evento.getEvtCliente().getIdPersona() + "',"
-                    + "'" + evento.getEvtMesaDeDulces().getIdMesaDulces() + "',"
-                    + "'" + sqlDate + "',"
-                    + "'" + calculaPrecioTotal(evento) + "',"
-                    + "'" + evento.getEvtEmpleado().getIdPersona() + "',"
-                    + "'" + evento.getEvtPaquete().getIdPaquete() + "',"
-                    + "'" + evento.getEvtPaquete().getProveedores().get(i).getIdPersona() + "',"
-                    + "'" + evento.getEvtPaquete().getServicios().get(i).getId() + "')");
+    }
 
-        }//fin for
-        seAgregoEvento = true;
-        //}//fin if
-*/
+    private String obtenerFecha(Calendar fecha) {
+
+        String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
+        String mes = String.valueOf(fecha.get(Calendar.MONTH));
+        String anio = String.valueOf(fecha.get(Calendar.YEAR));
+
+        return anio + "-" + mes + "-" + dia;
+    }
+
+    public static void main(String[] args) {
+        DAOEventos d = new DAOEventos();
+        Calendar fecha = new GregorianCalendar();
+        d.obtenerFecha(fecha);
     }
 
     /**
@@ -100,44 +116,43 @@ public class DAOEventos {
         return false;
     }
 
-  
     public float calculaPrecioTotal(EventosSociales evento) throws SQLException {
         float precioTotal = 0;
 
         precioTotal = precioTotal + evento.getPrecioTotal();
         return precioTotal;
     }
-/*
-    public void agregaArma(int idpaq, LinkedList idprovs, LinkedList idservs) throws SQLException {
-        Statement sentenciaAgregaArma = Conexion.createStatement();
-        for (int i = 0; i < idprovs.size(); i++) {
-            if (!existeCombinacion(idpaq, (Integer) idprovs.get(i), (Integer) idprovs.get(i))) {
-                sentenciaAgregaArma.executeUpdate("INSERT INTO charmingstudio.arma "
-                        + "(`Paquetes_idPaquetes`, `Provee_idProveedor`,`Provee_idServicios` )" + "VALUES("
-                        + "'" + idpaq + "',"
-                        + "'" + idprovs.get(i) + "',"
-                        + "'" + idservs.get(i) + "')");
-            }
-        }
+    /*
+     public void agregaArma(int idpaq, LinkedList idprovs, LinkedList idservs) throws SQLException {
+     Statement sentenciaAgregaArma = Conexion.createStatement();
+     for (int i = 0; i < idprovs.size(); i++) {
+     if (!existeCombinacion(idpaq, (Integer) idprovs.get(i), (Integer) idprovs.get(i))) {
+     sentenciaAgregaArma.executeUpdate("INSERT INTO charmingstudio.arma "
+     + "(`Paquetes_idPaquetes`, `Provee_idProveedor`,`Provee_idServicios` )" + "VALUES("
+     + "'" + idpaq + "',"
+     + "'" + idprovs.get(i) + "',"
+     + "'" + idservs.get(i) + "')");
+     }
+     }
 
-    }
-    * */
-/*
-    private boolean existeCombinacion(int a, int b, int c) throws SQLException {
+     }
+     * */
+    /*
+     private boolean existeCombinacion(int a, int b, int c) throws SQLException {
 
-        Statement sentencia = Conexion.createStatement();
-        ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.arma WHERE Paquetes_idPaquetes='"
-                + a + "' AND Provee_idProveedor='" + b + "' AND Provee_idServicios='" + c + "'");
-        //busqueda.next();
-        boolean existeComb = true;
-        if (busqueda.wasNull()) {
-            existeComb = false;
+     Statement sentencia = Conexion.createStatement();
+     ResultSet busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.arma WHERE Paquetes_idPaquetes='"
+     + a + "' AND Provee_idProveedor='" + b + "' AND Provee_idServicios='" + c + "'");
+     //busqueda.next();
+     boolean existeComb = true;
+     if (busqueda.wasNull()) {
+     existeComb = false;
 
 
-        }
-        /*el else fue considerado, pero no es usado.
+     }
+     /*el else fue considerado, pero no es usado.
 
-        return existeComb;
-    }
-*/
+     return existeComb;
+     }
+     */
 }

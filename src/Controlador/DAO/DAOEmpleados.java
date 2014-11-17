@@ -1,6 +1,5 @@
 package Controlador.DAO;
 
-import Modelo.Cliente;
 import Modelo.Persona;
 import Modelo.Empleado;
 import java.sql.Connection;
@@ -8,9 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * @author Lalo

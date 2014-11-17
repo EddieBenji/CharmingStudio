@@ -5,15 +5,79 @@
  */
 package Controlador.DAO;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.LinkedList;
+
 /**
  *
  * @author Lalo
  */
 public class DAOPaquetes {
-    
-    public void obtenerProveedoresDePaqueteBasico(){
-        
+
+    Connection Conexion;
+
+    public DAOPaquetes() {
+        try {
+            Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
     }
-    
-    
+
+    /**
+     * Este método se encarga de insertar un nuevo paquete en la BD, la tabla
+     * que le corresponde es "arma".
+     *
+     * @param idPaquete
+     * @param idProveedor
+     * @param idServicio
+     * @return verdadero o falso, dependiendo de si se pudo o no, insertar el
+     * elemento.
+     * @throws java.sql.SQLException
+     */
+    public boolean insertarElemento(int idPaquete, int idProveedor, int idServicio) throws SQLException {
+
+        Statement sentenciaDeInsercion = Conexion.createStatement();
+
+        boolean seAgregoElemento = sentenciaDeInsercion.execute("INSERT INTO charmingstudio.arma (`idPaquetes`, "
+                + "`idProveedor`, `idServicios`)" + "VALUES("
+                + "'" + idPaquete + "',"
+                + "'" + idProveedor + "',"
+                + "'" + idServicio + "')");
+
+        return seAgregoElemento;
+    }
+
+    /**
+     * Se encarga de encontrar todos los proveedores con sus servicios a partir
+     * del ID del paquete que se le pase.
+     *
+     * @param idPaquete
+     * @return lista simple, con la información de los proveedores (SOLO LOS IDs).
+     * Por ejemplo:
+     * en la posición 1 estaría: 1 1 1
+     * Significa: Paquete 1, Proveedor 1, Servicio 1.
+     * @throws SQLException
+     */
+    public LinkedList obtenerElementosDePaquete(int idPaquete) throws SQLException {
+        Statement obtencionProveedores = Conexion.createStatement();
+        ResultSet infoPaquete = obtencionProveedores.executeQuery("SELECT FROM"
+                + " charmingstudio.arma WHERE idPaquete = '" + idPaquete + "'");
+
+        LinkedList listaProveedores = new LinkedList();
+        while (infoPaquete.next()) {
+            //obtiene el id del paquete:
+            listaProveedores.add(infoPaquete.getInt(1));
+            //obtiene el id del proveedor:
+            listaProveedores.add(infoPaquete.getInt(2));
+            //obtiene el id del servicio:
+            listaProveedores.add(infoPaquete.getInt(3));
+        }
+
+        return listaProveedores;
+    }
+
 }

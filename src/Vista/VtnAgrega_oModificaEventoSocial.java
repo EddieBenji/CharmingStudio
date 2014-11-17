@@ -376,7 +376,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         if (cbPaqBasico.isSelected()) {
             String nombreProvIluminacion = (String) comboIluminacion.getSelectedItem();
             String nombreProvCarpa = (String) comboIluminacion.getSelectedItem();
-            EventoSocial.agregarEvento(nombreCliente, nombreEmpleado, nombreMesa, "Basico",nombreProvIluminacion);
+            //EventoSocial.agregarEvento(nombreCliente, nombreEmpleado, nombreMesa, "Basico",nombreProvIluminacion);
 
         }//fin if        
 

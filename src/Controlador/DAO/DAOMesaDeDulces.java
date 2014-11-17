@@ -19,14 +19,12 @@ import javax.swing.JOptionPane;
 public class DAOMesaDeDulces {
 
     Connection Conexion;
-    ConexionBaseDatos BaseDeDatos;
 
     public DAOMesaDeDulces() {
         try {
             Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
             System.out.println("No hay conexion");
-            Logger.getLogger(DAOClientes.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

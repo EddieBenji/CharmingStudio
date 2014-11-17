@@ -11,10 +11,13 @@ import Modelo.MesaDeDulces;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -71,20 +74,19 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
     }
 
     private void establecerFechaEnPantalla() {
-       Calendar fecha = new GregorianCalendar();
-       int dia = fecha.get(Calendar.DAY_OF_MONTH);
-       int mes = fecha.get(Calendar.MONTH);
-       int anio = fecha.get(Calendar.YEAR);
-       
-       comboDia.setSelectedIndex(dia-1);
-       comboMes.setSelectedIndex(mes);
-       
-       comboAnio.addItem(anio-1);
-       comboAnio.addItem(anio);
-       comboAnio.addItem(anio+1);
-       comboAnio.setSelectedItem(anio);
-    }
+        Calendar fecha = new GregorianCalendar();
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        int mes = fecha.get(Calendar.MONTH);
+        int anio = fecha.get(Calendar.YEAR);
 
+        comboDia.setSelectedIndex(dia - 1);
+        comboMes.setSelectedIndex(mes);
+
+        comboAnio.addItem(anio - 1);
+        comboAnio.addItem(anio);
+        comboAnio.addItem(anio + 1);
+        comboAnio.setSelectedItem(anio);
+    }
 
     private void llenarListaDeMesasDeDulces() {
         try {
@@ -100,10 +102,13 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
     private void llenarListaProveedores() {
         try {
+            //obtenemos el controlador que nos ayudará a encontrar los proveedores:
             ControladorEventos unControlador = new ControladorEventos();
             LinkedList proveedores = unControlador.encontrarProveedoresDeServicioBasico();
-
+            
+            //pintamos la lista en la tabla:
             llenarLista(listaDeProveedoresConServicios, numColumnasDeProveedores, proveedores);
+            
         } catch (SQLException ex) {
             mostrarMensajeEnPantalla("Error con la base de datos: " + ex.getLocalizedMessage());
         }
@@ -354,6 +359,11 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
                                 .addComponent(panelListaEmpleados, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
+                                .addGap(115, 115, 115)
+                                .addComponent(lbTituloMesa)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lbTituloFecha))
+                            .addGroup(layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(panelDeMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(57, 57, 57)
@@ -365,18 +375,15 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
                                     .addComponent(lbMes, javax.swing.GroupLayout.PREFERRED_SIZE, 68, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(comboMes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboAnio, 0, 52, Short.MAX_VALUE)
-                                    .addComponent(lbAnio, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(115, 115, 115)
-                                .addComponent(lbTituloMesa)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(lbTituloFecha))))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(lbAnio, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 16, Short.MAX_VALUE))
+                                    .addComponent(comboAnio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(43, 43, 43)
                         .addComponent(lbSeleccioneServicios)))
-                .addGap(26, 26, 26))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -450,36 +457,53 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
     private void rbPaqBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rbPaqBasicoActionPerformed
         // TODO add your handling code here:
-
+        //Solo está implementado con el paquete básico:
         llenarListaProveedores();
 
 
     }//GEN-LAST:event_rbPaqBasicoActionPerformed
+
 
     private void btnAgregarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEventoActionPerformed
         //obtenemos lo necesario de la vista:
         int idCliente = obtenerClaveClienteSeleccionado();
         int idEmpleado = obtenerClaveEmpleadoSeleccionado();
         int idMesa = obtenerClaveMesaSeleccionada();
-        int[] idProveedores = obtenerClavesDeProveedores();
-        int idPaquete = obtenerTipoPaquete();
         Calendar fecha = obtenerFecha();
-        
-        
-        
-        
+        Object[] proveedores = obtenerProveedores();
+        float precioTotal = obtenerPrecio();
+        int idPaquete = obtenerTipoPaquete();
+
+        //creamos el controlador de eventos.
+        try {
+            ControladorEventos unControlador = new ControladorEventos();
+            boolean seAgregoEvento = unControlador.agregarEvento(idCliente,
+                    idEmpleado, idMesa, proveedores, idPaquete,
+                    precioTotal, fecha);
+            if (seAgregoEvento) {
+                mostrarMensajeEnPantalla("Evento Agregado");
+            } else {
+                mostrarMensajeEnPantalla("Evento NO Agregado");
+            }
+
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            mostrarMensajeEnPantalla("Error con la BD. " + ex.getLocalizedMessage());
+        }
+
     }//GEN-LAST:event_btnAgregarEventoActionPerformed
 
-    private Calendar obtenerFecha(){
-        int dia = Integer.parseInt((String)comboDia.getSelectedItem());
-        int mes = Integer.parseInt((String)comboMes.getSelectedItem());
-        int anio = Integer.parseInt((String)comboAnio.getSelectedItem());
+    private Calendar obtenerFecha() {
+        int dia = Integer.parseInt((String) comboDia.getSelectedItem());
+        int mes = comboMes.getSelectedIndex();
+        int anio = (int) comboAnio.getSelectedItem();
         return new GregorianCalendar(dia, mes, anio);
     }
+
     private int obtenerClaveClienteSeleccionado() {
 
         int renglonSeleccionado = listaClientes.getSelectedRow();
-        int claveCliente = (int) listaClientes.getValueAt(renglonSeleccionado, 1);
+        int claveCliente = (int) listaClientes.getValueAt(renglonSeleccionado, 0);
 
         return claveCliente;
     }
@@ -495,35 +519,65 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
     private int obtenerClaveMesaSeleccionada() {
         int renglonSeleccionado = listaDeMesas.getSelectedRow();
-        int claveMesa = (int) listaDeMesas.getValueAt(renglonSeleccionado, 1);
+        int claveMesa = (int) listaDeMesas.getValueAt(renglonSeleccionado, 0);
 
         return claveMesa;
     }
 
-    private int[] obtenerClavesDeProveedores() {
-        int[] renglonesSeleccionados = listaDeProveedoresConServicios.getSelectedRows();
-        int[] clavesProveedores = new int[renglonesSeleccionados.length];
+    private static final int columnaIdProveedor = 0;
+    private static final int columnaNombreServicio = 2;
 
-        for (int i = 0; i < renglonesSeleccionados.length; i++) {
-            clavesProveedores[i] = (int) listaDeProveedoresConServicios.
-                    getValueAt(renglonesSeleccionados[i], 1);
+    private Object[] obtenerProveedores() {
+        //declaramos lo que necesitamos:
+        int[] renglonesSeleccionados = listaDeProveedoresConServicios.getSelectedRows();
+        int indice = 0;
+        Object[] proveedores = new Object[renglonesSeleccionados.length * 2];
+
+        //empezamos a obtener los datos de las listas:
+        for (int vueltas = 0; vueltas < renglonesSeleccionados.length; vueltas++) {
+
+            //obtenemos el ID del proveedor:
+            proveedores[indice] = (int) listaDeProveedoresConServicios.getValueAt(renglonesSeleccionados[vueltas], columnaIdProveedor);
+
+            //obtenemos el nombre del servicio que provee el proveedor:
+            proveedores[indice + 1] = (String) listaDeProveedoresConServicios.getValueAt(renglonesSeleccionados[vueltas], columnaNombreServicio);
+
+            indice += 2;
         }
 
-        return clavesProveedores;
+        return proveedores;
     }
+
+    private static final int columnaPrecio = 3;
+
+    private float obtenerPrecio() {
+        int[] renglonesSeleccionados = listaDeProveedoresConServicios.getSelectedRows();
+        float precio = 0;
+
+        for (int vueltas = 0; vueltas < renglonesSeleccionados.length; vueltas++) {
+            precio += (float) listaDeProveedoresConServicios.getValueAt(renglonesSeleccionados[vueltas], columnaPrecio);
+        }
+
+        return precio;
+    }
+
+    private static final int paqueteBasico = 1;
+    private static final int paqueteIntermedio = 2;
+    private static final int paqueteCompleto = 3;
+    private static final int paqueteInvalido = 0;
 
     private int obtenerTipoPaquete() {
         if (rbPaqBasico.isSelected()) {
-            return 1;
+            return paqueteBasico;
         }
         if (rbPaqIntermedio.isSelected()) {
-            return 2;
+            return paqueteIntermedio;
         }
         if (rbPaqCompleto.isSelected()) {
-            return 3;
+            return paqueteCompleto;
         }
-        //el 0 es no válido
-        return 0;
+        //Si llega hasta aquí, entonces no seleccionó alguno
+        return paqueteInvalido;
     }
 
     private static final int numColumnasDeMesas = 3;
@@ -534,7 +588,7 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
         DefaultTableModel modeloLista = (DefaultTableModel) tabla.getModel();
 
-        limpiarTabla(tabla);
+        limpiarLista(tabla);
 
         boolean seAgregaranProveedores = false;
 
@@ -580,7 +634,7 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         tabla.setModel(modeloLista);
     }
 
-    private void limpiarTabla(JTable tabla) {
+    private void limpiarLista(JTable tabla) {
         DefaultTableModel modeloDeLaTabla = (DefaultTableModel) tabla.getModel();
         for (int i = 0; i < tabla.getRowCount(); i++) {
             modeloDeLaTabla.removeRow(0);
