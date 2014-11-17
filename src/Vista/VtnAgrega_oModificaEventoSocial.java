@@ -11,20 +11,16 @@ import Controlador.ControladorMesaDeDulces;
 import Controlador.ControladorProveedores;
 import Modelo.Cliente;
 import Modelo.Empleado;
-import Modelo.EventosSociales;
 import Modelo.MesaDeDulces;
 import Modelo.Paquete;
-import Modelo.PaqueteBasico;
 import Modelo.Proveedor;
-import Modelo.Servicio;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,10 +28,10 @@ import javax.swing.DefaultComboBoxModel;
  */
 public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
 
-    private static VtnAgrega_oModificaEventoSocial 
-            instanciaVtnAgregaoModificaEventoSocial = new VtnAgrega_oModificaEventoSocial();
+    private static VtnAgrega_oModificaEventoSocial instanciaVtnAgregaoModificaEventoSocial = new VtnAgrega_oModificaEventoSocial();
 
     private boolean seModificaraEventoSocial;
+
     /**
      * Creates new form VtnAgrega_oModificaEventoSocial
      */
@@ -43,20 +39,21 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         initComponents();
         llenarDatos();
         setLocationRelativeTo(null);
+        seModificaraEventoSocial = false;
     }
-        
-        private void llenarDatos(){
-        llenaComboCliente();
-        llenaComboServicio("Banquetera",comboBanquetera);
-        llenaComboServicio("Luces",comboLuces);
-        llenaComboServicio("Lugar",comboLugar);
-        llenaComboServicio("Carpa",comboCarpa);
-        llenaComboServicio("Musica",comboMusica);
-        llenaComboMD();
-        llenaComboEmpleado();
-        }
-    
-        public static VtnAgrega_oModificaEventoSocial getInstanciaDeVtnAgrega_oModificaEventoSocial() {
+
+    private void llenarDatos() {
+        llenarComboCliente();
+        llenarComboServicio("Banquetera", comboBanquetera);
+        llenarComboServicio("Iluminacion", comboIluminacion);
+        llenarComboServicio("Lugar", comboLugar);
+        llenarComboServicio("Carpa", comboCarpa);
+        llenarComboServicio("Musica", comboMusica);
+        llenarComboMD();
+        llenarComboEmpleado();
+    }
+
+    public static VtnAgrega_oModificaEventoSocial getInstanciaDeVtnAgrega_oModificaEventoSocial() {
         return instanciaVtnAgregaoModificaEventoSocial;
     }
 
@@ -79,7 +76,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         cbPaqIntermedio = new javax.swing.JCheckBox();
         cbPaqCompleto = new javax.swing.JCheckBox();
         comboBanquetera = new javax.swing.JComboBox();
-        comboLuces = new javax.swing.JComboBox();
+        comboIluminacion = new javax.swing.JComboBox();
         comboCarpa = new javax.swing.JComboBox();
         comboMusica = new javax.swing.JComboBox();
         comboLugar = new javax.swing.JComboBox();
@@ -148,8 +145,8 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         comboBanquetera.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboBanquetera.setEnabled(false);
 
-        comboLuces.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        comboLuces.setEnabled(false);
+        comboIluminacion.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        comboIluminacion.setEnabled(false);
 
         comboCarpa.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         comboCarpa.setEnabled(false);
@@ -239,7 +236,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                                         .addGap(10, 10, 10)
                                         .addComponent(comboMusica, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(comboLuces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(comboIluminacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(lblLugar)
@@ -301,7 +298,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
                 .addComponent(lblLugar)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(comboLuces, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(comboIluminacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(comboLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -321,15 +318,15 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         VtnEventosSociales vtnRegreso = VtnEventosSociales.getInstanciaDeVtnEventosSociales();
         vtnRegreso.setVisible(true);
         cerrarEstaVentana();
-        
-        
+
+
     }//GEN-LAST:event_btnRegresarVtnEventosSocialesActionPerformed
 
     private void cbPaqBasicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPaqBasicoActionPerformed
         cbPaqIntermedio.setSelected(false);
         cbPaqCompleto.setSelected(false);
         comboBanquetera.setEnabled(true);
-        comboLuces.setEnabled(true);
+        comboIluminacion.setEnabled(true);
         comboCarpa.setEnabled(false);
         comboMusica.setEnabled(false);
         comboLugar.setEnabled(false);
@@ -339,145 +336,153 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         cbPaqBasico.setSelected(false);
         cbPaqCompleto.setSelected(false);
         comboBanquetera.setEnabled(true);
-        comboLuces.setEnabled(true);
+        comboIluminacion.setEnabled(true);
         comboCarpa.setEnabled(true);
-        
+
         comboMusica.setEnabled(false);
         comboLugar.setEnabled(false);
-        
+
     }//GEN-LAST:event_cbPaqIntermedioActionPerformed
 
     private void cbPaqCompletoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbPaqCompletoActionPerformed
         cbPaqBasico.setSelected(false);
         cbPaqIntermedio.setSelected(false);
         comboBanquetera.setEnabled(true);
-        comboLuces.setEnabled(true);
+        comboIluminacion.setEnabled(true);
         comboCarpa.setEnabled(true);
         comboMusica.setEnabled(true);
         comboLugar.setEnabled(true);
-        
+
     }//GEN-LAST:event_cbPaqCompletoActionPerformed
 
     private void btnGuardarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarEventoActionPerformed
-        Paquete paquete=null;
+        Paquete paquete = null;
         SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
         String strFecha = txtFechaEvento.getText();
         Date fecha = null;
         try {
             fecha = formatoDelTexto.parse(strFecha);
         } catch (ParseException ex) {
-            ex.printStackTrace();
+            mostrarMensaje("Error con la fecha, configure bien la fecha"
+                    + " de la computadora: " + ex.getLocalizedMessage());
         }
-        //System.out.println(fecha);
-        
-        Cliente cliente=new Cliente(0,(String)comboCliente.getSelectedItem(),"","","");
-        Empleado empleado=new Empleado(0,(String)comboEmpleado.getSelectedItem(),"","","",0,0);
-        MesaDeDulces mesa=new MesaDeDulces(0,(String)comboMesaDulces.getSelectedItem(),0);
-        Servicio servBanquetera=new Servicio(1,"Banquetera");
-        
-        
-        
-        Servicio servLuces=new Servicio(3,"Luces");
-        
-        
-        
-        
-        
-        
-        if (cbPaqBasico.isSelected()){
-            Proveedor prov=new Proveedor(0,(String)comboBanquetera.getSelectedItem(),"","","");
-                       
-            Proveedor provLuces=new Proveedor(0,(String)comboLuces.getSelectedItem(),"","","");
-            
-            
-            paquete=new PaqueteBasico(servBanquetera,prov,servLuces,provLuces);
-            
+
+        String nombreCliente = (String) comboCliente.getSelectedItem();
+        String nombreEmpleado = (String) comboEmpleado.getSelectedItem();
+        String nombreMesa = (String) comboMesaDulces.getSelectedItem();
+
+        ControladorEventos EventoSocial = new ControladorEventos();
+
+        if (cbPaqBasico.isSelected()) {
+            String nombreProvIluminacion = (String) comboIluminacion.getSelectedItem();
+            String nombreProvCarpa = (String) comboIluminacion.getSelectedItem();
+            EventoSocial.agregarEvento(nombreCliente, nombreEmpleado, nombreMesa, "Basico",nombreProvIluminacion);
+
         }//fin if        
-       
-       
-        ControladorEventos ctrlEvento=new ControladorEventos();
-        EventosSociales eventoSocial=new EventosSociales(cliente,fecha,mesa,paquete,0,0,empleado);
-        if(!seModificaraEventoSocial){
-            try {
-                ctrlEvento.agregarEvento(eventoSocial);
-                
-            } catch (SQLException ex) {
-                Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }else{
-            
-        }
-        
+
+        /*
+         ControladorEventos ctrlEvento = new ControladorEventos();
+         EventosSociales eventoSocial = new EventosSociales(cliente, fecha, mesa, paquete, 0, 0, empleado);
+         if (!seModificaraEventoSocial) {
+         try {
+         ctrlEvento.agregarEvento(eventoSocial);
+
+         } catch (SQLException ex) {
+         Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+         }
+         } else {
+
+         }
+         */
     }//GEN-LAST:event_btnGuardarEventoActionPerformed
 
-    
-    private void llenaComboCliente(){
+    private static final int OPCION_SI = 0;
+
+    private Cliente confirmarCliente() {
         try {
-            ControladorCliente ctrlCliente=new ControladorCliente();
-            LinkedList<Cliente> clientes=ctrlCliente.buscarTodosLosClientes();
-            
-              DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Cliente cliente : clientes) {
-            modeloCombo.addElement(cliente.getNombrePersona());
-        }
-        comboCliente.setModel(modeloCombo);
-            
+
+            String nombreCliente = (String) comboCliente.getSelectedItem();
+            ControladorCliente controlador = new ControladorCliente();
+            Cliente cliente = controlador.buscarPorNombre(nombreCliente);
+
+            int opcion = JOptionPane.showConfirmDialog(null, "Este cliente es el que desea un nuevo Evento?" + "\n" + cliente);
+            if (opcion == OPCION_SI) {
+                return cliente;
+            } else {
+                return null;
+            }
         } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+
         }
+        return null;
     }
-    
-    private void llenaComboEmpleado(){
+
+    private void llenarComboCliente() {
         try {
-            ControladorEmpleado ctrlEmpleado=new ControladorEmpleado();
-            LinkedList<Empleado> empleados=ctrlEmpleado.buscarTodosLosEmpleados();
-            
-              DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Empleado empleado : empleados) {
-            modeloCombo.addElement(empleado.getNombrePersona());
-        }
-        comboEmpleado.setModel(modeloCombo);
-            
-        } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    
-    private void llenaComboServicio(String servicio,javax.swing.JComboBox comboBox){
-        ControladorProveedores ctrlProv=new ControladorProveedores();
-        try {
-            LinkedList<Proveedor> listaServicios=ctrlProv.proveedoresDelServicio(servicio);
+            ControladorCliente ctrlCliente = new ControladorCliente();
+            LinkedList<Cliente> clientes = ctrlCliente.buscarTodosLosClientes();
+
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (Proveedor prov : listaServicios) {
-            modeloCombo.addElement(prov.getNombrePersona());
-        }
-        comboBox.setModel(modeloCombo);
-            
-            
+            for (Cliente cliente : clientes) {
+                modeloCombo.addElement(cliente.getNombrePersona());
+            }
+            comboCliente.setModel(modeloCombo);
+
         } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+            mostrarMensaje("Error con la conexión a la Base de datos: "
+                    + ex.getLocalizedMessage());
         }
-        
     }
-    
-    
-    private void llenaComboMD(){
-        ControladorMesaDeDulces ctrlMesas=new ControladorMesaDeDulces();
+
+    private void llenarComboEmpleado() {
         try {
-            LinkedList<MesaDeDulces> listaMesas=ctrlMesas.buscarTodasMD();
+            ControladorEmpleado ctrlEmpleado = new ControladorEmpleado();
+            LinkedList<Empleado> empleados = ctrlEmpleado.buscarTodosLosEmpleados();
+
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
-        for (MesaDeDulces mesa : listaMesas) {
-            modeloCombo.addElement(mesa.getmdNombreDeMesa());
-        }
-        comboMesaDulces.setModel(modeloCombo);
-            
-            
+            for (Empleado empleado : empleados) {
+                modeloCombo.addElement(empleado.getNombrePersona());
+            }
+            comboEmpleado.setModel(modeloCombo);
+
         } catch (SQLException ex) {
-            Logger.getLogger(VtnAgrega_oModificaEventoSocial.class.getName()).log(Level.SEVERE, null, ex);
+            mostrarMensaje("Error con la conexión a la Base de datos: "
+                    + ex.getLocalizedMessage());
         }
-        
     }
-    
+
+    private void llenarComboServicio(String servicio, javax.swing.JComboBox comboBox) {
+        ControladorProveedores ctrlProv = new ControladorProveedores();
+        try {
+            LinkedList<Proveedor> listaServicios = ctrlProv.obtenerProveedoresDelServicio(servicio);
+            DefaultComboBoxModel combo = new DefaultComboBoxModel();
+            for (Proveedor prov : listaServicios) {
+                combo.addElement(prov.getNombrePersona());
+            }
+            comboBox.setModel(combo);
+
+        } catch (SQLException ex) {
+            mostrarMensaje("Error con la conexión de la Base de datos: " + ex.getLocalizedMessage());
+        }
+
+    }
+
+    private void llenarComboMD() {
+        ControladorMesaDeDulces ctrlMesas = new ControladorMesaDeDulces();
+        try {
+            LinkedList<MesaDeDulces> listaMesas = ctrlMesas.buscarTodasMD();
+            DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
+            for (MesaDeDulces mesa : listaMesas) {
+                modeloCombo.addElement(mesa.getNombreDeMesa());
+            }
+            comboMesaDulces.setModel(modeloCombo);
+
+        } catch (SQLException ex) {
+            mostrarMensaje("Error con la conexión de la Base de datos: " + ex.getLocalizedMessage());
+        }
+
+    }
+
     private void borrarDatosDeCampos() {
         this.txtFechaEvento.setText("");
         this.cbPaqBasico.setSelected(false);
@@ -485,11 +490,15 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
         this.cbPaqCompleto.setSelected(false);
     }
 
-    
-        private void cerrarEstaVentana() {
+    private void mostrarMensaje(String msg) {
+        JOptionPane.showMessageDialog(null, msg);
+    }
+
+    private void cerrarEstaVentana() {
         borrarDatosDeCampos();
         this.dispose();
     }
+
     /**
      * @param args the command line arguments
      */
@@ -534,7 +543,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     private javax.swing.JComboBox comboCarpa;
     private javax.swing.JComboBox comboCliente;
     private javax.swing.JComboBox comboEmpleado;
-    private javax.swing.JComboBox comboLuces;
+    private javax.swing.JComboBox comboIluminacion;
     private javax.swing.JComboBox comboLugar;
     private javax.swing.JComboBox comboMesaDulces;
     private javax.swing.JComboBox comboMusica;

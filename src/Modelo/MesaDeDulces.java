@@ -17,7 +17,7 @@ public class MesaDeDulces {
         this.mdPrecio = precio;
     }
 
-    public String getmdNombreDeMesa() {
+    public String getNombreDeMesa() {
         return mdNombreDeMesa;
     }
 

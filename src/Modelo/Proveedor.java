@@ -23,7 +23,7 @@ public class Proveedor extends Persona {
      */
     public Proveedor(int id, String nombre, String direccion, String telefono, String correo) {
         super(id, nombre, direccion, telefono, correo);
-        //this.provServicios = new LinkedList<>();
+        this.provServicios = new LinkedList<>();
     }
 
     /**
@@ -39,6 +39,28 @@ public class Proveedor extends Persona {
     public void setServiciosQueProvee(LinkedList<Servicio> provServicios) {
         this.provServicios = provServicios;
     }
+    
+    /**
+     *Método que agrega un servicio en específico, para el proveedor.
+     * @param unServicio, que es el nuevo que se agregará.
+     */
+    public void agregarUnServicio(Servicio unServicio){
+        
+        provServicios.add(unServicio);
+    }
+    
+    /**
+     *Agrega todos los servicios a un proveedor en particular.
+     * @param provServicios
+     */
+    public void agregarServicios(LinkedList<Servicio> provServicios){
+        provServicios.addAll(provServicios);
+    }
+    
+    
+    
+    
+    
     @Override
     public String toString() {
         return "Proveedor: " + super.toString() + "Servicios que provee:" + getServiciosQueProvee();

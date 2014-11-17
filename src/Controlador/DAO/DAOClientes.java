@@ -184,24 +184,21 @@ public class DAOClientes extends GestorBD {
         }
         return null;
     }
-    
-    public Cliente buscarEspecificamente(String nombreCliente) throws SQLException{
-        Statement sentenciaBuscaIdCliente=Conexion.createStatement();
-        ResultSet busquedaIdCliente=sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
-                + "charmingstudio.cliente WHERE Nombre ='"+nombreCliente+"'");
+
+    public Cliente buscarEspecificamente(String nombreCliente) throws SQLException {
+        Statement sentenciaBuscaIdCliente = Conexion.createStatement();
+        ResultSet busquedaIdCliente = sentenciaBuscaIdCliente.executeQuery("SELECT * FROM "
+                + "charmingstudio.cliente WHERE Nombre ='" + nombreCliente + "'");
         busquedaIdCliente.next();
-        
-        Cliente cliente=new Cliente(busquedaIdCliente.getInt(1),
+
+        Cliente cliente = new Cliente(busquedaIdCliente.getInt(1),
                 busquedaIdCliente.getString(2),
                 busquedaIdCliente.getString(3),
                 busquedaIdCliente.getString(4),
                 busquedaIdCliente.getString(5));
-        
-        
+
         return cliente;
     }
-    
-
 
     /**
      * Función que actualiza la información de un cliente en la base de datos,
@@ -237,24 +234,24 @@ public class DAOClientes extends GestorBD {
         //devuelve si se pudo o no, modificar el cliente:
         return sePudoModificarInfoCliente;
     }
-    
+
     public LinkedList buscarTodosLosClientes() throws SQLException {
 
         Statement sentenciaDeBusquedaDeClientes = Conexion.createStatement();
         ResultSet BusquedaDeClientes = sentenciaDeBusquedaDeClientes.
                 executeQuery("SELECT * FROM charmingstudio.cliente");
-        
+
         /*En este caso, se espera que la búsqueda no siempre sea nula, por
-        lo que nos interesa el negativo de las sentencia:*/
+         lo que nos interesa el negativo de las sentencia:*/
         if (!BusquedaDeClientes.wasNull()) {
-            
+
             LinkedList<Cliente> clientes = new LinkedList<>();
 
             while (BusquedaDeClientes.next()) {
-                
+
                 //agregamos c/cliente a la lista:
-                clientes.add(new Cliente(BusquedaDeClientes.getInt(1), 
-                        BusquedaDeClientes.getString(2), 
+                clientes.add(new Cliente(BusquedaDeClientes.getInt(1),
+                        BusquedaDeClientes.getString(2),
                         BusquedaDeClientes.getString(3),
                         BusquedaDeClientes.getString(4),
                         BusquedaDeClientes.getString(5)));
@@ -262,9 +259,8 @@ public class DAOClientes extends GestorBD {
             }
             return clientes;
         }
-        
+
         return null;
     }
-    
-    
+
 }//fin de la clase.

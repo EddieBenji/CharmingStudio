@@ -1,36 +1,31 @@
 package Modelo;
 
-import java.util.LinkedList;
-
 /**
  * @author Lalo
- * @version 1.0
- * @created 19-sep-2014 01:28:40 p.m.
+ * @version 2.0
+ * @created 16-nov-2014 11:43:40 a.m.
  */
 public class PaqueteIntermedio extends PaqueteBasico {
+    private Proveedor provCarpa;
 
-    private Servicio servCarpa;
-
-    /**
-     * Inicializa un nuevo paquete intermedio, con los servicios de banquetera,
-     * iluminación, carpa y el precio.
-     * @param ServBanquetera
-     * @param servIluminacion
-     * @param servCarpa
-     * @param precio
-     */
-    public PaqueteIntermedio(Servicio ServBanquetera, Servicio servIluminacion, Servicio servCarpa, float precio ) {
-        super(ServBanquetera, servIluminacion, precio);
-        this.nombre="Intermedio";
-        this.servCarpa = servCarpa;
+    public PaqueteIntermedio() {
     }
+
+    
+    
+    public PaqueteIntermedio(int id, String nombre, float precio,Proveedor proveedorBanquetera, 
+            Proveedor proveedorIluminacion,Proveedor provCarpa) {
+        super(id, nombre, precio, proveedorBanquetera, proveedorIluminacion);
+        this.provCarpa = provCarpa;
+    }
+ 
     /**
      *Devuelve el precio del paquete intermedio.
      * @return precio.
      */
     @Override
     public float getPrecio() {
-        return this.precio;
+        return super.getPrecio();
     }
      /**
      *Establece el precio del paquete intermedio.
@@ -38,18 +33,44 @@ public class PaqueteIntermedio extends PaqueteBasico {
      */
     @Override
     public void setPrecio(float precio) {
-        this.precio = precio;
+        super.setPrecio(precio);
     }
     
-    public LinkedList getServicios(){
-        LinkedList<Servicio> servicios=super.getServicios();
-        servicios.add(servCarpa);
-        return servicios;
-    }
     
     @Override
     public String getNombre(){
-        return this.nombre;
+        return super.getNombre();
     }
 
+    @Override
+    public void setNombre(String nombre) {
+        super.setNombre(nombre);
+    }
+
+    @Override
+    public void setIdPaquete(int id) {
+        super.setIdPaquete(id); 
+    }
+
+    @Override
+    public int getIdPaquete() {
+        return super.getIdPaquete();
+    }
+    
+    public Proveedor getProvCarpa() {
+        return provCarpa;
+    }
+
+    public void setProvCarpa(Proveedor provCarpa) {
+        this.provCarpa = provCarpa;
+    }
+
+    @Override
+    public String toString() {
+        return "Paquete Intermedio:" +"\n"+
+                super.toString()+"\n"+
+                "Proveedor de la Carpa: " + provCarpa ;
+    }    
+
+    
 }

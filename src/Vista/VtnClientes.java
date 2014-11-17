@@ -268,9 +268,8 @@ public class VtnClientes extends javax.swing.JFrame {
                 //agregamos los datos de cada columna en cada renglón:
                 modeloDeLaTabla.addRow(columnasDeDatos);
             }
-        } else {
-            //se considera el else pero no es necesario                                           
-        }
+        }//se considera el else pero no es necesario                                           
+        
         //establecemos a nuestra tabla, el modelo que tenía:
         this.tablaClientes.setModel(modeloDeLaTabla);
 

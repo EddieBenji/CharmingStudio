@@ -6,6 +6,8 @@ import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,9 +49,9 @@ public class ControladorProveedores implements ControladorPersona {
 
     @Override
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
-        
+
         return dao.buscarCoincidencias(nombrePersona);
-        
+
     }
 
     /**
@@ -61,9 +63,9 @@ public class ControladorProveedores implements ControladorPersona {
      * @return
      * @throws SQLException
      */
-    public LinkedList proveedoresDelServicio(String servicio) throws SQLException {
+    public LinkedList obtenerProveedoresDelServicio(String servicio) throws SQLException {
 
-        return dao.proveedoresDelServicio(servicio);
+        return dao.obtenerProveedoresDelServicio(servicio);
     }
 
     /**
@@ -86,6 +88,42 @@ public class ControladorProveedores implements ControladorPersona {
 
         return null;
 
+    }
+
+    public LinkedList<Proveedor> obtenerTodosLosProveedoresConSusServicios() throws SQLException {
+
+        DAOProveedores daoProv = new DAOProveedores();
+        LinkedList<Proveedor> proveedoresConServicios = daoProv.buscarCoincidencias("");
+
+        return proveedoresConServicios;
+    }
+
+    public LinkedList<Proveedor> obtenerTodosLosProveedoresDeservicioBasico() throws SQLException {
+
+        DAOProveedores daoProv = new DAOProveedores();
+        LinkedList<Proveedor> proveedoresDeBanquetera = daoProv.obtenerProveedoresDelServicio("Banquetera");
+        LinkedList<Proveedor> proveedoresDeCarpa = daoProv.obtenerProveedoresDelServicio("Carpa");
+
+        proveedoresDeBanquetera = combinarServicios(proveedoresDeBanquetera, proveedoresDeCarpa);
+
+        return proveedoresDeBanquetera;
+    }
+
+    private LinkedList<Proveedor> combinarServicios(LinkedList<Proveedor> proveedoresDePrimerServicio,
+            LinkedList<Proveedor> proveedoresDeSegundoServicio) {
+
+        for (Proveedor unProveedor : proveedoresDePrimerServicio) {
+            for (Proveedor otroProveedor : proveedoresDeSegundoServicio) {
+                if (unProveedor.getNombrePersona().equalsIgnoreCase(otroProveedor.getNombrePersona())) {
+                    //Ambos proveedores son iguales.
+                    LinkedList<Servicio> servicios = otroProveedor.getServiciosQueProvee();
+                    for (Servicio unServicio : servicios) {
+                        unProveedor.getServiciosQueProvee().add(unServicio);
+                    }
+                }
+            }
+        }
+        return proveedoresDePrimerServicio;
     }
 
 }

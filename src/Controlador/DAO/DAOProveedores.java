@@ -10,7 +10,6 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 
 /**
  * @author Lalo
@@ -46,7 +45,7 @@ public class DAOProveedores extends GestorBD {
             agregarProveedorA_suTabla(proveedor);
             /*En la sentencia anterior, el proveedor se agregó a la BD
              y el SMBD le asignó un ID, por lo que ahora necesitamos 
-            encontrar dicho ID:                        */
+             encontrar dicho ID:                        */
             int idProveedor = encontrarIdDeProveedor(proveedor.getNombrePersona());
             agregarPreciosDeServicioDelProveedor(proveedor.getServiciosQueProvee(), idProveedor);
 
@@ -122,10 +121,6 @@ public class DAOProveedores extends GestorBD {
         return existeUsuario;
     }
 
-    public Proveedor obtenerProveedor(Proveedor prov) {
-        return null;
-    }
-
     private boolean compararProveedores(Proveedor proveedorEncontradoEnBD, Proveedor proveedorA_modificar) {
         //primero obtenemos ambos nombres:
         String nombreProveedorEncontradoEnBD = proveedorEncontradoEnBD.getNombrePersona();
@@ -193,6 +188,8 @@ public class DAOProveedores extends GestorBD {
     private static final int columnaCorreo = 5;
 
     /**
+     * Este método devuelve a todos los proveedores que coincidan con el nombre,
+     * con sus propios servicios y costos.
      *
      * @param nombrePersona
      * @return
@@ -323,47 +320,93 @@ public class DAOProveedores extends GestorBD {
     }
 
     /**
-     * No estoy seguro quien lo usa.
+     * encuentra toda la información asociada a un proveedor, a partir del id
+     * que se le pase.
      *
-     * @param servicio
+     * @param idProveedor
      * @return
      * @throws SQLException
      */
-    public LinkedList proveedoresDelServicio(String servicio) throws SQLException {
+    public Proveedor buscarProveedorPorId(int idProveedor) throws SQLException {
+
+        Statement sentenciaBuscaProveedor = Conexion.createStatement();
+        ResultSet busquedaProveedor = sentenciaBuscaProveedor.executeQuery("SELECT * FROM "
+                + "charmingstudio.proveedor WHERE idProveedor ='" + idProveedor + "'");
+        busquedaProveedor.next();
+
+        Proveedor unProveedor = new Proveedor(busquedaProveedor.getInt(columnaIdProveedor),
+                busquedaProveedor.getString(columnaNombre),
+                busquedaProveedor.getString(columnaDireccion),
+                busquedaProveedor.getString(columnaTelefono),
+                busquedaProveedor.getString(columnaCorreo));
+        /*
+        LinkedList<Servicio> servicios = encontrarServiciosDelProveedor(unProveedor.getIdPersona());
+        unProveedor.setServiciosQueProvee(servicios);
+        */
+        return unProveedor;
+    }
+
+    /**
+     * No estoy seguro quien lo usa.
+     *
+     * @param nombreServicio
+     * @return
+     * @throws SQLException
+     */
+    
+    private static final int columnaCostoServicio = 3;
+    
+    public LinkedList obtenerProveedoresDelServicio(String nombreServicio) throws SQLException {
         DAOServicios ctrlServicio = new DAOServicios();
         LinkedList<Proveedor> proveedores = new LinkedList();
-        LinkedList<Integer> clavesDeProveedores = new LinkedList();
-        LinkedList<String> nombresDeProvs = new LinkedList();
 
-        int claveServicio = ctrlServicio.encontrarServicioPorNombre(servicio).getId();
+        //busco el servicio:
+        Servicio servicio = ctrlServicio.encontrarServicioPorNombre(nombreServicio);
 
+        //voy a buscar a los proveedores del servicio:
         Statement sentenciaBuscaServicios = Conexion.createStatement();
-        Statement sentenciaBuscaNombresServ = Conexion.createStatement();
-
         ResultSet BusquedaIdProvs
                 = sentenciaBuscaServicios.executeQuery("SELECT * FROM "
-                        + "charmingstudio.provee WHERE idServicios = '" + claveServicio + "'");
+                        + "charmingstudio.provee WHERE idServicios = '" + servicio.getId() + "' ORDER BY costo");
 
         if (BusquedaIdProvs.wasNull()) {
             return null;
         }
 
+        Proveedor provTemporal,proveedor;
+        Servicio unServicio;
         while (BusquedaIdProvs.next()) {
-            clavesDeProveedores.add(BusquedaIdProvs.getInt(columnaIdProveedor));
+            
+            provTemporal = buscarProveedorPorId(BusquedaIdProvs.getInt(columnaIdProveedor));
+            
+            /*necesitamos nuevos objetos, debido a que puede haber
+            varios proveedores que den el mismo servicio:*/
+            proveedor = new Proveedor(provTemporal.getIdPersona(),
+                    provTemporal.getNombrePersona(),
+                    provTemporal.getDireccionPersona(),
+                    provTemporal.getTelefonoPersona(),
+                    provTemporal.getCorreoPersona());
+            
+            unServicio = new Servicio(servicio.getId(), 
+                    servicio.getServNombre(),
+                    BusquedaIdProvs.getFloat(columnaCostoServicio));
+            
+            proveedor.agregarUnServicio(unServicio);
+            proveedores.add(proveedor);
         }//fin while
-
-        for (Integer llave : clavesDeProveedores) {
-            ResultSet BusquedaNombresDeProvs = sentenciaBuscaNombresServ.executeQuery("SELECT * FROM "
-                    + "charmingstudio.proveedor WHERE idProveedor = '" + llave + "'");
-            while (BusquedaNombresDeProvs.next()) {
-                nombresDeProvs.add(BusquedaNombresDeProvs.getString(columnaNombre));
-            }//fin while
-        }//fin for
-
-        for (String nombreProveedor : nombresDeProvs) {
-            proveedores.add(new Proveedor(0, nombreProveedor, "", "", ""));
-        }
 
         return proveedores;
     }
+
+    public static void main(String[] args) {
+        try {
+            DAOProveedores d = new DAOProveedores();
+            System.out.println(d.obtenerProveedoresDelServicio("Banquetera"));
+        } catch (SQLException ex) {
+            System.out.println("error");
+            ex.printStackTrace();
+            
+        }
+    }
+    
 }

@@ -12,18 +12,33 @@ public abstract class Paquete {
     String nombre;
     protected float precio;
 
+    public Paquete(int id, String nombre, float precio) {
+        this.id = id;
+        this.nombre = nombre;
+        this.precio = precio;
+    }
+
+    
+    
+    
     public Paquete() {}
 
     public abstract int getIdPaquete();
     public abstract void setIdPaquete(int id);
+    
     public abstract float getPrecio();
+    public abstract void setPrecio(float precio);
     
     public abstract String getNombre();
+    public abstract void setNombre(String nombre);
 
-    public abstract void setPrecio(float precio);
-    public abstract void setProveedores(LinkedList<Proveedor> proveedores);
-    public abstract void setServicios(LinkedList<Servicio> servicios);
-    public abstract LinkedList<Servicio> getServicios();
-    public abstract LinkedList<Proveedor> getProveedores();
+    @Override
+    public String toString() {
+        return  "Identificador: " + id + "\n"+
+                "Nombre: " + nombre +"\n"+
+                "Precio: " + precio ;
+    }
+
+    
 
 }

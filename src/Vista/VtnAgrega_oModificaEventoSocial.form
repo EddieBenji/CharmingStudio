@@ -98,7 +98,7 @@
                               </Group>
                           </Group>
                           <Group type="102" alignment="1" attributes="0">
-                              <Component id="comboLuces" min="-2" max="-2" attributes="0"/>
+                              <Component id="comboIluminacion" min="-2" max="-2" attributes="0"/>
                               <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="lblLugar" min="-2" max="-2" attributes="0"/>
@@ -178,7 +178,7 @@
               <Component id="lblLugar" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="comboLuces" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="comboIluminacion" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="comboLugar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="42" max="-2" attributes="0"/>
@@ -267,7 +267,7 @@
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="comboLuces">
+    <Component class="javax.swing.JComboBox" name="comboIluminacion">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">

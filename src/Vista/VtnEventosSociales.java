@@ -127,8 +127,8 @@ public class VtnEventosSociales extends javax.swing.JFrame {
 
     private void btnNuevoEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoEventoActionPerformed
         // TODO add your handling code here:
-        VtnAgrega_oModificaEventoSocial ventanaAgrega_oModificaEventoSocial = VtnAgrega_oModificaEventoSocial.getInstanciaDeVtnAgrega_oModificaEventoSocial();
-        ventanaAgrega_oModificaEventoSocial.setVisible(true);
+       vtnAgregaEventoSocial vtn = vtnAgregaEventoSocial.getInstanciaVtnAgregaEvento();
+       vtn.setVisible(true);
         cerrarEstaVentana();
         
     }//GEN-LAST:event_btnNuevoEventoActionPerformed

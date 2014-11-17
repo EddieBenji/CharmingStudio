@@ -53,7 +53,7 @@ public class DAOServicios {
     public LinkedList buscarServicio(String nombreServicio) throws SQLException {
         LinkedList<Servicio> servicio = new LinkedList<>();
         Statement sentencia = Conexion.createStatement();
-        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.cliente"
+        ResultSet Busqueda = sentencia.executeQuery("SELECT * FROM charmingstudio.servicios"
                 + " WHERE Nombre LIKE '%" + nombreServicio + "%'");
         if (!Busqueda.wasNull()) {
             while (Busqueda.next()) {
@@ -61,7 +61,7 @@ public class DAOServicios {
             }
             return servicio;
         }
-        System.out.println("El cliente no se encuentra en la BD");
+        System.out.println("El Servicio no se encuentra en la BD");
         return null;
     }
 
@@ -125,12 +125,10 @@ public class DAOServicios {
         ResultSet resultadoDeBusqueda = sentenciaBuscaIdServicios.executeQuery("SELECT * FROM"
                 + " charmingstudio.provee WHERE idProveedor = '" + claveProveedor + "'");
 
-        LinkedList<Servicio> servicios = new LinkedList<>();
-
         if (resultadoDeBusqueda.wasNull()) {
             return null;
         }
-
+       LinkedList<Servicio> servicios = new LinkedList<>();
         Servicio _servicio;
         int idServicio;
         while (resultadoDeBusqueda.next()) {

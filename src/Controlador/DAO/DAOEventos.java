@@ -1,16 +1,10 @@
 package Controlador.DAO;
 
 import Modelo.EventosSociales;
-import Modelo.Proveedor;
-import Modelo.Servicio;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -48,7 +42,7 @@ public class DAOEventos {
         Statement sentenciaAgregaArma = Conexion.createStatement();
 
         java.sql.Date sqlDate = new java.sql.Date(evento.getEvtFecha().getTime());
-
+/*
         for (int i = 0; i < evento.getEvtPaquete().getProveedores().size(); i++) {
             sentenciaAgregaArma.executeUpdate("INSERT INTO charmingstudio.arma "
                         + "(`idPaquete`, `idProveedor`,`idServicio` )" + "VALUES("
@@ -74,7 +68,7 @@ public class DAOEventos {
         }//fin for
         seAgregoEvento = true;
         //}//fin if
-
+*/
     }
 
     /**

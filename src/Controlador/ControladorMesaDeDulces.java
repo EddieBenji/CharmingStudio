@@ -38,7 +38,7 @@ public class ControladorMesaDeDulces {
     
     public MesaDeDulces buscarPorNombre(String nombreMesa) throws SQLException {
 
-        return dao.buscarEspecificamente(nombreMesa);
+        return dao.buscarMesaPorNombre(nombreMesa);
         
     }
     

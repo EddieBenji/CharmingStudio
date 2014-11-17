@@ -202,7 +202,6 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
                 //creamos el controlador de mesa de dulces:
                 ControladorMesaDeDulces controlMesaDeDulces = new ControladorMesaDeDulces();
 
-
                 try {
                     controlMesaDeDulces.eliminarMD(mesaDeDulcesQueSeEliminara.getIdMesaDulces());
                     mostrarMensaje("Mesa de dulces eliminada");
@@ -218,16 +217,18 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
 
     private void btnBuscarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarMesaDulcesActionPerformed
         // TODO add your handling code here:
-        /*Declaramos el controlador que busca los clientes
+        /*Declaramos el controlador que busca las mesas de ducles
          en la base de datos: */
-        ControladorMesaDeDulces ctrlBuscarMesaDeDulces = new ControladorMesaDeDulces();
+        ControladorMesaDeDulces controladorMD = new ControladorMesaDeDulces();
 
         try {
+            String nombreMesa = this.txtNombreMesaDeDulces.getText();
             /*El controlador, devuelve una lista con los clientes que coincidieron con la búsqueda:*/
-            LinkedList<MesaDeDulces> listaDeMesaDeDulces = ctrlBuscarMesaDeDulces.buscarCoincidencias(this.txtNombreMesaDeDulces.getText());
+            LinkedList<MesaDeDulces> listaDeMesaDeDulces = 
+                    controladorMD.buscarCoincidencias(nombreMesa);
             llenarTablaDeDatos(listaDeMesaDeDulces);
 
-        }catch (SQLException ex){
+        } catch (SQLException ex) {
 
             //si hay Excepción, mostramos el mensaje en pantalla:
             mostrarMensaje("Hubo un error: " + ex.getLocalizedMessage());
@@ -236,7 +237,7 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
 
     private void btnModificarMesaDulcesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarMesaDulcesActionPerformed
         // TODO add your handling code here:
-        
+
         //creamos un cliente temporal, a partir del renglón seleccionado en la tabla:
         MesaDeDulces mesaDeDulcesTemporal = obtenerInformacionDeRenglonSelecccionado();
 
@@ -247,16 +248,16 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
             //obtenemos la instancia de la ventana: 
             VtnAgrega_oModificaMesaDeDulces vtnModificaMesaDeDulces
                     = VtnAgrega_oModificaMesaDeDulces.getInstanciaVtnAgrega_oModificaMesaDeDulces();
-            
+
             //Obtenemos el id de la mesa de dulces que se seleccionó en la tabla:
             String id = Integer.toString(mesaDeDulcesTemporal.getIdMesaDulces());
-           
+
             /*El id del cliente que aparece en la tabla, lo ponemos 
              en el JTextField de la siguiente Ventana: */
             vtnModificaMesaDeDulces.getTxtIdMesaDeDulces().setText(id);
-            
+
             //Obtenemos el nombre de la mesa de dulces que se seleccionó en la tabla:
-            String nombre = mesaDeDulcesTemporal.getmdNombreDeMesa();
+            String nombre = mesaDeDulcesTemporal.getNombreDeMesa();
             /*El nombre del cliente que aparece en la tabla, lo ponemos 
              en el JTextField de la siguiente Ventana: */
             vtnModificaMesaDeDulces.getTxtNombreMesaDeDulces().setText(nombre);
@@ -301,7 +302,6 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         String nombre = (String) tablaMesaDeDulces.getValueAt(numDeRenglonSeleccionado, columnaNombre);
         float precio = (Float) tablaMesaDeDulces.getValueAt(numDeRenglonSeleccionado, columnaPrecio);
 
-
         return new MesaDeDulces(id, nombre, precio);
     }
 
@@ -320,9 +320,14 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
 
     }
 
+    private static final int columnaID = 0;
+    private static final int columnaNombre = 1;
+    private static final int columnaPrecio = 2;
+    private static final int totalColumnas = 3;
+    
     private void llenarTablaDeDatos(LinkedList<MesaDeDulces> listaDeMesasDeDulces) {
         //Declaramos las columnas:
-        Object columnasDeDatos[] = new Object[3];
+        Object renglonDeDatos[] = new Object[totalColumnas];
 
         //obtenemos el modelo default de la tabla:
         DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.tablaMesaDeDulces.getModel();
@@ -332,13 +337,12 @@ public class VtnMesaDeDulces extends javax.swing.JFrame {
         if (listaDeMesasDeDulces != null) {
             //agregamos a cada columna los datos que le corresponden:
             for (MesaDeDulces mesaDeDulces : listaDeMesasDeDulces) {
-                columnasDeDatos[0] = mesaDeDulces.getIdMesaDulces();
-                columnasDeDatos[1] = mesaDeDulces.getmdNombreDeMesa();
-                columnasDeDatos[2] = mesaDeDulces.getPrecio();
-
+                renglonDeDatos[columnaID] = mesaDeDulces.getIdMesaDulces();
+                renglonDeDatos[columnaNombre] = mesaDeDulces.getNombreDeMesa();
+                renglonDeDatos[columnaPrecio] = mesaDeDulces.getPrecio();
 
                 //agregamos los datos de cada columna en cada renglón:
-                modeloDeLaTabla.addRow(columnasDeDatos);
+                modeloDeLaTabla.addRow(renglonDeDatos);
             }
         } else {
             //se considera el else pero no es necesario                                           

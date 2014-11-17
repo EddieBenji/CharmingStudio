@@ -40,6 +40,7 @@ public class EventosSociales {
      * @param evtPaquete
      * @param evtPrecioTotal
      * @param evtComision
+     * @param evtEmpleado
      */
     public EventosSociales(Cliente evtCliente, Date evtFecha,
             MesaDeDulces evtMesaDeDulces, Paquete evtPaquete,
@@ -149,6 +150,14 @@ public class EventosSociales {
      */
     public void setEvtEmpleado(Empleado evtEmpleado) {
         this.evtEmpleado = evtEmpleado;
+    }
+
+    @Override
+    public String toString() {
+        return "EventosSociales{" + "evtCliente=" + evtCliente + ", evtFecha=" + evtFecha + 
+                ", evtMesaDeDulces=" + evtMesaDeDulces + ", evtPaquete=" + evtPaquete +
+                ", evtPrecioTotal=" + evtPrecioTotal + ", evtComision=" + evtComision + 
+                ", evtEmpleado=" + evtEmpleado + '}';
     }
     
     

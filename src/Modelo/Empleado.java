@@ -121,7 +121,14 @@ public class Empleado extends Persona {
         return super.getIdPersona(); //To change body of generated methods, choose Tools | Templates.
     }
 
-    
+    /**
+     *Regresa el ID y nombre del empleado.
+     * @return
+     */
+    public String obtenerInfoBasicoDeEmpleado(){
+        
+        return ""+getIdPersona()+" "+getNombrePersona();
+    }
     
     
     
