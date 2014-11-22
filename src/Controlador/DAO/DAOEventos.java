@@ -2,6 +2,7 @@ package Controlador.DAO;
 
 import Modelo.EventosSociales;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
@@ -48,44 +49,44 @@ public class DAOEventos {
      * @return 
      * @throws SQLException
      */
-    public boolean agregarElemento(int idCliente, int idMesasDulces, Calendar Fecha,
-            float PrecioTotal, int idEmpleado, int idPaquetes,
-            int idProveedor, int idServicios) throws SQLException {
+    //claveCliente, claveMesaDulces, fechaEvento,precioEvento, claveEmpleado
+    public int agregarElementoA_TablaEventoSocial(int idCliente, int idMesasDulces, String Fecha,
+            float PrecioTotal, int idEmpleado) throws SQLException {
 
-        Statement sentenciaDeInsercion = Conexion.createStatement();
-        String strFecha = obtenerFecha(Fecha);
+        Statement sentenciaDeInsercion = Conexion.createStatement();        
         
-        boolean seAgregoElemento = sentenciaDeInsercion.execute("INSERT INTO charmingstudio.eventos "
-                + "(`idCliente`,`idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`, "
-                + "`idPaquetes`,`idProveedor`,`idServicios`)"
+        //boolean seAgregoElemento = 
+        sentenciaDeInsercion.execute("INSERT INTO charmingstudio.eventos "
+                + "(`idCliente`,`idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`)"
                 + "VALUES("
                 + "'" + idCliente + "',"
                 + "'" + idMesasDulces + "',"
-                + "'" + strFecha + "',"
+                + "'" + Fecha + "',"
                 + "'" + PrecioTotal + "',"
-                + "'" + idEmpleado + "',"
-                + "'" + idPaquetes + "',"
-                + "'" + idProveedor + "',"
-                + "'" + idServicios + "')");
+                + "'" + idEmpleado + "')");
 
-        return seAgregoElemento;
+        int id = obtenerIdEvento(idCliente, idMesasDulces,  PrecioTotal, idEmpleado);
+        
+        return id;
+    }
+    
+    private  int obtenerIdEvento (int idCliente, int idMesasDulces, 
+            float PrecioTotal, int idEmpleado) throws SQLException{
+        
+         Statement sentenciaDeInsercion = Conexion.createStatement();
+        
+        
+        ResultSet id = sentenciaDeInsercion.executeQuery("SELECT * FROM charmingstudio.eventos WHERE "
+                + "`idCliente` = "+ idCliente
+                + " AND `idMesaDulces` = "+ idMesasDulces
+                + " AND `PrecioTotal`= " + PrecioTotal
+                + " AND `idEmpleado` = " + idEmpleado);
+        id.next();
+        System.out.println(id.getInt("idEvento"));
 
+        return id.getInt("idEvento");
     }
 
-    private String obtenerFecha(Calendar fecha) {
-
-        String dia = String.valueOf(fecha.get(Calendar.DAY_OF_MONTH));
-        String mes = String.valueOf(fecha.get(Calendar.MONTH));
-        String anio = String.valueOf(fecha.get(Calendar.YEAR));
-
-        return anio + "-" + mes + "-" + dia;
-    }
-
-    public static void main(String[] args) {
-        DAOEventos d = new DAOEventos();
-        Calendar fecha = new GregorianCalendar();
-        d.obtenerFecha(fecha);
-    }
 
     /**
      *

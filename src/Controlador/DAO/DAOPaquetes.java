@@ -38,12 +38,13 @@ public class DAOPaquetes {
      * elemento.
      * @throws java.sql.SQLException
      */
-    public boolean insertarElemento(int idPaquete, int idProveedor, int idServicio) throws SQLException {
+    public boolean insertarElemento(int idEvento, int idPaquete, int idProveedor, int idServicio) throws SQLException {
 
         Statement sentenciaDeInsercion = Conexion.createStatement();
 
-        boolean seAgregoElemento = sentenciaDeInsercion.execute("INSERT INTO charmingstudio.arma (`idPaquetes`, "
+        boolean seAgregoElemento = sentenciaDeInsercion.execute("INSERT INTO charmingstudio.arma (`Eventos_idEvento`,`idPaquetes`, "
                 + "`idProveedor`, `idServicios`)" + "VALUES("
+                + "'" + idEvento + "',"
                 + "'" + idPaquete + "',"
                 + "'" + idProveedor + "',"
                 + "'" + idServicio + "')");

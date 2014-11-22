@@ -105,10 +105,10 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
             //obtenemos el controlador que nos ayudará a encontrar los proveedores:
             ControladorEventos unControlador = new ControladorEventos();
             LinkedList proveedores = unControlador.encontrarProveedoresDeServicioBasico();
-            
+
             //pintamos la lista en la tabla:
             llenarLista(listaDeProveedoresConServicios, numColumnasDeProveedores, proveedores);
-            
+
         } catch (SQLException ex) {
             mostrarMensajeEnPantalla("Error con la base de datos: " + ex.getLocalizedMessage());
         }
@@ -151,6 +151,7 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         lbDia = new javax.swing.JLabel();
         lbMes = new javax.swing.JLabel();
         lbAnio = new javax.swing.JLabel();
+        btnRegreso = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Agregará un nuevo Evento Social.");
@@ -309,12 +310,21 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         lbAnio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lbAnio.setText("Año");
 
+        btnRegreso.setText("Regresar");
+        btnRegreso.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRegresoActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(174, 174, 174)
+                .addComponent(btnRegreso)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAgregarEvento)
                 .addGap(220, 220, 220))
             .addGroup(layout.createSequentialGroup()
@@ -422,18 +432,24 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
                             .addComponent(comboAnio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(50, 50, 50)))
                 .addComponent(lbTituloPaq)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rbPaqBasico)
-                    .addComponent(rbPaqIntermedio)
-                    .addComponent(rbPaqCompleto))
-                .addGap(13, 13, 13)
-                .addComponent(lbSeleccioneServicios)
-                .addGap(18, 18, 18)
-                .addComponent(PanelDeServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnAgregarEvento)
-                .addContainerGap(36, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(rbPaqBasico)
+                            .addComponent(rbPaqIntermedio)
+                            .addComponent(rbPaqCompleto))
+                        .addGap(13, 13, 13)
+                        .addComponent(lbSeleccioneServicios)
+                        .addGap(18, 18, 18)
+                        .addComponent(PanelDeServicios, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAgregarEvento)
+                        .addContainerGap(36, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegreso)
+                        .addGap(22, 22, 22))))
         );
 
         pack();
@@ -469,7 +485,8 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         int idCliente = obtenerClaveClienteSeleccionado();
         int idEmpleado = obtenerClaveEmpleadoSeleccionado();
         int idMesa = obtenerClaveMesaSeleccionada();
-        Calendar fecha = obtenerFecha();
+        String fecha = obtenerFecha();
+
         Object[] proveedores = obtenerProveedores();
         float precioTotal = obtenerPrecio();
         int idPaquete = obtenerTipoPaquete();
@@ -493,11 +510,34 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnAgregarEventoActionPerformed
 
-    private Calendar obtenerFecha() {
+    private void btnRegresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresoActionPerformed
+        // TODO add your handling code here:
+        
+        //hay que limpiar toda la pantalla.
+        VtnEventosSociales regreso = VtnEventosSociales.getInstanciaDeVtnEventosSociales();
+        regreso.setVisible(true);
+        this.dispose();
+        
+        
+    }//GEN-LAST:event_btnRegresoActionPerformed
+
+    private String obtenerFecha() {
         int dia = Integer.parseInt((String) comboDia.getSelectedItem());
-        int mes = comboMes.getSelectedIndex();
+        int mes = comboMes.getSelectedIndex() + 1;
         int anio = (int) comboAnio.getSelectedItem();
-        return new GregorianCalendar(dia, mes, anio);
+        GregorianCalendar fechaEscogida = new GregorianCalendar(anio, mes, dia);
+
+        String fechaEnTexto = convertirFecha(fechaEscogida);
+
+        return fechaEnTexto;
+    }
+
+    private String convertirFecha(GregorianCalendar fecha) {
+        String strFecha = "";
+        strFecha += fecha.get(Calendar.YEAR) + "-";
+        strFecha += fecha.get(Calendar.MONTH) + "-";
+        strFecha += fecha.get(Calendar.DATE);
+        return strFecha;
     }
 
     private int obtenerClaveClienteSeleccionado() {
@@ -530,22 +570,46 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
     private Object[] obtenerProveedores() {
         //declaramos lo que necesitamos:
         int[] renglonesSeleccionados = listaDeProveedoresConServicios.getSelectedRows();
-        int indice = 0;
-        Object[] proveedores = new Object[renglonesSeleccionados.length * 2];
 
+        Object[] proveedores = new Object[renglonesSeleccionados.length * 2];
+        //Se multiplica por 2, porque de a pares se guardará la información en el arreglo
+        //primer casillero del arreglo es el id, segundo es el nombre del proveedor.
+
+        int indice = 0;
+        int idProveedor = 0;
+        String nombreProveedor = "";
         //empezamos a obtener los datos de las listas:
         for (int vueltas = 0; vueltas < renglonesSeleccionados.length; vueltas++) {
-
             //obtenemos el ID del proveedor:
-            proveedores[indice] = (int) listaDeProveedoresConServicios.getValueAt(renglonesSeleccionados[vueltas], columnaIdProveedor);
+            idProveedor = (int) listaDeProveedoresConServicios.
+                    getValueAt(renglonesSeleccionados[vueltas], columnaIdProveedor);
 
+            
             //obtenemos el nombre del servicio que provee el proveedor:
-            proveedores[indice + 1] = (String) listaDeProveedoresConServicios.getValueAt(renglonesSeleccionados[vueltas], columnaNombreServicio);
+            nombreProveedor = (String) listaDeProveedoresConServicios.
+                    getValueAt(renglonesSeleccionados[vueltas], columnaNombreServicio);
+            
+            
+            proveedores[indice] = idProveedor;
+            proveedores[indice + 1] = nombreProveedor;
+            
 
             indice += 2;
         }
 
         return proveedores;
+    }
+
+    
+    /**
+     * Falta Usarla.
+     */
+    private boolean verificarProveedores(int idProveedor1, int idProveedor2) {
+        if (idProveedor1 == idProveedor2) {
+            return true;
+        }
+
+        return false;
     }
 
     private static final int columnaPrecio = 3;
@@ -685,6 +749,7 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
     private javax.swing.JScrollPane PanelDeServicios;
     private javax.swing.JButton btnAgregarEvento;
     private javax.swing.JButton btnBuscarCliente;
+    private javax.swing.JButton btnRegreso;
     private javax.swing.JComboBox comboAnio;
     private javax.swing.JComboBox comboDia;
     private javax.swing.JComboBox comboMes;

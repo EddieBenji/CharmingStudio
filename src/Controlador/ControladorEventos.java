@@ -9,8 +9,6 @@ import Modelo.Cliente;
 import Modelo.MesaDeDulces;
 import Modelo.Proveedor;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.LinkedList;
 
 /**
@@ -41,31 +39,15 @@ public class ControladorEventos {
      */
     public boolean agregarEvento(int claveCliente, int claveEmpleado, int claveMesaDulces,
             Object[] proveedores, int clavePaquete, float precioEvento,
-            Calendar fechaEvento) throws SQLException {
+            String fechaEvento) throws SQLException {
 
+        boolean sePudoAgregarEvento = true;
+
+         int idEvento = dao.agregarElementoA_TablaEventoSocial(claveCliente, claveMesaDulces, fechaEvento,
+                    precioEvento, claveEmpleado);
         //Se actualiza la información de los paquetes en la BD:
-        agregarPaquetes(clavePaquete, proveedores);
+        agregarPaquetes(idEvento,clavePaquete, proveedores);
 
-        int idProveedor = 0, idServicio = 0;
-        String nombreServicio = "";
-
-        boolean sePudoAgregarEvento = false;
-        for (int indice = 0; indice < proveedores.length; indice += 2) {
-            
-            //obtenemos la información del arreglo:
-            idProveedor = (int) proveedores[indice];
-            nombreServicio = (String) proveedores[indice + 1];
-            
-            //encontramos el ID del servicio, a partir del nombre:
-            idServicio = buscarIdServicioPorNombre(nombreServicio);
-            System.out.println("Servicio:" +nombreServicio+" ID: "+idServicio);
-            //todo eso, lo agregamos a la BD.
-            sePudoAgregarEvento = dao.agregarElemento(claveCliente, claveMesaDulces, fechaEvento,
-                    precioEvento, claveEmpleado, clavePaquete,
-                    idProveedor, idServicio);
-                        
-            nombreServicio = "";
-        }
         return sePudoAgregarEvento;
     }
 
@@ -73,7 +55,7 @@ public class ControladorEventos {
      * Se encarga de actualizar la tabla de los paquetes.
      * (arma)
      */
-    private void agregarPaquetes(int clavePaquete, Object[] proveedoresConServicios) throws SQLException {
+    private void agregarPaquetes(int idEvento, int clavePaquete, Object[] proveedoresConServicios) throws SQLException {
         ControladorPaquetes unControladorPaquetes = new ControladorPaquetes();
         int idProveedor = 0, idServicio = 0;
         String nombreServicio = "";
@@ -87,7 +69,7 @@ public class ControladorEventos {
             idServicio = buscarIdServicioPorNombre(nombreServicio);
 
             //Actualizamos la información del paquete en la BD.
-            unControladorPaquetes.agregarPaquetes(clavePaquete, idProveedor, idServicio);
+            unControladorPaquetes.agregarPaquetes(idEvento,clavePaquete, idProveedor, idServicio);
         }
     }
 

@@ -35,8 +35,8 @@ public class ControladorPaquetes {
      * BD.
      * @throws SQLException
      */
-    public boolean agregarPaquetes(int idPaquete, int idProveedor, int idServicio) throws SQLException {
-        return dao.insertarElemento(idPaquete, idProveedor, idServicio);
+    public boolean agregarPaquetes(int idEvento,int idPaquete, int idProveedor, int idServicio) throws SQLException {
+        return dao.insertarElemento(idEvento,idPaquete, idProveedor, idServicio);
     }
 
     /**
