@@ -4,6 +4,14 @@
  */
 package Vista;
 
+import Controlador.ControladorEmpleado;
+import Modelo.Empleado;
+import java.sql.SQLException;
+import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Carlos
@@ -18,7 +26,7 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
     public VtnReporEmpleados() {
         initComponents();
         setLocationRelativeTo(null);
-
+        listarEmpleados();
     }
 
     public static VtnReporEmpleados getInstanciaDeVtnReporEmpleados() {
@@ -42,7 +50,7 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         btnRegresarVtnReportes = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        reporteTablaEmpleados = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
@@ -57,7 +65,8 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        reporteTablaEmpleados.setAutoCreateRowSorter(true);
+        reporteTablaEmpleados.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -65,10 +74,18 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
                 {null, null, null, null}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre", "Ordenar x Desempeño", "Ordernar x Sueldo", "Ordernar x Total Vendido"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Float.class, java.lang.Float.class, java.lang.Float.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(reporteTablaEmpleados);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Reportes de los Empleados");
@@ -80,15 +97,14 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresarVtnReportes))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addComponent(jLabel1)
+                        .addGap(0, 388, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -97,8 +113,8 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 264, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(btnRegresarVtnReportes))
@@ -155,6 +171,50 @@ public class VtnReporEmpleados extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable reporteTablaEmpleados;
     // End of variables declaration//GEN-END:variables
+
+    private void listarEmpleados() {
+        ControladorEmpleado unControlador = new ControladorEmpleado();
+        
+        try {
+            LinkedList listaDeEmpleados = unControlador.buscarTodosLosEmpleadosConVentas();
+            
+            Object columnasDeDatos[] = new Object[4];
+
+        //obtenemos el modelo default de la tabla:
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.reporteTablaEmpleados.getModel();
+            System.out.println(listaDeEmpleados.size());
+        limpiarTabla();
+        if (listaDeEmpleados != null) {
+            //agregamos a cada columna los datos que le corresponden:
+            for (int dato=0; dato<listaDeEmpleados.size();dato=dato+4) {
+                columnasDeDatos[0] = listaDeEmpleados.get(dato);
+                columnasDeDatos[1] = listaDeEmpleados.get(dato+1);
+                columnasDeDatos[2] = listaDeEmpleados.get(dato+2);
+                columnasDeDatos[3] = listaDeEmpleados.get(dato+3);
+
+                //agregamos los datos de cada columna en cada renglón:
+                modeloDeLaTabla.addRow(columnasDeDatos);
+                
+            
+            }
+        } else {
+            /*El else no es necesario, pero fue considerado.*/
+        }
+        //establecemos a nuestra tabla, el modelo que tenía:
+        this.reporteTablaEmpleados.setModel(modeloDeLaTabla);
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(VtnReporEmpleados.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    private void limpiarTabla() {
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.reporteTablaEmpleados.getModel();
+        for (int i = 0; i < reporteTablaEmpleados.getRowCount(); i++) {
+            modeloDeLaTabla.removeRow(0);
+            i -= 1;
+        }
+    }
 }

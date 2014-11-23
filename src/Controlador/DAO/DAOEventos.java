@@ -46,15 +46,15 @@ public class DAOEventos {
      * @param idPaquetes
      * @param idProveedor
      * @param idServicios
-     * @return 
+     * @return
      * @throws SQLException
      */
     //claveCliente, claveMesaDulces, fechaEvento,precioEvento, claveEmpleado
     public int agregarElementoA_TablaEventoSocial(int idCliente, int idMesasDulces, String Fecha,
             float PrecioTotal, int idEmpleado) throws SQLException {
 
-        Statement sentenciaDeInsercion = Conexion.createStatement();        
-        
+        Statement sentenciaDeInsercion = Conexion.createStatement();
+
         //boolean seAgregoElemento = 
         sentenciaDeInsercion.execute("INSERT INTO charmingstudio.eventos "
                 + "(`idCliente`,`idMesaDulces`,`Fecha`,`PrecioTotal`,`idEmpleado`)"
@@ -65,28 +65,34 @@ public class DAOEventos {
                 + "'" + PrecioTotal + "',"
                 + "'" + idEmpleado + "')");
 
-        int id = obtenerIdEvento(idCliente, idMesasDulces,  PrecioTotal, idEmpleado);
-        
+        int id = obtenerIdEvento(idCliente, idMesasDulces, PrecioTotal, idEmpleado, Fecha);
+
         return id;
     }
-    
-    private  int obtenerIdEvento (int idCliente, int idMesasDulces, 
-            float PrecioTotal, int idEmpleado) throws SQLException{
-        
-         Statement sentenciaDeInsercion = Conexion.createStatement();
-        
-        
+
+    private int obtenerIdEvento(int idCliente, int idMesasDulces,
+            float PrecioTotal, int idEmpleado, String strFecha) throws SQLException {
+
+        Statement sentenciaDeInsercion = Conexion.createStatement();
+
         ResultSet id = sentenciaDeInsercion.executeQuery("SELECT * FROM charmingstudio.eventos WHERE "
-                + "`idCliente` = "+ idCliente
-                + " AND `idMesaDulces` = "+ idMesasDulces
+                + "`idCliente` = " + idCliente
+                + " AND `idMesaDulces` = " + idMesasDulces
                 + " AND `PrecioTotal`= " + PrecioTotal
-                + " AND `idEmpleado` = " + idEmpleado);
+                + " AND `idEmpleado` = " + idEmpleado
+                + " AND `Fecha`= '" + strFecha + "'");
+        /**
+         * SELECT * FROM charmingstudio.eventos WHERE `idCliente` = 1 AND
+         * `idMesaDulces` = 1 AND `PrecioTotal`= 5700 AND `idEmpleado` = 1 AND
+         * `Fecha` = '2014-11-27'
+         *
+         */
+
         id.next();
-        System.out.println(id.getInt("idEvento"));
+        System.out.println("El id es: "+id.getInt("idEvento"));
 
         return id.getInt("idEvento");
     }
-
 
     /**
      *

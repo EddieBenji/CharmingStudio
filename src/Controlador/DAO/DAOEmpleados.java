@@ -252,5 +252,30 @@ public class DAOEmpleados extends GestorBD {
         return empleado;
     }
 
+    public LinkedList obtenerTodosLosEmpleadosConVentas() throws SQLException {
+
+        Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
+        ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.
+                executeQuery("SELECT empleado.Nombre, empleado.Desempeno, empleado.Sueldo, sum(eventos.PrecioTotal) as PrecioTotal from eventos INNER JOIN empleado on eventos.idEmpleado=empleado.idEmpleado GROUP BY eventos.idEmpleado");
+
+        /*En este caso, se espera que la búsqueda no siempre sea nula, por
+         lo que nos interesa el negativo de las sentencia:*/
+        if (!BusquedaDeEmpleados.wasNull()) {
+
+            LinkedList empleadosConVentas = new LinkedList();
+
+            while (BusquedaDeEmpleados.next()) {
+
+                //agregamos c/cliente a la lista:
+                empleadosConVentas.add(BusquedaDeEmpleados.getString("Nombre"));
+                empleadosConVentas.add(BusquedaDeEmpleados.getFloat("Desempeno"));
+                empleadosConVentas.add(BusquedaDeEmpleados.getInt("Sueldo"));
+                empleadosConVentas.add(BusquedaDeEmpleados.getFloat("PrecioTotal"));
+            }
+            return empleadosConVentas;
+        }
+        
+        return null;
+    }
 
 }

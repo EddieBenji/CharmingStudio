@@ -83,4 +83,10 @@ public class ControladorEmpleado implements ControladorPersona {
         return dao.obtenerTodosLosEmpleados();
 
     }
+    
+    public LinkedList buscarTodosLosEmpleadosConVentas() throws SQLException {
+
+        return dao.obtenerTodosLosEmpleadosConVentas();
+
+    }
 }

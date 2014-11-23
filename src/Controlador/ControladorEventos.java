@@ -42,11 +42,13 @@ public class ControladorEventos {
             String fechaEvento) throws SQLException {
 
         boolean sePudoAgregarEvento = true;
-
+        
          int idEvento = dao.agregarElementoA_TablaEventoSocial(claveCliente, claveMesaDulces, fechaEvento,
                     precioEvento, claveEmpleado);
+         
+        
         //Se actualiza la información de los paquetes en la BD:
-        agregarPaquetes(idEvento,clavePaquete, proveedores);
+        agregarPaquetes(idEvento,clavePaquete, proveedores,fechaEvento);
 
         return sePudoAgregarEvento;
     }
@@ -55,7 +57,9 @@ public class ControladorEventos {
      * Se encarga de actualizar la tabla de los paquetes.
      * (arma)
      */
-    private void agregarPaquetes(int idEvento, int clavePaquete, Object[] proveedoresConServicios) throws SQLException {
+    private void agregarPaquetes(int idEvento, int clavePaquete, 
+            Object[] proveedoresConServicios, String strFecha) throws SQLException {
+        
         ControladorPaquetes unControladorPaquetes = new ControladorPaquetes();
         int idProveedor = 0, idServicio = 0;
         String nombreServicio = "";
@@ -69,7 +73,7 @@ public class ControladorEventos {
             idServicio = buscarIdServicioPorNombre(nombreServicio);
 
             //Actualizamos la información del paquete en la BD.
-            unControladorPaquetes.agregarPaquetes(idEvento,clavePaquete, idProveedor, idServicio);
+            unControladorPaquetes.agregarPaquetes(idEvento,clavePaquete, idProveedor, idServicio, strFecha);
         }
     }
 

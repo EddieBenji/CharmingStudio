@@ -41,7 +41,7 @@ public class ConexionBaseDatos {
 
         String host = "jdbc:mysql://localhost:3306/charmingstudio";
         String nombreUsuario = "root";
-        String contraseniaUsuario = "";
+        String contraseniaUsuario = "root";
 
         Connection conexion = DriverManager.getConnection(host, nombreUsuario, contraseniaUsuario);
 
