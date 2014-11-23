@@ -21,7 +21,6 @@ public class DAOEmpleados extends GestorBD {
         try {
             Conexion = ConexionBaseDatos.getInstancia().getConexionBD();
         } catch (SQLException ex) {
-            
         }
     }
 
@@ -49,6 +48,34 @@ public class DAOEmpleados extends GestorBD {
             seAgregoEmpleado = true;
         }
         return seAgregoEmpleado;
+    }
+    private static final int columnaIdEmpleado = 1;
+    private static final int columnaNombre = 2;
+    private static final int columnaDireccion = 3;
+    private static final int columnaTelefono = 4;
+    private static final int columnaCorreo = 5;
+    private static final int columnaDesempeno = 6;
+    private static final int columnaSueldo = 7;
+
+    public Empleado buscarEmpleadoPorId(int idEmpleado) throws SQLException {
+
+        Statement sentenciaBuscaEmpleado = Conexion.createStatement();
+        ResultSet busquedaEmpleado = sentenciaBuscaEmpleado.executeQuery("SELECT * FROM "
+                + "charmingstudio.empleado WHERE idEmpleado ='" + idEmpleado + "'");
+        busquedaEmpleado.next();
+
+        Empleado unEmpleado = new Empleado(busquedaEmpleado.getInt(columnaIdEmpleado),
+                busquedaEmpleado.getString(columnaNombre),
+                busquedaEmpleado.getString(columnaDireccion),
+                busquedaEmpleado.getString(columnaTelefono),
+                busquedaEmpleado.getString(columnaCorreo),
+                busquedaEmpleado.getFloat(columnaDesempeno),
+                busquedaEmpleado.getFloat(columnaSueldo));
+        /*
+         LinkedList<Servicio> servicios = encontrarServiciosDelProveedor(unProveedor.getIdPersona());
+         unProveedor.setServiciosQueProvee(servicios);
+         */
+        return unEmpleado;
     }
 
     /**
@@ -185,15 +212,14 @@ public class DAOEmpleados extends GestorBD {
 
         //en caso de que no haya el usuario en la BD. 
         Statement sentenciaDeActualizacionDeEmpleados = Conexion.createStatement();
-        int actualizaInfoEmpleado
-                = sentenciaDeActualizacionDeEmpleados.executeUpdate("UPDATE charmingstudio.empleado "
-                        + "SET `Nombre` = '" + empleadoA_modificar.getNombrePersona() + "'"
-                        + ",`Direccion` = '" + empleadoA_modificar.getDireccionPersona() + "'"
-                        + ",`Telefono` = '" + empleadoA_modificar.getTelefonoPersona() + "'"
-                        + ",`Correo`= '" + empleadoA_modificar.getCorreoPersona() + "'"
-                        + ",`Desempeno`= '" + empleadoA_modificar.getEmpDesempenio() + "'"
-                        + ",`Sueldo`= '" + empleadoA_modificar.getEmpSueldo()
-                        + "' WHERE `idEmpleado`='" + empleadoA_modificar.getIdPersona() + "'");
+        int actualizaInfoEmpleado = sentenciaDeActualizacionDeEmpleados.executeUpdate("UPDATE charmingstudio.empleado "
+                + "SET `Nombre` = '" + empleadoA_modificar.getNombrePersona() + "'"
+                + ",`Direccion` = '" + empleadoA_modificar.getDireccionPersona() + "'"
+                + ",`Telefono` = '" + empleadoA_modificar.getTelefonoPersona() + "'"
+                + ",`Correo`= '" + empleadoA_modificar.getCorreoPersona() + "'"
+                + ",`Desempeno`= '" + empleadoA_modificar.getEmpDesempenio() + "'"
+                + ",`Sueldo`= '" + empleadoA_modificar.getEmpSueldo()
+                + "' WHERE `idEmpleado`='" + empleadoA_modificar.getIdPersona() + "'");
 
         boolean sePudoModificarInfoEmpleado = false;
         if (actualizaInfoEmpleado != 0) {
@@ -231,7 +257,7 @@ public class DAOEmpleados extends GestorBD {
             }
             return empleados;
         }
-        
+
         return null;
     }
 
@@ -274,8 +300,7 @@ public class DAOEmpleados extends GestorBD {
             }
             return empleadosConVentas;
         }
-        
+
         return null;
     }
-
 }

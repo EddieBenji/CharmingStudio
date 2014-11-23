@@ -26,6 +26,10 @@ public class ControladorEmpleado implements ControladorPersona {
 
         return dao.eliminar(idEmpleado);
     }
+    
+     public Empleado buscarEmpleadoPorId(int idEmpleado) throws SQLException{
+        return dao.buscarEmpleadoPorId(idEmpleado);
+    }
 
     /**
      * Método encargado de devolver un arreglo con la información básica (ID y

@@ -210,7 +210,7 @@ public class VtnPrincipal extends javax.swing.JFrame {
 
     private void btnEventosSocialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEventosSocialesActionPerformed
         // TODO add your handling code here:
-        VtnEventosSociales ventanaEventosSociales = VtnEventosSociales.getInstanciaDeVtnEventosSociales();
+        VtnEventosSociales ventanaEventosSociales = new VtnEventosSociales();
         ventanaEventosSociales.setVisible(true);
         cerrarEstaVentana();
     }//GEN-LAST:event_btnEventosSocialesActionPerformed

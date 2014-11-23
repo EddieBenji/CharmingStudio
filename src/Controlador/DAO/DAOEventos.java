@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.LinkedList;
 
 /**
  * @author Lalo
@@ -68,6 +69,39 @@ public class DAOEventos {
         int id = obtenerIdEvento(idCliente, idMesasDulces, PrecioTotal, idEmpleado, Fecha);
 
         return id;
+    }
+    private static final int columnaId = 1;
+    private static final int columnaIdCliente = 2;
+    private static final int columnaIdMD = 3;
+    private static final int columnaFecha = 4;
+    private static final int columnaPrecioTotal = 5;
+    private static final int columnaIdEmpleado = 6;
+
+    public LinkedList buscarTodosLosEventos() throws SQLException {
+
+        Statement sentenciaDeBusquedaDeEventos = Conexion.createStatement();
+        ResultSet BusquedaDeEventos = sentenciaDeBusquedaDeEventos.
+                executeQuery("SELECT *  FROM charmingstudio.eventos");
+
+        if (BusquedaDeEventos.wasNull()) {
+            return null;
+        }
+
+        LinkedList<EventosSociales> eventos = new LinkedList<>();
+
+        while (BusquedaDeEventos.next()) {
+
+            //agregamos c/evento a la lista:
+            eventos.add(new EventosSociales(BusquedaDeEventos.getInt(columnaId),
+                    BusquedaDeEventos.getInt(columnaIdCliente),
+                    BusquedaDeEventos.getInt(columnaIdMD),
+                    BusquedaDeEventos.getDate(columnaFecha),
+                    BusquedaDeEventos.getFloat(columnaPrecioTotal),
+                    BusquedaDeEventos.getInt(columnaIdEmpleado)));
+
+        }
+        return eventos;
+
     }
 
     private int obtenerIdEvento(int idCliente, int idMesasDulces,

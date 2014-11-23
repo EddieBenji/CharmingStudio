@@ -262,5 +262,31 @@ public class DAOClientes extends GestorBD {
 
         return null;
     }
+    
+        
+    private static final int columnaIdCliente= 1;
+    private static final int columnaNombre = 2;
+    private static final int columnaDireccion = 3;
+    private static final int columnaTelefono = 4;
+    private static final int columnaCorreo = 5;
+
+    public Cliente buscarClientePorId(int idCliente) throws SQLException {
+
+        Statement sentenciaBuscaliente = Conexion.createStatement();
+        ResultSet busquedaCliente = sentenciaBuscaliente.executeQuery("SELECT * FROM "
+                + "charmingstudio.cliente WHERE idCliente ='" + idCliente + "'");
+        busquedaCliente.next();
+
+        Cliente unCliente = new Cliente(busquedaCliente.getInt(columnaIdCliente),
+                busquedaCliente.getString(columnaNombre),
+                busquedaCliente.getString(columnaDireccion),
+                busquedaCliente.getString(columnaTelefono),
+                busquedaCliente.getString(columnaCorreo));
+        /*
+         LinkedList<Servicio> servicios = encontrarServiciosDelProveedor(unProveedor.getIdPersona());
+         unProveedor.setServiciosQueProvee(servicios);
+         */
+        return unCliente;
+    }
 
 }//fin de la clase.

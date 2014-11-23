@@ -42,6 +42,10 @@ public class ControladorMesaDeDulces {
         
     }
     
+    public MesaDeDulces buscarMDPorId(int idMD) throws SQLException{
+        return dao.buscarMDPorId(idMD);
+    }
+    
     
     public LinkedList buscarTodasMD() throws SQLException {
 

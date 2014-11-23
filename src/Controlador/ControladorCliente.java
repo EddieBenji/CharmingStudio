@@ -24,6 +24,11 @@ public class ControladorCliente implements ControladorPersona {
         return dao.agregar(cliente);
 
     }
+    
+      public Cliente buscarClientePorId(int idCliente) throws SQLException{
+        return dao.buscarClientePorId(idCliente);
+    }
+      
     @Override
     public boolean eliminar(int IdCliente) throws SQLException {
 

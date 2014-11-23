@@ -6,10 +6,13 @@ package Controlador;
 
 import Controlador.DAO.DAOEventos;
 import Modelo.Cliente;
+import Modelo.EventosSociales;
 import Modelo.MesaDeDulces;
 import Modelo.Proveedor;
 import java.sql.SQLException;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -166,5 +169,52 @@ public class ControladorEventos {
         proveedores = ctrlProv.obtenerTodosLosProveedoresDeservicioBasico();
 
         return proveedores;
+    }
+    
+    public DefaultTableModel buscarTodosLosEventos(DefaultTableModel modelo) throws SQLException {
+
+        LinkedList<EventosSociales> listaDeEventos = dao.buscarTodosLosEventos();
+
+        return llenarTablaDeDatos(listaDeEventos, modelo);
+    }
+
+    private DefaultTableModel llenarTablaDeDatos(LinkedList<EventosSociales> listaDeEventos, DefaultTableModel modelo) throws SQLException {
+        //Declaramos las columnas:
+        Object columnasDeDatos[] = new Object[6];
+        ControladorCliente ctrlCliente = new ControladorCliente();
+        ControladorEmpleado ctrlEmpleado = new ControladorEmpleado();
+        ControladorMesaDeDulces ctrlMD = new ControladorMesaDeDulces();
+        if (listaDeEventos != null) {
+            //agregamos a cada columna los datos que le corresponden:
+            String colCliente = "";
+            String colEmpleado = "";
+            String colMesaDeDulces = "";
+            for (EventosSociales evento : listaDeEventos) {
+                
+                colCliente = evento.getIdCliente() + " " + ctrlCliente.buscarClientePorId(evento.getIdCliente()).getNombrePersona();
+                colEmpleado = evento.getIdEmpleado() + " " + ctrlEmpleado.buscarEmpleadoPorId(evento.getIdEmpleado()).getNombrePersona();
+                colMesaDeDulces = evento.getIdMD() + " " + ctrlMD.buscarMDPorId(evento.getIdEmpleado()).getNombreDeMesa();
+
+                columnasDeDatos[0] = evento.getIdEvento();
+                columnasDeDatos[1] = colCliente;
+                columnasDeDatos[2] = colMesaDeDulces;
+                columnasDeDatos[3] = evento.getFecha();
+                //EL PRECIO TOTAL NO SE COMO OBTENERLO ESE QUE TIENE SIEMPRE PONE 0
+                //CHECAR PORFA 
+                columnasDeDatos[4] = evento.getEvtPrecioTotal();
+                columnasDeDatos[5] = colEmpleado;
+
+                //agregamos los datos de cada columna en cada renglón:
+                modelo.addRow(columnasDeDatos);
+            }
+        }//se considera el else pero no es necesario                                           
+
+        //establecemos a nuestra tabla, el modelo que tenía:
+        return modelo;
+
+    }
+
+    private void mostrarMensajeEnPantalla(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
     }
 }

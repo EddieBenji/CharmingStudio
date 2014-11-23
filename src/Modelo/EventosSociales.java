@@ -16,12 +16,62 @@ public class EventosSociales {
     private float evtPrecioTotal;
     private float evtComision;
     private Empleado evtEmpleado;
+    
+    private int idEvento;
+    private int idCliente;
+    private int idMD;
 
-    /**
-     * Este constructor inicializa un nuevo objeto de tipo EventosSociales, pero
-     * con todos sus atributos nulos.
-     */
+    public int getIdEvento() {
+        return idEvento;
+    }
+
+    public void setIdEvento(int idEvento) {
+        this.idEvento = idEvento;
+    }
+
+    public int getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public int getIdMD() {
+        return idMD;
+    }
+
+    public void setIdMD(int idMD) {
+        this.idMD = idMD;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
+    public int getIdEmpleado() {
+        return idEmpleado;
+    }
+
+    public void setIdEmpleado(int idEmpleado) {
+        this.idEmpleado = idEmpleado;
+    }
+    private Date fecha;
+    private float PrecioTotal;
+    private int idEmpleado;
+            
+             /**
+             * Este constructor inicializa un nuevo objeto de tipo
+             * EventosSociales, pero con todos sus atributos nulos.
+             */
+
     public EventosSociales() {
+        evtMesaDeDulces = null;
+        evtPaquete = null;
         evtCliente = null;
         evtFecha = null;
         evtMesaDeDulces = null;
@@ -44,7 +94,7 @@ public class EventosSociales {
      */
     public EventosSociales(Cliente evtCliente, Date evtFecha,
             MesaDeDulces evtMesaDeDulces, Paquete evtPaquete,
-            float evtPrecioTotal, float evtComision,Empleado evtEmpleado) {
+            float evtPrecioTotal, float evtComision, Empleado evtEmpleado) {
 
         this.evtCliente = evtCliente;
         this.evtFecha = evtFecha;
@@ -52,9 +102,18 @@ public class EventosSociales {
         this.evtPaquete = evtPaquete;
         this.evtPrecioTotal = evtPrecioTotal;
         this.evtComision = evtComision;
-        this.evtEmpleado=evtEmpleado;
+        this.evtEmpleado = evtEmpleado;
     }
 
+    public EventosSociales(int idEvento, int idCliente,int idMD, Date fecha,
+            float evtPrecioTotal, int idEmpleado) {
+        this.idCliente = idCliente;
+        this.idEvento = idEvento;
+        this.idMD = idMD;
+        this.fecha = fecha;
+        this.PrecioTotal = evtPrecioTotal;
+        this.idEmpleado = idEmpleado;
+    }
 
     /**
      * Devuelve el precio total, del evento actual; Ya cobra la comisión del
@@ -67,12 +126,13 @@ public class EventosSociales {
         float comisionEvt = (float) 0.15 * precioEvt;
         return (float) comisionEvt + precioEvt;
     }
-    
 
-    /**puede que esta no sirva, no hace algo
-     * @param precio.*/
+    /**
+     * puede que esta no sirva, no hace algo
+     *
+     * @param precio.
+     */
     public void setPrecioTotal(float precio) {
-
     }
 
     public Cliente getEvtCliente() {
@@ -154,13 +214,9 @@ public class EventosSociales {
 
     @Override
     public String toString() {
-        return "EventosSociales{" + "evtCliente=" + evtCliente + ", evtFecha=" + evtFecha + 
-                ", evtMesaDeDulces=" + evtMesaDeDulces + ", evtPaquete=" + evtPaquete +
-                ", evtPrecioTotal=" + evtPrecioTotal + ", evtComision=" + evtComision + 
-                ", evtEmpleado=" + evtEmpleado + '}';
+        return "EventosSociales{" + "evtCliente=" + evtCliente + ", evtFecha=" + evtFecha
+                + ", evtMesaDeDulces=" + evtMesaDeDulces + ", evtPaquete=" + evtPaquete
+                + ", evtPrecioTotal=" + evtPrecioTotal + ", evtComision=" + evtComision
+                + ", evtEmpleado=" + evtEmpleado + '}';
     }
-    
-    
-    
-
 }

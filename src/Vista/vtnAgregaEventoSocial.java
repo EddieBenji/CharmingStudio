@@ -511,7 +511,7 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         // TODO add your handling code here:
         
         //hay que limpiar toda la pantalla.
-        VtnEventosSociales regreso = VtnEventosSociales.getInstanciaDeVtnEventosSociales();
+        VtnEventosSociales regreso = new VtnEventosSociales();
         regreso.setVisible(true);
         this.dispose();
         

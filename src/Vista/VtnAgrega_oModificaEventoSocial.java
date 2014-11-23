@@ -315,7 +315,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
 
     private void btnRegresarVtnEventosSocialesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarVtnEventosSocialesActionPerformed
         // TODO add your handling code here:
-        VtnEventosSociales vtnRegreso = VtnEventosSociales.getInstanciaDeVtnEventosSociales();
+        VtnEventosSociales vtnRegreso = new VtnEventosSociales();
         vtnRegreso.setVisible(true);
         cerrarEstaVentana();
 

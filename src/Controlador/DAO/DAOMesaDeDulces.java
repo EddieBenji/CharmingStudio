@@ -90,6 +90,26 @@ public class DAOMesaDeDulces {
         /*Si llega hasta aquí, entonces los clientes son distintos:*/
         return false;
     }
+    private static final int columnaId = 1;
+    private static final int columnaNombre = 2;
+    private static final int columnaCosto = 3;
+
+    public MesaDeDulces buscarMDPorId(int idMD) throws SQLException {
+
+        Statement sentenciaBuscaMD = Conexion.createStatement();
+        ResultSet busquedaMD = sentenciaBuscaMD.executeQuery("SELECT * FROM "
+                + "charmingstudio.mesadulces WHERE idMesaDulces ='" + idMD + "'");
+        busquedaMD.next();
+
+        MesaDeDulces unaMD = new MesaDeDulces(busquedaMD.getInt(columnaId),
+                busquedaMD.getString(columnaNombre),
+                busquedaMD.getFloat(columnaCosto));
+        /*
+         LinkedList<Servicio> servicios = encontrarServiciosDelProveedor(unProveedor.getIdPersona());
+         unProveedor.setServiciosQueProvee(servicios);
+         */
+        return unaMD;
+    }
 
     /**
      *
@@ -110,9 +130,6 @@ public class DAOMesaDeDulces {
 
     }
 
-    private static final int columnaId = 1;
-    private static final int columnaNombre = 2;
-    private static final int columnaCosto = 3;
 
     public LinkedList buscarCoincidencias(String nombreMesaDeDulces) throws SQLException {
 
@@ -130,8 +147,7 @@ public class DAOMesaDeDulces {
             unaMesa = new MesaDeDulces(
                     BusquedaDeMesaDeDulces.getInt(columnaId),
                     BusquedaDeMesaDeDulces.getString(columnaNombre),
-                    BusquedaDeMesaDeDulces.getFloat(columnaCosto)
-            );
+                    BusquedaDeMesaDeDulces.getFloat(columnaCosto));
 
             mesaDeDulces.add(unaMesa);
 
@@ -162,11 +178,10 @@ public class DAOMesaDeDulces {
 
         //en caso de que no haya el usuario en la BD. 
         Statement sentenciaDeActualizacionDeMesaDeDulces = Conexion.createStatement();
-        int actualizaInfoMesaDeDulces
-                = sentenciaDeActualizacionDeMesaDeDulces.executeUpdate("UPDATE charmingstudio.mesadulces "
-                        + "SET `Nombre` = '" + mesaDeDulcesAModificar.getNombreDeMesa() + "'"
-                        + ",`Costo` = '" + mesaDeDulcesAModificar.getPrecio()
-                        + "' WHERE `idMesaDulces`='" + mesaDeDulcesAModificar.getIdMesaDulces() + "'");
+        int actualizaInfoMesaDeDulces = sentenciaDeActualizacionDeMesaDeDulces.executeUpdate("UPDATE charmingstudio.mesadulces "
+                + "SET `Nombre` = '" + mesaDeDulcesAModificar.getNombreDeMesa() + "'"
+                + ",`Costo` = '" + mesaDeDulcesAModificar.getPrecio()
+                + "' WHERE `idMesaDulces`='" + mesaDeDulcesAModificar.getIdMesaDulces() + "'");
 
         boolean sePudoModificarInfoMesaDulces = false;
         if (actualizaInfoMesaDeDulces != 0) {
@@ -215,7 +230,9 @@ public class DAOMesaDeDulces {
         Statement sentenciaBuscaMD = Conexion.createStatement();
         ResultSet busquedaMD = sentenciaBuscaMD.executeQuery("SELECT * FROM "
                 + "charmingstudio.mesadulces WHERE Nombre ='" + nombreMesa + "'");
-        if (busquedaMD.wasNull()) return null;
+        if (busquedaMD.wasNull()) {
+            return null;
+        }
 
         busquedaMD.next();
 

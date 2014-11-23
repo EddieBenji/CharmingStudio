@@ -4,25 +4,31 @@
  */
 package Vista;
 
+import Controlador.ControladorEventos;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Carlos
  */
 public class VtnEventosSociales extends javax.swing.JFrame {
 
-        private static VtnEventosSociales instanciaDeVtnEventosSociales = new VtnEventosSociales();
-
+    // private static VtnEventosSociales instanciaDeVtnEventosSociales = new VtnEventosSociales();
     /**
      * Creates new form VtnEventosSociales
      */
     public VtnEventosSociales() {
         initComponents();
+        mostrarEventos();
         setLocationRelativeTo(null);
     }
 
-    public static VtnEventosSociales getInstanciaDeVtnEventosSociales() {
-        return instanciaDeVtnEventosSociales;
-    }
+    // public static VtnEventosSociales getInstanciaDeVtnEventosSociales() {
+    //   return instanciaDeVtnEventosSociales;
+    // }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -34,7 +40,7 @@ public class VtnEventosSociales extends javax.swing.JFrame {
 
         btnNuevoEvento = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        listaEventos = new javax.swing.JTable();
         btnVerDetallesEvento = new javax.swing.JButton();
         btnRegresarVtnPrincipal = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
@@ -50,18 +56,15 @@ public class VtnEventosSociales extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        listaEventos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "id Evento", "id Cliente", "id MD", "Fecha", "Precio", "id Empleado"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(listaEventos);
 
         btnVerDetallesEvento.setText("Ver Detalles");
 
@@ -84,17 +87,21 @@ public class VtnEventosSociales extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(layout.createSequentialGroup()
-                            .addComponent(btnVerDetallesEvento)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnRegresarVtnPrincipal))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                            .addComponent(btnNuevoEvento)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnModificarEventoSocial))
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 375, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnNuevoEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnModificarEventoSocial))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(btnVerDetallesEvento)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRegresarVtnPrincipal)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 490, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -118,6 +125,17 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public void mostrarEventos() {
+        ControladorEventos ctrlEventos = new ControladorEventos();
+        try {
+            DefaultTableModel datosTabla = (DefaultTableModel) this.listaEventos.getModel();
+            DefaultTableModel datosTablaCompleta = ctrlEventos.buscarTodosLosEventos(datosTabla);
+            this.listaEventos.setModel(datosTablaCompleta);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(VtnEventosSociales.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     private void btnRegresarVtnPrincipalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarVtnPrincipalActionPerformed
         // TODO add your handling code here:
         VtnPrincipal vtnRegreso = VtnPrincipal.getInstanciaDeVtnPrincipal();
@@ -127,16 +145,17 @@ public class VtnEventosSociales extends javax.swing.JFrame {
 
     private void btnNuevoEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoEventoActionPerformed
         // TODO add your handling code here:
-       vtnAgregaEventoSocial vtn = vtnAgregaEventoSocial.getInstanciaVtnAgregaEvento();
-       vtn.setVisible(true);
+        vtnAgregaEventoSocial vtn = vtnAgregaEventoSocial.getInstanciaVtnAgregaEvento();
+        vtn.setVisible(true);
         cerrarEstaVentana();
-        
+
     }//GEN-LAST:event_btnNuevoEventoActionPerformed
 
-       private void cerrarEstaVentana() {
+    private void cerrarEstaVentana() {
         //orrarDatos();
         this.dispose();
     }
+
     /**
      * @param args the command line arguments
      */
@@ -178,6 +197,6 @@ public class VtnEventosSociales extends javax.swing.JFrame {
     private javax.swing.JButton btnVerDetallesEvento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable listaEventos;
     // End of variables declaration//GEN-END:variables
 }
