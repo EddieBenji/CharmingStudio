@@ -25,7 +25,7 @@ public class ControladorCliente implements ControladorPersona {
 
     }
     
-      public Cliente buscarClientePorId(int idCliente) throws SQLException{
+      public Cliente obtenerClientePorId(int idCliente) throws SQLException{
         return dao.buscarClientePorId(idCliente);
     }
       
@@ -54,7 +54,7 @@ public class ControladorCliente implements ControladorPersona {
         return dao.modificar(persona);
     }
 
-    public LinkedList buscarTodosLosClientes() throws SQLException {
+    public LinkedList obtenerTodosLosClientes() throws SQLException {
 
         return dao.buscarTodosLosClientes();
 

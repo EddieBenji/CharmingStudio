@@ -42,7 +42,7 @@ public class ControladorMesaDeDulces {
         
     }
     
-    public MesaDeDulces buscarMDPorId(int idMD) throws SQLException{
+    public MesaDeDulces obtenerMDPorId(int idMD) throws SQLException{
         return dao.buscarMDPorId(idMD);
     }
     

@@ -27,7 +27,7 @@ public class ControladorEmpleado implements ControladorPersona {
         return dao.eliminar(idEmpleado);
     }
     
-     public Empleado buscarEmpleadoPorId(int idEmpleado) throws SQLException{
+     public Empleado obtenerEmpleadoPorId(int idEmpleado) throws SQLException{
         return dao.buscarEmpleadoPorId(idEmpleado);
     }
 
@@ -93,4 +93,6 @@ public class ControladorEmpleado implements ControladorPersona {
         return dao.obtenerTodosLosEmpleadosConVentas();
 
     }
+    
+    
 }

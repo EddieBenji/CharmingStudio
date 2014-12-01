@@ -5,7 +5,6 @@
 package Vista;
 
 import Controlador.ControladorEmpleado;
-import Controlador.DAO.DAOEmpleados;
 import Modelo.Empleado;
 import java.sql.SQLException;
 import java.util.LinkedList;
@@ -14,7 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author Carlos
+ * 
  */
 public class VtnEmpleados extends javax.swing.JFrame {
 
@@ -306,14 +305,46 @@ public class VtnEmpleados extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnModificarEmpleadoActionPerformed
 
+        private Empleado obtenerInformacionDeRenglonSelecccionado() {
+        //obtiene el número del renglón seleccionado en la tabla.
+        int numDeRenglonSeleccionado = this.tablaEmpleados.getSelectedRow();
+
+        /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
+        if (numDeRenglonSeleccionado < 0) {
+            return null;
+        }
+
+        //declaramos las constantes, de las columnas donde está la información:
+        int columnaId = 0;
+        int columnaNombre = 1;
+        int columnaDireccion = 2;
+        int columnaTelefono = 3;
+        int columnaCorreo = 4;
+        int columnaDesempenio = 5;
+        int columnaSueldo = 6;
+
+        //obtenemos la información del renglón seleccionado.
+        int id = (int) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaId);
+        String nombre = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaNombre);
+        String direccion = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
+        String telefono = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
+        String correo = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
+        float desempenio = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDesempenio);
+        float sueldo = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaSueldo);
+
+        //regresamos el empelado.
+        return new Empleado(id, nombre, direccion, telefono, correo, desempenio, sueldo);
+        
+    }
+
     private void btnEliminarEmpleadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEmpleadoActionPerformed
         // TODO add your handling code here:
         /*Obtenemos el empleado seleccionado de la tabla:*/
-        Empleado empleadoQueSeEliminara = obtenerInformacionDeRenglonSelecccionado();
+        int idEmpleadoQueSeEliminara = obtenerIdEmpleadoAEliminar();
 
         //checamos si se seleccionó algún empleado de la tabla,
         //es decir, si no es nulo.
-        if (empleadoQueSeEliminara != null) {
+        if (idEmpleadoQueSeEliminara >= 0) {
             //le preguntamos al empleado si de verdad, desea eliminar el 
             //empleado seleccionado:
             int opcionEliminar = JOptionPane.showConfirmDialog(null,
@@ -326,7 +357,7 @@ public class VtnEmpleados extends javax.swing.JFrame {
                 ControladorEmpleado controlEmpleado = new ControladorEmpleado();
 
                 try {
-                    controlEmpleado.eliminar(empleadoQueSeEliminara.getIdPersona());
+                    controlEmpleado.eliminar(idEmpleadoQueSeEliminara);
                     mostrarMensajeEnPantalla("Empleado eliminado");
                 } catch (SQLException ex) {
                     mostrarMensajeEnPantalla("Empleado no eliminado. Error: " + ex.getLocalizedMessage());
@@ -379,35 +410,37 @@ public class VtnEmpleados extends javax.swing.JFrame {
         }
     }
 
-    private Empleado obtenerInformacionDeRenglonSelecccionado() {
+    private int obtenerIdEmpleadoAEliminar() {
         //obtiene el número del renglón seleccionado en la tabla.
         int numDeRenglonSeleccionado = this.tablaEmpleados.getSelectedRow();
 
         /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
         if (numDeRenglonSeleccionado < 0) {
-            return null;
+            return -1;
         }
 
         //declaramos las constantes, de las columnas donde está la información:
         int columnaId = 0;
-        int columnaNombre = 1;
-        int columnaDireccion = 2;
-        int columnaTelefono = 3;
-        int columnaCorreo = 4;
-        int columnaDesempenio = 5;
-        int columnaSueldo = 6;
+        //int columnaNombre = 1;
+        //int columnaDireccion = 2;
+        //int columnaTelefono = 3;
+        //int columnaCorreo = 4;
+        //int columnaDesempenio = 5;
+        //int columnaSueldo = 6;
 
         //obtenemos la información del renglón seleccionado.
         int id = (int) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaId);
-        String nombre = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaNombre);
-        String direccion = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
-        String telefono = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
-        String correo = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
-        float desempenio = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDesempenio);
-        float sueldo = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaSueldo);
+        //String nombre = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaNombre);
+        //String direccion = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDireccion);
+        //String telefono = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaTelefono);
+        //String correo = (String) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaCorreo);
+        //float desempenio = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaDesempenio);
+        //float sueldo = (float) tablaEmpleados.getValueAt(numDeRenglonSeleccionado, columnaSueldo);
 
         //regresamos el empelado.
-        return new Empleado(id, nombre, direccion, telefono, correo, desempenio, sueldo);
+        //return new Empleado(id, nombre, direccion, telefono, correo, desempenio, sueldo);
+        //regresamos el id del empleado a eliminar
+        return id;
     }
 
     private void cerrarEstaVentana() {

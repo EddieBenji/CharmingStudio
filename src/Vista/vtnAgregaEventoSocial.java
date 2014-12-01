@@ -11,10 +11,16 @@ import Modelo.MesaDeDulces;
 import Modelo.Proveedor;
 import Modelo.Servicio;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -476,7 +482,6 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
 
     }//GEN-LAST:event_rbPaqBasicoActionPerformed
 
-
     private void btnAgregarEventoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAgregarEventoActionPerformed
         //obtenemos lo necesario de la vista:
         int idCliente = obtenerClaveClienteSeleccionado();
@@ -491,6 +496,11 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         //creamos el controlador de eventos.
         try {
             ControladorEventos unControlador = new ControladorEventos();
+            
+            boolean existe = unControlador.ExisteElEvento(idCliente, idMesa, fecha, idEmpleado);
+            if(existe){
+                mostrarMensajeEnPantalla("Este evento ya existe");
+            }else{
             boolean seAgregoEvento = unControlador.agregarEvento(idCliente,
                     idEmpleado, idMesa, proveedores, idPaquete,
                     precioTotal, fecha);
@@ -499,12 +509,12 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
             } else {
                 mostrarMensajeEnPantalla("Evento NO Agregado");
             }
-
+        }
         } catch (SQLException ex) {
             ex.printStackTrace();
             mostrarMensajeEnPantalla("Error con la BD. " + ex.getLocalizedMessage());
         }
-
+    
     }//GEN-LAST:event_btnAgregarEventoActionPerformed
 
     private void btnRegresoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresoActionPerformed
@@ -524,18 +534,21 @@ public class vtnAgregaEventoSocial extends javax.swing.JFrame {
         int anio = (int) comboAnio.getSelectedItem();
         GregorianCalendar fechaEscogida = new GregorianCalendar(anio, mes, dia);
 
-        String fechaEnTexto = convertirFecha(fechaEscogida);
+        String fechaEnTexto = convertirFechaEnTexto(fechaEscogida);
 
         return fechaEnTexto;
     }
 
-    private String convertirFecha(GregorianCalendar fecha) {
+    private String convertirFechaEnTexto(GregorianCalendar fecha) {
         String strFecha = "";
         strFecha += fecha.get(Calendar.YEAR) + "-";
         strFecha += fecha.get(Calendar.MONTH) + "-";
         strFecha += fecha.get(Calendar.DATE);
         return strFecha;
     }
+    
+    
+  
 
     private int obtenerClaveClienteSeleccionado() {
 

@@ -6,12 +6,14 @@ package Controlador;
 
 import Controlador.DAO.DAOEventos;
 import Modelo.Cliente;
+import Modelo.Empleado;
 import Modelo.EventosSociales;
 import Modelo.MesaDeDulces;
 import Modelo.Proveedor;
 import java.sql.SQLException;
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.LinkedList;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -31,13 +33,11 @@ public class ControladorEventos {
      * @param claveMesaDulces es la mesa de dulces asociada al evento.
      * @param proveedores son los posibles proveedores que darán algún servicio.
      * Podría ser que solo un proveedor de todos los servicios que necesita.
-     * @param clavePaquete Es el tipo de paquete que se usará en el evento 
-     * 1 - es el básico. 
-     * 2 - es el intermedio. 
-     * 3 - es el completo.
+     * @param clavePaquete Es el tipo de paquete que se usará en el evento 1 -
+     * es el básico. 2 - es el intermedio. 3 - es el completo.
      * @param precioEvento es el precio que cobrará la empresa por todo.
      * @param fechaEvento es la fecha en que se realizará el evento.
-     * @return 
+     * @return
      * @throws java.sql.SQLException
      */
     public boolean agregarEvento(int claveCliente, int claveEmpleado, int claveMesaDulces,
@@ -45,24 +45,23 @@ public class ControladorEventos {
             String fechaEvento) throws SQLException {
 
         boolean sePudoAgregarEvento = true;
-        
-         int idEvento = dao.agregarElementoA_TablaEventoSocial(claveCliente, claveMesaDulces, fechaEvento,
-                    precioEvento, claveEmpleado);
-         
-        
+
+        int idEvento = dao.agregarElementoA_TablaEventoSocial(claveCliente, claveMesaDulces, fechaEvento,
+                precioEvento, claveEmpleado);
+
+
         //Se actualiza la información de los paquetes en la BD:
-        agregarPaquetes(idEvento,clavePaquete, proveedores,fechaEvento);
+        agregarPaquetes(idEvento, clavePaquete, proveedores, fechaEvento);
 
         return sePudoAgregarEvento;
     }
 
     /**
-     * Se encarga de actualizar la tabla de los paquetes.
-     * (arma)
+     * Se encarga de actualizar la tabla de los paquetes. (arma)
      */
-    private void agregarPaquetes(int idEvento, int clavePaquete, 
+    private void agregarPaquetes(int idEvento, int clavePaquete,
             Object[] proveedoresConServicios, String strFecha) throws SQLException {
-        
+
         ControladorPaquetes unControladorPaquetes = new ControladorPaquetes();
         int idProveedor = 0, idServicio = 0;
         String nombreServicio = "";
@@ -76,7 +75,7 @@ public class ControladorEventos {
             idServicio = buscarIdServicioPorNombre(nombreServicio);
 
             //Actualizamos la información del paquete en la BD.
-            unControladorPaquetes.agregarPaquetes(idEvento,clavePaquete, idProveedor, idServicio, strFecha);
+            unControladorPaquetes.agregarPaquetes(idEvento, clavePaquete, idProveedor, idServicio, strFecha);
         }
     }
 
@@ -170,30 +169,39 @@ public class ControladorEventos {
 
         return proveedores;
     }
-    
-    public DefaultTableModel buscarTodosLosEventos(DefaultTableModel modelo) throws SQLException {
 
-        LinkedList<EventosSociales> listaDeEventos = dao.buscarTodosLosEventos();
+    public DefaultTableModel obtenerTodosLosEventos(DefaultTableModel modelo) throws SQLException {
 
-        return llenarTablaDeDatos(listaDeEventos, modelo);
+        LinkedList<EventosSociales> listaDeEventos = dao.obtenerTodosLosEventos();
+
+        return llenarListaDeDatos(listaDeEventos, modelo);
     }
 
-    private DefaultTableModel llenarTablaDeDatos(LinkedList<EventosSociales> listaDeEventos, DefaultTableModel modelo) throws SQLException {
+    private DefaultTableModel llenarListaDeDatos(LinkedList<EventosSociales> listaDeEventos, DefaultTableModel modelo) throws SQLException {
         //Declaramos las columnas:
         Object columnasDeDatos[] = new Object[6];
         ControladorCliente ctrlCliente = new ControladorCliente();
         ControladorEmpleado ctrlEmpleado = new ControladorEmpleado();
-        ControladorMesaDeDulces ctrlMD = new ControladorMesaDeDulces();
+        ControladorMesaDeDulces ctrlMesaDulces = new ControladorMesaDeDulces();
         if (listaDeEventos != null) {
             //agregamos a cada columna los datos que le corresponden:
             String colCliente = "";
             String colEmpleado = "";
             String colMesaDeDulces = "";
             for (EventosSociales evento : listaDeEventos) {
-                
-                colCliente = evento.getIdCliente() + " " + ctrlCliente.buscarClientePorId(evento.getIdCliente()).getNombrePersona();
-                colEmpleado = evento.getIdEmpleado() + " " + ctrlEmpleado.buscarEmpleadoPorId(evento.getIdEmpleado()).getNombrePersona();
-                colMesaDeDulces = evento.getIdMD() + " " + ctrlMD.buscarMDPorId(evento.getIdEmpleado()).getNombreDeMesa();
+
+                Cliente ClienteDelEvento = ctrlCliente.obtenerClientePorId(evento.getIdCliente());
+                String nombreClienteDelEvento = ClienteDelEvento.getNombrePersona();
+
+                Empleado ResponsableDelEvento = ctrlEmpleado.obtenerEmpleadoPorId(evento.getIdEmpleado());
+                String nombreResponsableDelEvento = ResponsableDelEvento.getNombrePersona();
+
+                MesaDeDulces mesaDeDulcesDelEvento = ctrlMesaDulces.obtenerMDPorId(evento.getIdMD());
+                String nombreMesaDeDulcesDelEvento = mesaDeDulcesDelEvento.getNombreDeMesa();
+
+                colCliente = evento.getIdCliente() + " " + nombreClienteDelEvento;
+                colEmpleado = evento.getIdEmpleado() + " " + nombreResponsableDelEvento;
+                colMesaDeDulces = evento.getIdMD() + " " + nombreMesaDeDulcesDelEvento;
 
                 columnasDeDatos[0] = evento.getIdEvento();
                 columnasDeDatos[1] = colCliente;
@@ -214,7 +222,33 @@ public class ControladorEventos {
 
     }
 
-    private void mostrarMensajeEnPantalla(String mensaje) {
-        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
+    public boolean eliminarEvento(int idEvento) throws SQLException {
+
+        return dao.eliminarEvento(idEvento);
+
+    }
+
+    private String convertirFechaEnTexto(EventosSociales evento) {
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String fechaEvt = formatter.format(evento.getFecha());
+        
+        return fechaEvt;
+    }
+
+    public boolean ExisteElEvento(int idCliente, int idMesaDulces, String fecha, int idEmpleado) throws SQLException {
+        boolean existe = false;
+        LinkedList<EventosSociales> listaDeEventos = dao.obtenerTodosLosEventos();
+        //EventosSociales eventoAverificar = new EventosSociales(idCliente, idMesaDulces, fecha, idEmpleado);
+
+        for (EventosSociales evento : listaDeEventos) {
+
+            String fechaEvt = convertirFechaEnTexto(evento);
+//Ver si se puede hacer mas corta o refactorizar de alguna manera
+            if (idCliente == evento.getIdCliente() && idMesaDulces == evento.getIdMD() && idEmpleado == evento.getIdEmpleado() && fecha.equalsIgnoreCase(fechaEvt)) {
+                existe = true;
+            }
+        }
+
+        return existe;
     }
 }

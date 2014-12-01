@@ -9,6 +9,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.LinkedList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Lalo
@@ -77,7 +79,7 @@ public class DAOEventos {
     private static final int columnaPrecioTotal = 5;
     private static final int columnaIdEmpleado = 6;
 
-    public LinkedList buscarTodosLosEventos() throws SQLException {
+    public LinkedList obtenerTodosLosEventos() throws SQLException {
 
         Statement sentenciaDeBusquedaDeEventos = Conexion.createStatement();
         ResultSet BusquedaDeEventos = sentenciaDeBusquedaDeEventos.
@@ -134,9 +136,19 @@ public class DAOEventos {
      * @param nombreEvento
      * @return
      */
-    public boolean eliminarEvento(Date fecha, EventosSociales nombreEvento) {
-        return false;
+    
+    public boolean eliminarEvento(int idEvento) throws SQLException {
+        boolean seEliminoEvento = false;
+        Statement sentenciaEliminaEvento = Conexion.createStatement();
+        sentenciaEliminaEvento.executeUpdate("DELETE FROM "
+                + "charmingstudio.eventos WHERE idEvento= '" + idEvento + "'");
+
+        seEliminoEvento = true;
+
+        return seEliminoEvento;
+    
     }
+    
 
     /**
      *

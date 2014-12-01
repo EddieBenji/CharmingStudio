@@ -1,7 +1,7 @@
 package Controlador.DAO;
 
-import Modelo.Persona;
 import Modelo.Empleado;
+import Modelo.Persona;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,7 +35,7 @@ public class DAOEmpleados extends GestorBD {
         Empleado empleado = (Empleado) persona;
 
         Statement sentencia = Conexion.createStatement();
-        boolean seAgregoEmpleado = false;;
+        boolean seAgregoEmpleado = false;
         if (!existeEmpleado(empleado)) {
             sentencia.executeUpdate("INSERT INTO charmingstudio.empleado (`Nombre`, "
                     + "`Direccion`, `Telefono`, `Correo`, `Desempeno`, `Sueldo` )" + "VALUES("
@@ -175,22 +175,23 @@ public class DAOEmpleados extends GestorBD {
     @Override
     public LinkedList buscarCoincidencias(String nombrePersona) throws SQLException {
         Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
-        ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.executeQuery("SELECT * "
+        ResultSet busquedaEmpleado = sentenciaDeBusquedaDeEmpleados.executeQuery("SELECT * "
                 + "FROM charmingstudio.empleado WHERE Nombre LIKE '%" + nombrePersona + "%'");
-        if (!BusquedaDeEmpleados.wasNull()) {
+        if (!busquedaEmpleado.wasNull()) {
             //creamos la lista:
             LinkedList<Empleado> empleados = new LinkedList<>();
 
-            while (BusquedaDeEmpleados.next()) {
+            while (busquedaEmpleado.next()) {
                 //agregamos c/empleado a la lista:
 
-                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1),
-                        BusquedaDeEmpleados.getString(2),
-                        BusquedaDeEmpleados.getString(3),
-                        BusquedaDeEmpleados.getString(4),
-                        BusquedaDeEmpleados.getString(5),
-                        BusquedaDeEmpleados.getFloat(6),
-                        BusquedaDeEmpleados.getFloat(7)));
+                empleados.add(new Empleado(busquedaEmpleado.getInt(columnaIdEmpleado),
+                        busquedaEmpleado.getString(columnaNombre),
+                        busquedaEmpleado.getString(columnaDireccion),
+                        busquedaEmpleado.getString(columnaTelefono),
+                        busquedaEmpleado.getString(columnaCorreo),
+                        busquedaEmpleado.getFloat(columnaDesempeno),
+                        busquedaEmpleado.getFloat(columnaSueldo)));
+
 
             }
             return empleados;
@@ -234,26 +235,25 @@ public class DAOEmpleados extends GestorBD {
     public LinkedList obtenerTodosLosEmpleados() throws SQLException {
 
         Statement sentenciaDeBusquedaDeEmpleados = Conexion.createStatement();
-        ResultSet BusquedaDeEmpleados = sentenciaDeBusquedaDeEmpleados.
+        ResultSet busquedaEmpleado = sentenciaDeBusquedaDeEmpleados.
                 executeQuery("SELECT * FROM charmingstudio.empleado");
 
         /*En este caso, se espera que la búsqueda no siempre sea nula, por
          lo que nos interesa el negativo de las sentencia:*/
-        if (!BusquedaDeEmpleados.wasNull()) {
+        if (!busquedaEmpleado.wasNull()) {
 
             LinkedList<Empleado> empleados = new LinkedList<>();
 
-            while (BusquedaDeEmpleados.next()) {
+            while (busquedaEmpleado.next()) {
 
                 //agregamos c/cliente a la lista:
-                empleados.add(new Empleado(BusquedaDeEmpleados.getInt(1),
-                        BusquedaDeEmpleados.getString(2),
-                        BusquedaDeEmpleados.getString(3),
-                        BusquedaDeEmpleados.getString(4),
-                        BusquedaDeEmpleados.getString(5),
-                        BusquedaDeEmpleados.getFloat(6),
-                        BusquedaDeEmpleados.getFloat(7)));
-
+                empleados.add(new Empleado(busquedaEmpleado.getInt(columnaIdEmpleado),
+                        busquedaEmpleado.getString(columnaNombre),
+                        busquedaEmpleado.getString(columnaDireccion),
+                        busquedaEmpleado.getString(columnaTelefono),
+                        busquedaEmpleado.getString(columnaCorreo),
+                        busquedaEmpleado.getFloat(columnaDesempeno),
+                        busquedaEmpleado.getFloat(columnaSueldo)));
             }
             return empleados;
         }
@@ -267,13 +267,13 @@ public class DAOEmpleados extends GestorBD {
                 + "charmingstudio.empleado WHERE Nombre ='" + nombreEmpleado + "'");
         busquedaEmpleado.next();
 
-        Empleado empleado = new Empleado(busquedaEmpleado.getInt(1),
-                busquedaEmpleado.getString(2),
-                busquedaEmpleado.getString(3),
-                busquedaEmpleado.getString(4),
-                busquedaEmpleado.getString(5),
-                busquedaEmpleado.getFloat(6),
-                busquedaEmpleado.getFloat(7));
+        Empleado empleado = new Empleado(busquedaEmpleado.getInt(columnaIdEmpleado),
+                        busquedaEmpleado.getString(columnaNombre),
+                        busquedaEmpleado.getString(columnaDireccion),
+                        busquedaEmpleado.getString(columnaTelefono),
+                        busquedaEmpleado.getString(columnaCorreo),
+                        busquedaEmpleado.getFloat(columnaDesempeno),
+                        busquedaEmpleado.getFloat(columnaSueldo));
 
         return empleado;
     }

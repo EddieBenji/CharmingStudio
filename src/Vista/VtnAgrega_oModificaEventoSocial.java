@@ -420,7 +420,7 @@ public class VtnAgrega_oModificaEventoSocial extends javax.swing.JFrame {
     private void llenarComboCliente() {
         try {
             ControladorCliente ctrlCliente = new ControladorCliente();
-            LinkedList<Cliente> clientes = ctrlCliente.buscarTodosLosClientes();
+            LinkedList<Cliente> clientes = ctrlCliente.obtenerTodosLosClientes();
 
             DefaultComboBoxModel modeloCombo = new DefaultComboBoxModel();
             for (Cliente cliente : clientes) {

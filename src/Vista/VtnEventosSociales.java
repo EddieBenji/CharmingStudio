@@ -5,9 +5,13 @@
 package Vista;
 
 import Controlador.ControladorEventos;
+import Modelo.EventosSociales;
 import java.sql.SQLException;
+import java.util.Date;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -16,7 +20,10 @@ import javax.swing.table.DefaultTableModel;
  */
 public class VtnEventosSociales extends javax.swing.JFrame {
 
+    private final int SI = 0;
+    private final int MOSTRAR_DOS_OPCIONES = 0;
     // private static VtnEventosSociales instanciaDeVtnEventosSociales = new VtnEventosSociales();
+
     /**
      * Creates new form VtnEventosSociales
      */
@@ -41,10 +48,9 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         btnNuevoEvento = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         listaEventos = new javax.swing.JTable();
-        btnVerDetallesEvento = new javax.swing.JButton();
         btnRegresarVtnPrincipal = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        btnModificarEventoSocial = new javax.swing.JButton();
+        btnEliminarEventoSocial = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Eventos");
@@ -66,8 +72,6 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(listaEventos);
 
-        btnVerDetallesEvento.setText("Ver Detalles");
-
         btnRegresarVtnPrincipal.setText("Regresar");
         btnRegresarVtnPrincipal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -78,24 +82,30 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Eventos");
 
-        btnModificarEventoSocial.setText("Modificar");
+        btnEliminarEventoSocial.setText("Eliminar");
+        btnEliminarEventoSocial.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarEventoSocialActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
                         .addComponent(jLabel1)
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
                         .addComponent(btnNuevoEvento)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnModificarEventoSocial))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnVerDetallesEvento)
+                        .addContainerGap()
+                        .addComponent(btnEliminarEventoSocial)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnRegresarVtnPrincipal)))
                 .addContainerGap())
@@ -110,15 +120,13 @@ public class VtnEventosSociales extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnNuevoEvento)
-                    .addComponent(btnModificarEventoSocial))
+                .addComponent(btnNuevoEvento)
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnRegresarVtnPrincipal)
-                    .addComponent(btnVerDetallesEvento))
+                    .addComponent(btnEliminarEventoSocial))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -129,7 +137,7 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         ControladorEventos ctrlEventos = new ControladorEventos();
         try {
             DefaultTableModel datosTabla = (DefaultTableModel) this.listaEventos.getModel();
-            DefaultTableModel datosTablaCompleta = ctrlEventos.buscarTodosLosEventos(datosTabla);
+            DefaultTableModel datosTablaCompleta = ctrlEventos.obtenerTodosLosEventos(datosTabla);
             this.listaEventos.setModel(datosTablaCompleta);
 
         } catch (SQLException ex) {
@@ -150,6 +158,132 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         cerrarEstaVentana();
 
     }//GEN-LAST:event_btnNuevoEventoActionPerformed
+
+    private void btnEliminarEventoSocialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarEventoSocialActionPerformed
+        // TODO add your handling code here:
+         /*Obtenemos el prov seleccionado de la tabla:*/
+        int idEventoQueSeEliminara = obtenerIdEventoAeliminar(); //o usar obtenerInformacionDeRenglonSelecccionado
+
+        //checamos si se seleccionó algún prov de la tabla,
+        //es decir, si no es nulo.
+        if (idEventoQueSeEliminara > 0) {
+            //le preguntamos al prov si de verdad, desea eliminar el 
+            //prov seleccionado:
+            int opcionEliminar = JOptionPane.showConfirmDialog(null,
+                    "Seguro desea eliminar el proveedor seleccionado?",
+                    "Eliminará el proveedor. ",
+                    MOSTRAR_DOS_OPCIONES);
+            //si lo que escogió el usuario es igual a un "si"
+            if (opcionEliminar == SI) {
+                //creamos el controlador de prov:
+                ControladorEventos controlEventos = new ControladorEventos();
+
+                try {
+                    controlEventos.eliminarEvento(idEventoQueSeEliminara);
+                    mostrarMensajeEnPantalla("Evento eliminado");
+                    limpiarTabla();
+                    mostrarEventos();
+                } catch (SQLException ex) {
+                    mostrarMensajeEnPantalla("Evento no eliminado. Error: " + ex.getLocalizedMessage());
+                }
+            }
+        } else {
+            mostrarMensajeEnPantalla("No ha seleccionado algún evento de la tabla");
+        }
+    }//GEN-LAST:event_btnEliminarEventoSocialActionPerformed
+
+        private void limpiarTabla() {
+        DefaultTableModel modeloDeLaTabla = (DefaultTableModel) this.listaEventos.getModel();
+        for (int i = 0; i < listaEventos.getRowCount(); i++) {
+            modeloDeLaTabla.removeRow(0);
+            i -= 1;
+        }
+    }
+        
+    private EventosSociales obtenerInformacionDeRenglonSelecccionado() {
+        //obtiene el número del renglón seleccionado en la tabla.
+        int numDeRenglonSeleccionado = this.listaEventos.getSelectedRow();
+
+        /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
+        if (numDeRenglonSeleccionado < 0) {
+            return null;
+        }
+
+        //declaramos las constantes, de las columnas donde está la información:
+        int columnaId = 0;
+        int columnaIdCliente = 1;
+        int columnaIdMD = 2;
+        int columnaFecha = 3;
+        int columnaPrecio = 4;
+        int columnaIdEmpleado = 5;
+
+
+        //obtenemos la información del renglón seleccionado.
+        int id = (int) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaId);
+        String idYcliente = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdCliente);
+        String idYmd = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdMD);
+        Date fecha = (Date) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaFecha);
+        float precio = (float) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaPrecio);
+        String idYempleado = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdEmpleado);
+
+        StringTokenizer token1 = new StringTokenizer(idYcliente, " ");
+        StringTokenizer token2 = new StringTokenizer(idYmd, " ");
+        StringTokenizer token3 = new StringTokenizer(idYempleado, " ");
+        int idCliente = Integer.parseInt(token1.nextToken());
+        int idMD = Integer.parseInt(token2.nextToken());
+        int idEmpleado = Integer.parseInt(token3.nextToken());
+
+
+
+        //regresamos el EventoSocial.
+        return new EventosSociales(id, idCliente, idMD, fecha, precio, idEmpleado);
+
+    }
+
+    private int obtenerIdEventoAeliminar() {
+        //obtiene el número del renglón seleccionado en la tabla.
+        int numDeRenglonSeleccionado = this.listaEventos.getSelectedRow();
+
+        /*Si es negativo, quiere decir que ningún renglón ha sido seleccionado:*/
+        if (numDeRenglonSeleccionado < 0) {
+            return -1;
+        }
+
+        //declaramos las constantes, de las columnas donde está la información:
+        int columnaId = 0;
+        //int columnaIdCliente = 1;
+        //int columnaIdMD = 2;
+        //int columnaFecha = 3;
+        //int columnaPrecio = 4;
+        //int columnaIdEmpleado = 5;
+
+
+        //obtenemos la información del renglón seleccionado.
+        int id = (int) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaId);
+        //String idYcliente = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdCliente);
+        //String idYmd = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdMD);
+        //Date fecha = (Date) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaFecha);
+        //float precio = (float) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaPrecio);
+        //String idYempleado = (String) listaEventos.getValueAt(numDeRenglonSeleccionado, columnaIdEmpleado);
+
+        //StringTokenizer token1 = new StringTokenizer(idYcliente, " ");
+        //StringTokenizer token2 = new StringTokenizer(idYmd, " ");
+        //StringTokenizer token3 = new StringTokenizer(idYempleado, " ");
+        //int idCliente = Integer.parseInt(token1.nextToken());
+        //int idMD = Integer.parseInt(token2.nextToken());
+        //int idEmpleado = Integer.parseInt(token3.nextToken());
+
+
+
+        //regresamos el EventoSocial.
+        //return new EventosSociales(id, idCliente, idMD, fecha, precio, idEmpleado);
+        //Regresamos el id del evento a eliminar
+        return id;
+    }
+
+    private void mostrarMensajeEnPantalla(String mensaje) {
+        JOptionPane.showMessageDialog(null, mensaje, "Cuidado", 0);
+    }
 
     private void cerrarEstaVentana() {
         //orrarDatos();
@@ -191,10 +325,9 @@ public class VtnEventosSociales extends javax.swing.JFrame {
         });
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnModificarEventoSocial;
+    private javax.swing.JButton btnEliminarEventoSocial;
     private javax.swing.JButton btnNuevoEvento;
     private javax.swing.JButton btnRegresarVtnPrincipal;
-    private javax.swing.JButton btnVerDetallesEvento;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable listaEventos;
